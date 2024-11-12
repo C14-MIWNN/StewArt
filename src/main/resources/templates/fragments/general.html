@@ -5,7 +5,7 @@
     <title th:replace="${title}"></title>
 
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-icons/font/boostrap-icons.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.min.css}">
 
     <link rel="stylesheet" type="text/css" href="/css/library.css"/>
 </head>
@@ -16,6 +16,7 @@
         <li class="nav-item">
             <a class="nav-link" th:href="@{/recipe/overview}">All recipes</a>
         </li>
+<!--    todo user/overview should be visible only to admin users    -->
         <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
             <a class="nav-link"  th:href="@{/user/overview}">All users</a>
         </li>
@@ -36,7 +37,7 @@
 <div th:fragment="bottomScripts">
     <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/js/boostrap.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </div>
 </body>
 </html>

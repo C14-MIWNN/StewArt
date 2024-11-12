@@ -10,7 +10,7 @@
             </div>
             <div class="col-7">
                 <input type="text" id="username" class="form-control" aria-describedby="usernameHelpInline"
-                       th:field="*{username}"/>
+                       th:field="*{username}">
             </div>
             <div class="col-12">
                 <span id="usernameHelpInline" class="form-text"
@@ -24,7 +24,7 @@
             </div>
             <div class="col-7">
                 <input type="password" id="password" class="form-control" aria-describedby="passwordHelpInline"
-                       th:field="*{password}"/>
+                       th:field="*{password}">
             </div>
         </div>
         <div class="row g-3 align-items-center">
@@ -33,7 +33,7 @@
             </div>
             <div class="col-7">
                 <input type="password" id="passwordConfirm" class="form-control" aria-describedby="passwordHelpInline"
-                       th:field="*{passwordConfirm}"/>
+                       th:field="*{passwordConfirm}">
             </div>
             <div class="col-12">
                 <span id="passwordHelpInline" class="form-text"
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn bi-plus-square mb-3">Save user</button>
+        <button type="submit" class="btn bi-plus-square btn-primary mb-3"> Save user</button>
 
     </form>
 </div>
@@ -66,7 +66,7 @@
 </div>
 
 
-<div th:replace=">~{fragments</span>/general :: footer}"></div>
+<div th:replace=">~{fragments/general :: footer}"></div>
 <div th:replace="~{fragments/general :: bottomScripts}"></div>
 </body>
 </html>

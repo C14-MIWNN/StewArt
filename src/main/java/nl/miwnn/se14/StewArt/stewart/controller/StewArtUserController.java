@@ -28,9 +28,9 @@ public class StewArtUserController {
     private String showUserOverview(Model datamodel) {
         datamodel.addAttribute("allUsers", stewArtUserService.getAllUsers());
         datamodel.addAttribute("formUser", new StewArtUserDTO());
+        datamodel.addAttribute("formModalHidden", true);
 
         return "userOverview";
-        // todo make a html file for userOverview
     }
 
     @PostMapping("/save")
@@ -46,6 +46,7 @@ public class StewArtUserController {
 
         if (result.hasErrors()) {
             datamodel.addAttribute("allUsers", stewArtUserService.getAllUsers());
+            datamodel.addAttribute("formModalHidden", false);
             return "userOverview";
         }
 
