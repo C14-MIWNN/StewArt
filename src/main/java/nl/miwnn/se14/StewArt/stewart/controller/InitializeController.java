@@ -33,7 +33,7 @@ public class InitializeController {
 
     private StewArtUser makeStewArtUser(String username, String password) {
         StewArtUser user = new StewArtUser();
-        user.setPassword(username);
+        user.setUsername(username);
         user.setPassword(password);
         stewArtUserService.save(user);
         return user;
