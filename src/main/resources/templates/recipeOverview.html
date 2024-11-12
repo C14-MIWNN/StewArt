@@ -17,7 +17,7 @@
         <th>Description of recipe</th>
         <th></th>
     </tr>
-    <tr th:each="allRecipes : ${allRecipes}">
+    <tr th:each="recipe : ${allRecipes}">
         <td th:text="${recipe.title}"></td>
         <td th:text="${recipe.totalTime}"></td>
         <td th:text="${recipe.shortDescription}"></td>
@@ -28,8 +28,6 @@
 
 <div th:replace="~{fragments/general :: footer}"></div>
 <div th:replace="~{fragments/general :: bottomScripts}"></div>
-
-<div th:replace="~{fragments/stewartuser :: userFormModal(${formUser}, ${#fields})}"></div>
 
 </body>
 </html>
