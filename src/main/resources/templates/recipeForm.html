@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Form</title>
+</head>
+
+<body>
+<h1>Create a new recipe</h1>
+
+<form th:action="@{/recipe/new}" method="post" th:object="${newRecipe}">
+    <table>
+        <tr>
+            <td>Title</td>
+            <td><input type="text" th:field="*{title}"></td>
+        </tr>
+        <tr>
+            <td>Cooking time (preparation and cooking)</td>
+            <td><input type="text" th:field="*{totalTime}"></td>
+        </tr>
+        <tr>
+            <td>Short Description of recipe</td>
+            <td><input type="text" th:field="*{shortDescription}"></td>
+        </tr>
+        <tr>
+            <td>Instructions</td>
+            <td><input type="text" th:field="*{instructions}"></td>
+        </tr>
+    </table>
+
+    <input type="submit" value="Save recipe" />
+</form>
+
+<a th:href="@{/recipe/overview}">Go back to the overview</a>
+
+</body>
+</html>
