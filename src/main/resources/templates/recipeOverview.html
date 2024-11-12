@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<head th:replace="~{fragments/general :: baseHeader(~{:: title})}">
     <title>Overview of recipes</title>
 </head>
+
+<body>
+
+<div th:replace="~{fragments/general :: navbar}"></div>
 
 <h1>Overview of recipes</h1>
 
@@ -22,6 +25,11 @@
 </table>
 
 <a th:href="@{/recipe/new}">Add a new recipe</a>
+
+<div th:replace="~{fragments/general :: footer}"></div>
+<div th:replace="~{fragments/general :: bottomScripts}"></div>
+
+<div th:replace="~{fragments/stewartuser :: userFormModal(${formUser}, ${#fields})}"></div>
 
 </body>
 </html>
