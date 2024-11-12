@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org">
+<head th:fragment="baseHeader(title)">
+    <meta charset="UTF-8"/>
+    <title th:replace="${title}"></title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-icons/font/boostrap-icons.min.css}">
+
+    <link rel="stylesheet" type="text/css" href="/css/library.css"/>
+</head>
+<body>
+
+<div th:fragment="navbar">
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/recipe/overview}">All recipes</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+            <a class="nav-link"  th:href="@{/user/overview}">All users</a>
+        </li>
+        <li class="nav-item" sec:authorize="isAnonymous()">
+            <a class="nav-link"  th:href="@{/login}">Login</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+            <a class="nav-link"  th:href="@{/logout}">Logout <span sec:authentication="name"></span></a>
+        </li>
+    </ul>
+
+</div>
+
+<div th:fragment="footer">
+    <footer><p class="text-center text text-muted">Copyright StewArt &copy;2024</p></footer>
+</div>
+
+<div th:fragment="bottomScripts">
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/boostrap.min.js}"></script>
+</div>
+</body>
+</html>
