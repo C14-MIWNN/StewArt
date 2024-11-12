@@ -13,13 +13,15 @@
 <table>
     <tr>
         <th>Title</th>
-        <th>Total cooking and preparation time</th>
+        <th>Preparation Time</th>
+        <th>Cooking Time</th>
         <th>Description of recipe</th>
         <th></th>
     </tr>
     <tr th:each="recipe : ${allRecipes}">
         <td th:text="${recipe.title}"></td>
-        <td th:text="${recipe.totalTime}"></td>
+        <td th:text="${recipe.prepTime}"></td>
+        <td th:text="${recipe.cookTime}"></td>
         <td th:text="${recipe.shortDescription}"></td>
     </tr>
 </table>
