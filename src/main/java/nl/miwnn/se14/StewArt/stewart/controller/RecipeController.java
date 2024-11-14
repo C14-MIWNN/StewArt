@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * @author Ingeborg Frentz
  * Handle requests primarily related to recipes
@@ -25,7 +28,29 @@ public class RecipeController {
     @GetMapping("/overview")
     private String showRecipeOverview(Model datamodel) {
         datamodel.addAttribute("allRecipes", recipeRepository.findAll());
+        datamodel.addAttribute("searchForm", new Recipe());
 
+        return "recipeOverview";
+    }
+
+    @PostMapping("/search")
+    private String showRecipesByTitleSearch(
+            @ModelAttribute("searchForm") Recipe recipe, BindingResult result, Model datamodel) {
+        Optional<List<Recipe>> searchResultList = recipeRepository.findByTitleContaining(recipe.getTitle());
+
+        if (searchResultList.isEmpty()) {
+            result.rejectValue("title", "search.results.empty",
+                    "No recipes found with your search term");
+        } else if (searchResultList.get().isEmpty()) {
+            result.rejectValue("title", "search.results.empty",
+                    "Your search term returned an empty list");
+        }
+
+        if (result.hasErrors()) {
+            return showRecipeOverview(datamodel);
+        }
+
+        datamodel.addAttribute("allRecipes", searchResultList.get());
         return "recipeOverview";
     }
 
