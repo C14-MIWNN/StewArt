@@ -3,7 +3,6 @@ package nl.miwnn.se14.StewArt.stewart.controller;
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
-import nl.miwnn.se14.StewArt.stewart.repositories.StewArtUserRepository;
 import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;

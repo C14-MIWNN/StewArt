@@ -25,7 +25,6 @@ public class StewArtSecurityConfig {
                         .requestMatchers("/recipe/overview").permitAll()
                         .requestMatchers("/webjars/**", "/css/**").permitAll()
                         .anyRequest().authenticated()
-//                        .anyRequest().permitAll()
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
                 .logout((logout) -> logout.logoutSuccessUrl("/").permitAll());

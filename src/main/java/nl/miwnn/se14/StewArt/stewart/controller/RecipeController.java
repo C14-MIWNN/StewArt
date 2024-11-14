@@ -46,9 +46,10 @@ public class RecipeController {
     @PostMapping("/search")
     private String showRecipesByTitleSearch(
             @ModelAttribute("searchForm") Recipe recipe, BindingResult result, Model datamodel) {
+
         Optional<List<Recipe>> searchResultList = recipeRepository.findByTitleContaining(recipe.getTitle());
 
-        if (searchResultList.get().isEmpty()) {
+        if (searchResultList.isEmpty() || searchResultList.get().isEmpty()) {
             result.rejectValue("title", "search.results.empty",
                     "No recipes found with your search term");
         }
@@ -64,7 +65,6 @@ public class RecipeController {
     @GetMapping("/new")
     private String showRecipeForm(Model datamodel) {
         datamodel.addAttribute("newRecipe", new Recipe());
-        datamodel.addAttribute("username", "");
 
         return "recipeForm";
     }
@@ -83,8 +83,8 @@ public class RecipeController {
                 () -> new UsernameNotFoundException(
                         String.format("Username was not found in the database", currentUsername))
         );
-        recipeToBeSaved.setRecipeAuthor(user);
 
+        recipeToBeSaved.setRecipeAuthor(user);
         recipeRepository.save(recipeToBeSaved);
 
         return "redirect:/recipe/overview";
