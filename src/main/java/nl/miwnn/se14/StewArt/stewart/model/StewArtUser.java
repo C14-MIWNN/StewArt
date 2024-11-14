@@ -24,12 +24,35 @@ public class StewArtUser implements UserDetails {
     private String username;
     private String password;
 
-    @ManyToMany(mappedBy = "stewArtUsers", fetch = FetchType.EAGER, cascade = CascadeType.ALL) //deleting user deletes all recipes
-    private Set<Recipe> recipes;
+    @ManyToMany(mappedBy = "likedByUserSet", fetch = FetchType.EAGER, cascade = CascadeType.ALL) //deleting user deletes all recipes
+    private Set<Recipe> likedRecipes;
+
+    @OneToMany(mappedBy = "recipeAuthor")
+    private Set<Recipe> myRecipes;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public Long getUserId() {
@@ -58,31 +81,19 @@ public class StewArtUser implements UserDetails {
         this.password = password;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
+    public Set<Recipe> getLikedRecipes() {
+        return likedRecipes;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
+    public void setLikedRecipes(Set<Recipe> recipes) {
+        this.likedRecipes = recipes;
     }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
+    public Set<Recipe> getMyRecipes() {
+        return myRecipes;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    public Set<Recipe> getRecipes() {
-        return recipes;
-    }
-
-    public void setRecipes(Set<Recipe> recipes) {
-        this.recipes = recipes;
+    public void setMyRecipes(Set<Recipe> myRecipes) {
+        this.myRecipes = myRecipes;
     }
 }

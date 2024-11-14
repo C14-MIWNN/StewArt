@@ -60,6 +60,7 @@ public class RecipeController {
     @GetMapping("/new")
     private String showRecipeForm(Model datamodel) {
         datamodel.addAttribute("newRecipe", new Recipe());
+        datamodel.addAttribute("username", "");
 
         return "recipeForm";
     }

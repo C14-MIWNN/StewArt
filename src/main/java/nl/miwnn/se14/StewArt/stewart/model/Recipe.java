@@ -1,9 +1,6 @@
 package nl.miwnn.se14.StewArt.stewart.model;
 
 import jakarta.persistence.*;
-import jakarta.transaction.UserTransaction;
-import jakarta.validation.constraints.NotEmpty;
-import org.apache.catalina.User;
 
 import java.util.Set;
 
@@ -31,8 +28,10 @@ public class Recipe {
     private String imageUrl;
 
     @ManyToMany
-    private Set<StewArtUser> stewArtUsers;
+    private Set<StewArtUser> likedByUserSet;
 
+    @ManyToOne
+    private StewArtUser recipeAuthor;
 
     public Long getRecipeId() {
         return recipeId;
@@ -98,11 +97,19 @@ public class Recipe {
         this.imageUrl = imageUrl;
     }
 
-    public Set<StewArtUser> getStewArtUsers() {
-        return stewArtUsers;
+    public Set<StewArtUser> getLikedByUserSet() {
+        return likedByUserSet;
     }
 
-    public void setStewArtUsers(Set<StewArtUser> stewArtUsers) {
-        this.stewArtUsers = stewArtUsers;
+    public void setLikedByUserSet(Set<StewArtUser> likedByUserSet) {
+        this.likedByUserSet = likedByUserSet;
+    }
+
+    public StewArtUser getRecipeAuthor() {
+        return recipeAuthor;
+    }
+
+    public void setRecipeAuthor(StewArtUser recipeAuthor) {
+        this.recipeAuthor = recipeAuthor;
     }
 }
