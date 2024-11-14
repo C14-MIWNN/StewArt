@@ -1,8 +1,12 @@
 package nl.miwnn.se14.StewArt.stewart.controller;
 
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
+import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.StewArtUserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -72,6 +76,14 @@ public class RecipeController {
 
             return "redirect:/recipe/overview";
         }
+
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<StewArtUser> userOptional = stewArtUserRepository.findByUsername(currentUsername);
+        StewArtUser user = userOptional.orElseThrow(
+                () -> new UsernameNotFoundException(
+                        String.format("Username was not found in the database", currentUsername))
+        );
+        recipeToBeSaved.setRecipeAuthor(user);
 
         recipeRepository.save(recipeToBeSaved);
 

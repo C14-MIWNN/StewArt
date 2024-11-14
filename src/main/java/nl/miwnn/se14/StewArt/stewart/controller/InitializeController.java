@@ -17,12 +17,10 @@ import org.springframework.stereotype.Controller;
 public class InitializeController {
     private final StewArtUserService stewArtUserService;
     private final RecipeRepository recipeRepository;
-    private final StewArtUserRepository stewArtUserRepository;
 
-    public InitializeController(StewArtUserService stewArtUserService, RecipeRepository recipeRepository, StewArtUserRepository stewArtUserRepository) {
+    public InitializeController(StewArtUserService stewArtUserService, RecipeRepository recipeRepository) {
         this.stewArtUserService = stewArtUserService;
         this.recipeRepository = recipeRepository;
-        this.stewArtUserRepository = stewArtUserRepository;
     }
 
     @EventListener
@@ -33,21 +31,45 @@ public class InitializeController {
     }
 
     private void initializeDB() {
-        makeStewArtUser("Luc", "DevPassword123");
-        makeStewArtUser("Ingeborg", "Makkelijk");
+        StewArtUser luc = makeStewArtUser("Luc", "DevPassword123");
+        StewArtUser ingeborg = makeStewArtUser("Ingeborg", "Makkelijk");
 
         Recipe tortilla = makeRecipe("Flour Tortillas", 20.0, 40.0, "Homemade flour tortillas",
                 """
-                3 cups all-purpose flour\n
-                1 teaspoon kosher salt, I use Morton's\n
-                1 teaspoon baking powder\n
-                ⅓ cup extra virgin olive oil, vegetable oil or other fairly neutral flavored oil\n
+                3 cups all-purpose flour
+                
+                1 teaspoon kosher salt, I use Morton's
+                
+                1 teaspoon baking powder
+                
+                ⅓ cup extra virgin olive oil, vegetable oil or other fairly neutral flavored oil
+                
                 1 cup warm water""",
                 """
-                Combine flour, salt and baking powder in a medium-size bowl. Using a sturdy silicone spatuala or a sturdy wooden spoon, mix dry ingredients until well combined.\n" +
-                Make a well in the center of the dry ingredients and add the oil and water. Stir well from the bottom up, until all dry ingredients are incorporated and the dough begins to come together and form a shaggy ball.\n" +
+                Combine flour, salt and baking powder in a medium-size bowl. Using a sturdy silicone spatula or a sturdy wooden spoon, mix dry ingredients until well combined.
+                " +
+                Make a well in the center of the dry ingredients and add the oil and water. Stir well from the bottom up, until all dry ingredients are incorporated and the dough begins to come together and form a shaggy ball.
+                " +
                 Turn dough out onto a lightly floured work surface and knead for 1-2 minutes until the dough is nice and smooth. Proceed with step number 3 below for the remainder of the recipe.""",
-                "https://pixabay.com/photos/tortilla-cooking-food-taco-6602186/");
+                "https://pixabay.com/photos/tortilla-cooking-food-taco-6602186/",
+                ingeborg
+        );
+
+        Recipe iceCream = makeRecipe(
+                "Vegan vanilla dessert",
+                20.,
+                10.,
+                "Vegan ice cream with chocolate saus",
+                """
+                        200 g dark vegan chocolate
+                        200 ml vegan heavy cream
+                        1 tub vegan vanilla ice cream (Hertog)""",
+                """
+                        Chop the chocolate and bring vegan heavy cream to a boil.
+                        Take off heat, add the chocolate and stir until all chocolate is molten.
+                        Pour over ice cream and serve.""",
+                "https://cdn.pixabay.com/photo/2024/06/02/17/02/ice-cream-8804688_1280.jpg",
+                luc);
     }
 
 
@@ -66,7 +88,8 @@ public class InitializeController {
                               String shortDescription,
                               String ingredients,
                               String instructions,
-                              String image) {
+                              String image,
+                              StewArtUser user) {
         Recipe recipe = new Recipe();
         recipe.setTitle(title);
         recipe.setPrepTime(prepTime);
@@ -75,8 +98,7 @@ public class InitializeController {
         recipe.setIngredients(ingredients);
         recipe.setInstructions(instructions);
         recipe.setImageUrl(image);
-
-        //TO DO add username to recipe
+        recipe.setRecipeAuthor(user);
 
         recipeRepository.save(recipe);
         return recipe;

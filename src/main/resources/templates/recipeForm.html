@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="~{fragments/general :: baseHeader(~{:: title})}">
     <title>Recipe Form</title>
 </head>
@@ -8,7 +8,6 @@
 <h1>Create a new recipe</h1>
 
 <form th:action="@{/recipe/new}" method="post" th:object="${newRecipe}">
-    <input type="hidden" th:field="${username}" th:value=sec:authentication="name" />
     <table>
 
         <tr>
