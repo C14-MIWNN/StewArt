@@ -44,16 +44,13 @@ public class RecipeController {
             @ModelAttribute("searchForm") Recipe recipe, BindingResult result, Model datamodel) {
         Optional<List<Recipe>> searchResultList = recipeRepository.findByTitleContaining(recipe.getTitle());
 
-        if (searchResultList.isEmpty()) {
+        if (searchResultList.get().isEmpty()) {
             result.rejectValue("title", "search.results.empty",
                     "No recipes found with your search term");
-        } else if (searchResultList.get().isEmpty()) {
-            result.rejectValue("title", "search.results.empty",
-                    "Your search term returned an empty list");
         }
 
         if (result.hasErrors()) {
-            return showRecipeOverview(datamodel);
+            return "recipeOverview";
         }
 
         datamodel.addAttribute("allRecipes", searchResultList.get());
