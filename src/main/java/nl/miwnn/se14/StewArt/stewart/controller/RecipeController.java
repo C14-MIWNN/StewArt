@@ -4,19 +4,15 @@ import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.StewArtUserRepository;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.expression.Strings;
 
 import java.util.Optional;
-
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Ingeborg Frentz
@@ -34,12 +30,16 @@ public class RecipeController {
         this.stewArtUserRepository = stewArtUserRepository;
     }
 
-    @GetMapping("/overview")
-    private String showRecipeOverview(Model datamodel) {
-        datamodel.addAttribute("allRecipes", recipeRepository.findAll());
+    private void setupRecipeOverview(Model datamodel, List<Recipe> recipeList) {
+        datamodel.addAttribute("allRecipes", recipeList);
         datamodel.addAttribute("searchForm", new Recipe());
         datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
+    }
 
+    @GetMapping("/overview")
+    private String showRecipeOverview(Model datamodel) {
+
+        setupRecipeOverview(datamodel, recipeRepository.findAll());
         return "recipeOverview";
     }
 
@@ -60,6 +60,20 @@ public class RecipeController {
 
         datamodel.addAttribute("allRecipes", searchResultList.get());
         return "recipeOverview";
+    }
+
+    @GetMapping("/my_recipes")
+    private String showMyRecipes(Model datamodel) {
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Optional<List<Recipe>> myRecipesOptional = recipeRepository.findByRecipeAuthor_Username(currentUsername);
+        List<Recipe> myRecipes = myRecipesOptional.orElseThrow(
+                () -> new IllegalArgumentException(String.format(
+                        "Recipe search for user %s returned no list", currentUsername))
+        );
+
+        setupRecipeOverview(datamodel, myRecipes);
+        return "myRecipes";
     }
 
     @GetMapping("/new")

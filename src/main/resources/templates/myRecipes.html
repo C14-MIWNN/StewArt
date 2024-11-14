@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="~{fragments/general :: baseHeader(~{:: title})}">
-    <title>Overview of recipes</title>
+    <title>My recipes</title>
 </head>
-
 <body>
 
 <div th:replace="~{fragments/general :: navbar}"></div>
 
 <div class="container">
-    <h1>Overview of recipes</h1>
+    <h1>My recipes</h1>
 
     <div th:replace="~{fragments/recipe :: searchBar(${searchForm})}"></div>
 
@@ -18,6 +17,5 @@
 
 <div th:replace="~{fragments/general :: footer}"></div>
 <div th:replace="~{fragments/general :: bottomScripts}"></div>
-
 </body>
 </html>
