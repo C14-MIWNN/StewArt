@@ -4,6 +4,7 @@ import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.StewArtUserRepository;
+import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -64,7 +65,7 @@ public class RecipeController {
 
     @GetMapping("/my_recipes")
     private String showMyRecipes(Model datamodel) {
-        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        String currentUsername = StewArtUserService.getCurrentUsername();
 
         Optional<List<Recipe>> myRecipesOptional = recipeRepository.findByRecipeAuthor_Username(currentUsername);
         List<Recipe> myRecipes = myRecipesOptional.orElseThrow(
@@ -74,6 +75,27 @@ public class RecipeController {
 
         setupRecipeOverview(datamodel, myRecipes);
         return "myRecipes";
+    }
+
+    @PostMapping("/my_recipes_search")
+    private String showMyRecipesByTitleSearch(
+            @ModelAttribute("searchForm") Recipe recipe, BindingResult result, Model datamodel) {
+        String currentUsername = StewArtUserService.getCurrentUsername();
+
+        Optional<List<Recipe>> myRecipesOptional = recipeRepository.findByRecipeAuthor_UsernameAndTitleContaining(
+                        currentUsername, recipe.getTitle());
+
+        if (myRecipesOptional.isEmpty() || myRecipesOptional.get().isEmpty()) {
+            result.rejectValue("title", "search.results.empty",
+                    "No recipes found with your search term");
+        }
+
+        if (result.hasErrors()) {
+            return "recipeOverview";
+        }
+
+        datamodel.addAttribute("allRecipes", myRecipesOptional.get());
+        return "recipeOverview";
     }
 
     @GetMapping("/new")

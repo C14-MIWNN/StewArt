@@ -4,6 +4,7 @@ import nl.miwnn.se14.StewArt.stewart.dto.StewArtUserDTO;
 import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
 import nl.miwnn.se14.StewArt.stewart.repositories.StewArtUserRepository;
 import nl.miwnn.se14.StewArt.stewart.service.mapper.StewArtUserMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,6 +25,10 @@ public class StewArtUserService implements UserDetailsService {
     public StewArtUserService(StewArtUserRepository stewArtUserRepository, PasswordEncoder passwordEncoder) {
         this.stewArtUserRepository = stewArtUserRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public static String getCurrentUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     @Override

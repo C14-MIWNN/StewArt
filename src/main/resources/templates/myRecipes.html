@@ -10,7 +10,11 @@
 <div class="container">
     <h1>My recipes</h1>
 
-    <div th:replace="~{fragments/recipe :: searchBar(${searchForm})}"></div>
+    <div>
+        <form th:action="@{/recipe/my_recipes_search}" method="post" th:object="${searchForm}">
+            <div th:replace="~{fragments/recipe :: searchBar}"></div>
+        </form>
+    </div>
 
     <div th:replace="~{fragments/recipe :: recipeCardsNew(${allRecipes})}"></div>
 </div>
