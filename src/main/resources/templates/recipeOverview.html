@@ -8,25 +8,11 @@
 
 <div th:replace="~{fragments/general :: navbar}"></div>
 
-<h1>Overview of recipes</h1>
+<div class="container">
+    <h1>Overview of recipes</h1>
 
-<table>
-    <tr>
-        <th>Title</th>
-        <th>Preparation Time</th>
-        <th>Cooking Time</th>
-        <th>Description of recipe</th>
-        <th></th>
-    </tr>
-    <tr th:each="recipe : ${allRecipes}">
-        <td th:text="${recipe.title}"></td>
-        <td th:text="${recipe.prepTime}"></td>
-        <td th:text="${recipe.cookTime}"></td>
-        <td th:text="${recipe.shortDescription}"></td>
-    </tr>
-</table>
-
-<a th:href="@{/recipe/new}">Add a new recipe</a>
+    <div th:replace="~{fragments/recipe :: recipeCardsNew(${allRecipes})}"></div>
+</div>
 
 <div th:replace="~{fragments/general :: footer}"></div>
 <div th:replace="~{fragments/general :: bottomScripts}"></div>

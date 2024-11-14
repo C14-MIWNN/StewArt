@@ -7,15 +7,7 @@
 </div>
 
 <div th:fragment="recipeCardsNew(recipes)" class="row row-cols-1 row-cols-md-6 g-4">
-    <div th:each="recipe : ${recipes}" th:insert="~{:: recipeCards(${recipe})}"></div>
-
-    <div th:if="newrecipe">
-        <button type="button"
-                class="btn btn-secondary btn-lg px-4 fw-bold"
-                data-bs-toggle="modal" data-bs-target="#editForm">
-        <i class="bi bi-plus-square"></i><br>Add Recipe
-        ></button>
-    </div>
+    <div th:each="recipe : ${recipes}" th:insert="~{:: recipeCard(${recipe})}"></div>
 </div>
 
 <div th:fragment="recipeCard(recipe)" class="col">
@@ -25,7 +17,7 @@
         </a>
     </div>
     <div class="card-header">
-        <a th:href="@{/recipe/detail/{recipeTitle}(recipeTitle = ${recipe.title})}"></a>
+        <a th:href="@{/recipe/detail/{recipeId}(recipeId = ${recipe.recipeId})}" th:text="${recipe.title}"></a>
     </div>
     <div class="card-body" style="">
         <p class="card-text" th:text="${recipe.shortDescription}"></p>
