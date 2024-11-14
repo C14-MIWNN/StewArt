@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: baseHeader(~{:: title})}">
+    <title th:text="|Details for recipe: ${recipe.title}|"></title>
+</head>
+<body>
+
+<div th:replace="~{fragments/general :: navbar}"></div>
+
+<div class="container my-5" th:object="${recipe}">
+    <div class="row p-5 g-5 m-2 align-items-center rounded-3 border shadow-lg">
+        <div class="col-4 mt-0">
+            <img class="img-fluid rounded overflow-hidden shadow-lg" th:src="*{imageUrl}" th:alt="|Cover for *{title}|">
+        </div>
+        <div class="col-8 mt-0">
+            <h1 class="display-4 fw-bold lh-1 text-body-emphasis text-center" th:text="*{title}"></h1>
+            <p class="lead" th:text="*{shortDescription}"></p>
+            <p class="text-center">
+                <button type="button"
+                        class="btn btn-outline-secondary btn-lg px-4 fw-bold"
+                        data-bs-toggle="modal" data-bs-target="#editForm">
+                    <i class="bi bi-pencil-square"></i> Edit
+                </button>
+                <a role="button"
+                    class="btn btn-outline-danger btn-lg px-4"
+                th:href="@{/recipe/delete/{recipeId}(recipeId = *{recipeId})}">
+                    <i class="bi bi-cash"></i> Delete
+
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/general :: footer}"></div>
+<div th:replace="~{fragments/general :: bottomScripts}"></div>
+
+<div th:replace="~{fragments/recipe :: recipeFormModal(${formRecipe}, ${#fields})}"></div>
+</body>
+</html>

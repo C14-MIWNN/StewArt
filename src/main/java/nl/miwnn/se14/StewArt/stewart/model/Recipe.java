@@ -1,8 +1,11 @@
 package nl.miwnn.se14.StewArt.stewart.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.transaction.UserTransaction;
+import jakarta.validation.constraints.NotEmpty;
+import org.apache.catalina.User;
+
+import java.util.Set;
 
 /**
  * @author Ingeborg Frentz
@@ -15,9 +18,21 @@ public class Recipe {
     private Long recipeId;
 
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String shortDescription;
-    private String totalTime;
+    private Double prepTime;
+    private Double cookTime;
+    private String ingredients;
+
+    @Column(columnDefinition = "TEXT")
     private String instructions;
+
+    private String imageUrl;
+
+    @ManyToMany
+    private Set<StewArtUser> stewArtUsers;
+
 
     public Long getRecipeId() {
         return recipeId;
@@ -43,12 +58,28 @@ public class Recipe {
         this.shortDescription = shortDescription;
     }
 
-    public String getTotalTime() {
-        return totalTime;
+    public Double getPrepTime() {
+        return prepTime;
     }
 
-    public void setTotalTime(String totalTime) {
-        this.totalTime = totalTime;
+    public void setPrepTime(Double prepTime) {
+        this.prepTime = prepTime;
+    }
+
+    public Double getCookTime() {
+        return cookTime;
+    }
+
+    public void setCookTime(Double cookTime) {
+        this.cookTime = cookTime;
+    }
+
+    public String getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
     }
 
     public String getInstructions() {
@@ -57,5 +88,21 @@ public class Recipe {
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Set<StewArtUser> getStewArtUsers() {
+        return stewArtUsers;
+    }
+
+    public void setStewArtUsers(Set<StewArtUser> stewArtUsers) {
+        this.stewArtUsers = stewArtUsers;
     }
 }

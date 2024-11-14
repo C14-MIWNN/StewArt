@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<body>
+
+<div th:fragment="recipeCards(recipes)" class="row row-cols-1 row-cols-md-6 g-4">
+    <div th:each="recipe : ${recipes}" th:insert="~{:: recipeCards(${recipe})}"></div>
+</div>
+
+<div th:fragment="recipeCardsNew(recipes)" class="row row-cols-1 row-cols-md-6 g-4">
+    <div th:each="recipe : ${recipes}" th:insert="~{:: recipeCard(${recipe})}"></div>
+</div>
+
+<div th:fragment="recipeCard(recipe)" class="col">
+    <div class="card h-100">
+        <a th:href="@{/recipe/detail/{recipeId}(recipeId = ${recipe.recipeId})}">
+            <img height="300px" th:src="${recipe.imageUrl}" class="card-img-top object-fit-cover" th:alt="|Cover for ${recipe.title}|">
+        </a>
+    </div>
+    <div class="card-header">
+        <a th:href="@{/recipe/detail/{recipeId}(recipeId = ${recipe.recipeId})}" th:text="${recipe.title}"></a>
+    </div>
+    <div class="card-body" style="">
+        <p class="card-text" th:text="${recipe.shortDescription}"></p>
+    </div>
+</div>
+
+</body>
+</html>

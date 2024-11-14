@@ -1,15 +1,13 @@
 package nl.miwnn.se14.StewArt.stewart.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Luc Weerts
@@ -26,6 +24,8 @@ public class StewArtUser implements UserDetails {
     private String username;
     private String password;
 
+    @ManyToMany(mappedBy = "stewArtUsers", fetch = FetchType.EAGER, cascade = CascadeType.ALL) //deleting user deletes all recipes
+    private Set<Recipe> recipes;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -76,5 +76,13 @@ public class StewArtUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Set<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(Set<Recipe> recipes) {
+        this.recipes = recipes;
     }
 }

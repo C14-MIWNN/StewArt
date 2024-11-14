@@ -8,44 +8,32 @@
 
 <div th:replace="~{fragments/general :: navbar}"></div>
 
-<h1>Overview of recipes</h1>
+<div class="container">
+    <h1>Overview of recipes</h1>
 
-<div>
-    <form th:action="@{/recipe/search}" method="post" th:object="${searchForm}">
-        <div class="col-5">
-            <label for="title" class="col-form-label">Search by title:</label>
-        </div>
-        <div class="col-6">
-            <input type="text" id="title" class="form-control" aria-describedby="searchTitleHelpInline"
-                   th:field="*{title}">
-        </div>
-        <div class="col-1">
-            <button type="submit" class="btn bi-search btn-primary mb-3"> Search</button>
-        </div>
-        <div class="col-12">
-            <span id="searchTitleHelpInline" class="form-text"
-                  th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
-            </span>
-        </div>
+    <div>
+        <form th:action="@{/recipe/search}" method="post" th:object="${searchForm}">
+            <div class="col-5">
+                <label for="title" class="col-form-label">Search by title:</label>
+            </div>
+            <div class="col-6">
+                <input type="text" id="title" class="form-control" aria-describedby="searchTitleHelpInline"
+                       th:field="*{title}">
+            </div>
+            <div class="col-1">
+                <button type="submit" class="btn bi-search btn-primary mb-3"> Search</button>
+            </div>
+            <div class="col-12">
+                <span id="searchTitleHelpInline" class="form-text"
+                      th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+                </span>
+            </div>
 
-    </form>
+        </form>
+    </div>
+
+    <div th:replace="~{fragments/recipe :: recipeCardsNew(${allRecipes})}"></div>
 </div>
-
-<table>
-    <tr>
-        <th>Title</th>
-        <th>Total cooking and preparation time</th>
-        <th>Description of recipe</th>
-        <th></th>
-    </tr>
-    <tr th:each="recipe : ${allRecipes}">
-        <td th:text="${recipe.title}"></td>
-        <td th:text="${recipe.totalTime}"></td>
-        <td th:text="${recipe.shortDescription}"></td>
-    </tr>
-</table>
-
-<a th:href="@{/recipe/new}">Add a new recipe</a>
 
 <div th:replace="~{fragments/general :: footer}"></div>
 <div th:replace="~{fragments/general :: bottomScripts}"></div>
