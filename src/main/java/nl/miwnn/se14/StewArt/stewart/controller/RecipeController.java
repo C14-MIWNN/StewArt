@@ -90,11 +90,11 @@ public class RecipeController {
         }
 
         if (result.hasErrors()) {
-            return "recipeOverview";
+            return "myRecipes";
         }
 
         datamodel.addAttribute("allRecipes", myRecipesOptional.get());
-        return "recipeOverview";
+        return "myRecipes";
     }
 
     @GetMapping("/recipe/save")
