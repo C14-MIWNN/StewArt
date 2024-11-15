@@ -20,7 +20,7 @@ import java.util.List;
  * Handle requests primarily related to recipes
  */
 @Controller
-@RequestMapping("/recipe")
+//@RequestMapping("/recipe")
 public class RecipeController {
 
     private final RecipeRepository recipeRepository;
@@ -37,14 +37,14 @@ public class RecipeController {
         datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
     }
 
-    @GetMapping("/overview")
+    @GetMapping({"/recipe/overview", "/"})
     private String showRecipeOverview(Model datamodel) {
 
         setupRecipeOverview(datamodel, recipeRepository.findAll());
         return "recipeOverview";
     }
 
-    @PostMapping("/search")
+    @PostMapping("/recipe/search")
     private String showRecipesByTitleSearch(
             @ModelAttribute("searchForm") Recipe recipe, BindingResult result, Model datamodel) {
 
@@ -63,7 +63,7 @@ public class RecipeController {
         return "recipeOverview";
     }
 
-    @GetMapping("/my_recipes")
+    @GetMapping("/recipe/my_recipes")
     private String showMyRecipes(Model datamodel) {
         String currentUsername = StewArtUserService.getCurrentUsername();
 
@@ -77,7 +77,7 @@ public class RecipeController {
         return "myRecipes";
     }
 
-    @PostMapping("/my_recipes_search")
+    @PostMapping("/recipe/my_recipes_search")
     private String showMyRecipesByTitleSearch(
             @ModelAttribute("searchForm") Recipe recipe, BindingResult result, Model datamodel) {
         String currentUsername = StewArtUserService.getCurrentUsername();
@@ -98,14 +98,14 @@ public class RecipeController {
         return "recipeOverview";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/recipe/new")
     private String showRecipeForm(Model datamodel) {
         datamodel.addAttribute("newRecipe", new Recipe());
 
         return "recipeForm";
     }
 
-    @PostMapping("/new")
+    @PostMapping("/recipe/new")
     private String saveOrUpdateRecipe(@ModelAttribute("newRecipe") Recipe recipeToBeSaved, BindingResult result) {
         if(result.hasErrors()) {
             System.err.println(result.getAllErrors());
@@ -126,7 +126,7 @@ public class RecipeController {
         return "redirect:/recipe/overview";
     }
 
-    @GetMapping("/delete/{recipeId}")
+    @GetMapping("/recipe/delete/{recipeId}")
     private String deleteRecipe(@PathVariable("recipeId") Long recipeId) {
         recipeRepository.deleteById(recipeId);
 
@@ -142,7 +142,7 @@ public class RecipeController {
         return "recipeDetails";
     }
 
-    @GetMapping("/detail/{recipeId}")
+    @GetMapping("/recipe/detail/{recipeId}")
     private String showRecipeDetailPage(@PathVariable("recipeId") Long recipeId, Model datamodel) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 

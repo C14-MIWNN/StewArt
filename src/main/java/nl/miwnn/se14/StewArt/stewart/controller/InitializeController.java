@@ -50,7 +50,7 @@ public class InitializeController {
                 Make a well in the center of the dry ingredients and add the oil and water. Stir well from the bottom up, until all dry ingredients are incorporated and the dough begins to come together and form a shaggy ball.
                 " +
                 Turn dough out onto a lightly floured work surface and knead for 1-2 minutes until the dough is nice and smooth. Proceed with step number 3 below for the remainder of the recipe.""",
-                "https://pixabay.com/photos/tortilla-cooking-food-taco-6602186/",
+                "https://cdn.pixabay.com/photo/2021/09/06/18/05/tortilla-6602186_960_720.jpg",
                 ingeborg
         );
 
