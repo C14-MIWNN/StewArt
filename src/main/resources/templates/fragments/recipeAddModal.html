@@ -73,13 +73,14 @@
     </div>
 
     <button type="submit" class="btn bi-plus-square btn-primary mb-3"> Save recipe</button>
+    <button type="button" class="btn btn-danger bi-file-excel" data-bs-dismiss="modal" aria-label="Close"> Close</button>
 
   </form>
 </div>
 
 <div th:fragment="recipeFormModal(formRecipe, #fields)" class="modal fade" id="newRecipe" tabindex="-1"
      aria-labelledby="newRecipeModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <h1 class="modal-title text-center" id="editRecipeModalLabel">Add recipe</h1>
       <div class="modal-body">
