@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<body>
+
+<div th:fragment="newRecipeForm(formRecipe, #fields)">
+  <form class="row g-3" th:action="@{/recipe/save}" method="post" th:object="${formRecipe}">
+    <div class="row g-3 align-items-center">
+      <div class="col-5">
+        <label for="title" class="col-form-label">Title</label>
+      </div>
+      <div class="col-7">
+        <input type="text" id="title" class="form-control" aria-describedby="titleHelpInLine" th:field="*{title}">
+      </div>
+      <div class="col-12">
+        <span id="titleHelpInLine" class="form-text" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+      </div>
+    </div>
+    <div class="row g-3 align-items-center">
+      <div class="col-5">
+        <label for="shortDescription" class="col-form-label">Short description of recipe</label>
+      </div>
+      <div class="col-7">
+        <textarea id="shortDescription" class="form-control" aria-describedby="shortDescriptionHelpInLine" th:field="*{shortDescription}"></textarea>
+      </div>
+      <div class="col-12">
+        <span id="shortDescriptionHelpInLine" class="form-text" th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}"></span>
+      </div>
+    </div>
+    <div class="row g-3 align-items-center">
+      <div class="col-5">
+        <label for="prepTime" class="col-form-label">Preparation time</label>
+      </div>
+      <div class="col-7">
+        <input type="text" id="prepTime" class="form-control" aria-describedby="prepTimeHelpInLine" th:field="*{prepTime}">
+      </div>
+      <div class="col-12">
+        <span id="prepTimeHelpInLine" class="form-text" th:if="${#fields.hasErrors('prepTime')}" th:errors="*{prepTime}"></span>
+      </div>
+    </div>
+    <div class="row g-3 align-items-center">
+      <div class="col-5">
+        <label for="cookTime" class="col-form-label">Cooking time</label>
+      </div>
+      <div class="col-7">
+        <input type="text" id="cookTime" class="form-control" aria-describedby="cookTimeHelpInLine" th:field="*{cookTime}">
+      </div>
+      <div class="col-12">
+        <span id="cookTimeHelpInLine" class="form-text" th:if="${#fields.hasErrors('cookTime')}" th:errors="*{cookTime}"></span>
+      </div>
+    </div>
+    <div class="row g-3 align-items-center">
+      <div class="col-5">
+        <label for="ingredients" class="col-form-label">Ingredients</label>
+      </div>
+      <div class="col-7">
+        <textarea id="ingredients" class="form-control" aria-describedby="ingredientsHelpInLine" th:field="*{ingredients}"></textarea>
+      </div>
+      <div class="col-12">
+        <span id="ingredientsHelpInLine" class="form-text" th:if="${#fields.hasErrors('ingredients')}" th:errors="*{ingredients}"></span>
+      </div>
+    </div>
+    <div class="row g-3 align-items-center">
+      <div class="col-5">
+        <label for="imageUrl" class="col-form-label">Image of prepared recipe</label>
+      </div>
+      <div class="col-7">
+        <input type="url" id="imageUrl" class="form-control" aria-describedby="imageUrlHelpInline" th:field="*{imageUrl}">
+      </div>
+      <div class="col-12">
+                    <span id="imageUrlHelpInline" class="form-text" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">
+                    </span>
+      </div>
+    </div>
+
+    <button type="submit" class="btn bi-plus-square btn-primary mb-3"> Save recipe</button>
+
+  </form>
+</div>
+
+<div th:fragment="recipeFormModal(formRecipe, #fields)" class="modal fade" id="newRecipe" tabindex="-1"
+     aria-labelledby="newRecipeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <h1 class="modal-title text-center" id="editRecipeModalLabel">Add recipe</h1>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div th:replace="~{:: newRecipeForm(${formRecipe}, ${#fields})}"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script th:unless="${formModalHidden}">
+    new bootstrap.Modal(document.getElementById('newForm'), {}).toggle()
+  </script>
+</div>
+
+</body>
+</html>

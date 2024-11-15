@@ -7,7 +7,7 @@
 
 <h1>Create a new recipe</h1>
 
-<form th:action="@{/recipe/new}" method="post" th:object="${newRecipe}">
+<form th:action="@{/recipe/save}" method="post" th:object="${formRecipe}">
     <table>
         <tr>
             <td>Title</td>
@@ -36,8 +36,22 @@
 
 <a th:href="@{/recipe/overview}">Go back to the overview</a>
 
+<div class="container">
+    <ul>
+        <li th:each="recipe: ${allRecipes}" th:text="${recipe.title}"></li>
+    </ul>
+
+    <button type="button"
+            class="btn btn-outline-success btn-lg px-4 fw-bold"
+            data-bs-toggle="modal" data-bs-target="#newRecipe">
+        <i class="bi bi-plus-square"></i> Add recipe
+    </button>
+</div>
+
 <div th:replace="~{fragments/general :: footer}"></div>
 <div th:replace="~{fragments/general :: bottomScripts}"></div>
+
+<div th:replace="~{fragments/recipeAddModal :: recipeFormModal(${formRecipe}, ${#fields})}"></div>
 
 </body>
 </html>

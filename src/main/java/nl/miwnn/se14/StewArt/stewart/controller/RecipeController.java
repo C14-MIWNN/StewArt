@@ -20,7 +20,6 @@ import java.util.List;
  * Handle requests primarily related to recipes
  */
 @Controller
-//@RequestMapping("/recipe")
 public class RecipeController {
 
     private final RecipeRepository recipeRepository;
@@ -98,15 +97,15 @@ public class RecipeController {
         return "recipeOverview";
     }
 
-    @GetMapping("/recipe/new")
+    @GetMapping("/recipe/save")
     private String showRecipeForm(Model datamodel) {
-        datamodel.addAttribute("newRecipe", new Recipe());
+        datamodel.addAttribute("formRecipe", new Recipe());
 
         return "recipeForm";
     }
 
-    @PostMapping("/recipe/new")
-    private String saveOrUpdateRecipe(@ModelAttribute("newRecipe") Recipe recipeToBeSaved, BindingResult result) {
+    @PostMapping("/recipe/save")
+    private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipeToBeSaved, BindingResult result) {
         if(result.hasErrors()) {
             System.err.println(result.getAllErrors());
 
