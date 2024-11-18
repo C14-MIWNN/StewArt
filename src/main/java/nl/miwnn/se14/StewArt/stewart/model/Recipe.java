@@ -20,12 +20,14 @@ public class Recipe {
     private String shortDescription;
     private Double prepTime;
     private Double cookTime;
-    private String ingredients;
 
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
     private String imageUrl;
+
+    @ManyToMany
+    private Set<RecipeIngredient> ingredients;
 
     @ManyToMany
     private Set<StewArtUser> likedByUserSet;
@@ -73,11 +75,11 @@ public class Recipe {
         this.cookTime = cookTime;
     }
 
-    public String getIngredients() {
+    public Set<RecipeIngredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(String ingredients) {
+    public void setIngredients(Set<RecipeIngredient> ingredients) {
         this.ingredients = ingredients;
     }
 

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <body>
 
-<div th:fragment="newRecipeForm(formRecipe, #fields)">
+<div th:fragment="newRecipeForm(formRecipe, allIngredients, #fields)">
   <form class="row g-3" th:action="@{/recipe/save}" method="post" th:object="${formRecipe}">
     <div class="row g-3 align-items-center">
       <div class="col-5">
@@ -15,6 +15,7 @@
         <span id="titleHelpInLine" class="form-text" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
       </div>
     </div>
+
     <div class="row g-3 align-items-center">
       <div class="col-5">
         <label for="shortDescription" class="col-form-label">Short description of recipe</label>
@@ -26,6 +27,7 @@
         <span id="shortDescriptionHelpInLine" class="form-text" th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}"></span>
       </div>
     </div>
+
     <div class="row g-3 align-items-center">
       <div class="col-5">
         <label for="prepTime" class="col-form-label">Preparation time</label>
@@ -37,6 +39,7 @@
         <span id="prepTimeHelpInLine" class="form-text" th:if="${#fields.hasErrors('prepTime')}" th:errors="*{prepTime}"></span>
       </div>
     </div>
+
     <div class="row g-3 align-items-center">
       <div class="col-5">
         <label for="cookTime" class="col-form-label">Cooking time</label>
@@ -48,17 +51,37 @@
         <span id="cookTimeHelpInLine" class="form-text" th:if="${#fields.hasErrors('cookTime')}" th:errors="*{cookTime}"></span>
       </div>
     </div>
+
+<!--    <div class="row g-3 align-items-center">-->
+<!--      <div class="col-5">-->
+<!--        <label for="ingredients" class="col-form-label">Ingredients</label>-->
+<!--      </div>-->
+<!--      <div class="col-7">-->
+<!--        <textarea id="ingredients" class="form-control" aria-describedby="ingredientsHelpInLine" th:field="*{ingredients}"></textarea>-->
+<!--      </div>-->
+<!--      <div class="col-12">-->
+<!--        <span id="ingredientsHelpInLine" class="form-text" th:if="${#fields.hasErrors('ingredients')}" th:errors="*{ingredients}"></span>-->
+<!--      </div>-->
+<!--    </div>-->
+
     <div class="row g-3 align-items-center">
       <div class="col-5">
-        <label for="ingredients" class="col-form-label">Ingredients</label>
+        <label for="ingredient-list" class="col-form-label">Ingredients</label>
       </div>
       <div class="col-7">
-        <textarea id="ingredients" class="form-control" aria-describedby="ingredientsHelpInLine" th:field="*{ingredients}"></textarea>
+        <input type="text" id="search-input" onkeyup="ingredientSearch()" placeholder="Search.."
+               title="Type in an ingredient"/>
+        <ul id="ingredient-list">
+          <li th:each="ingredient : ${allIngredients}">
+            <p th:text="${ingredient.ingredientName}"></p>
+          </li>
+        </ul>
       </div>
       <div class="col-12">
         <span id="ingredientsHelpInLine" class="form-text" th:if="${#fields.hasErrors('ingredients')}" th:errors="*{ingredients}"></span>
       </div>
     </div>
+
     <div class="row g-3 align-items-center">
       <div class="col-5">
         <label for="imageUrl" class="col-form-label">Image of prepared recipe</label>
@@ -78,21 +101,41 @@
   </form>
 </div>
 
-<div th:fragment="recipeFormModal(formRecipe, #fields)" class="modal fade" id="newRecipe" tabindex="-1"
+<div th:fragment="recipeFormModal(formRecipe, allIngredients, #fields)" class="modal fade" id="newRecipe" tabindex="-1"
      aria-labelledby="newRecipeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <h1 class="modal-title text-center" id="editRecipeModalLabel">Add recipe</h1>
       <div class="modal-body">
         <div class="container-fluid">
-          <div th:replace="~{:: newRecipeForm(${formRecipe}, ${#fields})}"></div>
+          <div th:replace="~{:: newRecipeForm(${formRecipe}, ${allIngredients}, ${#fields})}"></div>
         </div>
       </div>
     </div>
   </div>
 
   <script th:unless="${formModalHidden}">
-    new bootstrap.Modal(document.getElementById('newForm'), {}).toggle()
+    new bootstrap.Modal(document.getElementById('newRecipe'), {}).toggle()
+  </script>
+  <script>
+    function ingredientSearch() {
+      var input, filter, list, listItems, text, index;
+      input = document.getElementById("search-input");
+      filter = input.value.toLowerCase();
+      list = document.getElementById("ingredient-list");
+      listItems = list.getElementsByTagName("li");
+
+      // loop through list items, hide the ones who don't match the search input
+      for (i = 0; i < listItems.length; i++) {
+        text = listItems[i].getElementsByTagName("p")[0];
+        if (text.innerHTML.toLowerCase().indexOf(filter) > -1) {
+          listItems[i].style.display = "";
+        } else {
+          listItems[i].style.display = "none";
+        }
+
+      }
+    }
   </script>
 </div>
 

@@ -2,6 +2,7 @@ package nl.miwnn.se14.StewArt.stewart.controller;
 
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
+import nl.miwnn.se14.StewArt.stewart.repositories.IngredientRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.StewArtUserRepository;
 import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
@@ -24,10 +25,12 @@ public class RecipeController {
 
     private final RecipeRepository recipeRepository;
     private final StewArtUserRepository stewArtUserRepository;
+    private final IngredientRepository ingredientRepository;
 
-    public RecipeController(RecipeRepository recipeRepository, StewArtUserRepository stewArtUserRepository) {
+    public RecipeController(RecipeRepository recipeRepository, StewArtUserRepository stewArtUserRepository, IngredientRepository ingredientRepository) {
         this.recipeRepository = recipeRepository;
         this.stewArtUserRepository = stewArtUserRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     private void setupRecipeOverview(Model datamodel, List<Recipe> recipeList) {
@@ -73,6 +76,7 @@ public class RecipeController {
                         "Recipe search for user %s returned no list", currentUsername))
         );
 
+        datamodel.addAttribute("allIngredients", ingredientRepository.findAll());
         setupRecipeOverview(datamodel, myRecipes);
         return "myRecipes";
     }
@@ -98,6 +102,7 @@ public class RecipeController {
         return "myRecipes";
     }
 
+    // todo is this deprecated?
     @GetMapping("/recipe/save")
     private String showRecipeForm(Model datamodel) {
         datamodel.addAttribute("formRecipe", new Recipe());

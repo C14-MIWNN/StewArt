@@ -1,14 +1,19 @@
 package nl.miwnn.se14.StewArt.stewart.controller;
 
+import nl.miwnn.se14.StewArt.stewart.enums.IngredientUnits;
 import nl.miwnn.se14.StewArt.stewart.model.Ingredient;
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
+import nl.miwnn.se14.StewArt.stewart.model.RecipeIngredient;
 import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
 import nl.miwnn.se14.StewArt.stewart.repositories.IngredientRepository;
+import nl.miwnn.se14.StewArt.stewart.repositories.RecipeIngredientRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
+
+import java.util.Set;
 
 /**
  * @author Luc Weerts
@@ -19,11 +24,13 @@ public class InitializeController {
     private final StewArtUserService stewArtUserService;
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
+    private final RecipeIngredientRepository recipeIngredientRepository;
 
-    public InitializeController(StewArtUserService stewArtUserService, RecipeRepository recipeRepository, IngredientRepository ingredientRepository) {
+    public InitializeController(StewArtUserService stewArtUserService, RecipeRepository recipeRepository, IngredientRepository ingredientRepository, RecipeIngredientRepository recipeIngredientRepository) {
         this.stewArtUserService = stewArtUserService;
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
+        this.recipeIngredientRepository = recipeIngredientRepository;
     }
 
     @EventListener
@@ -42,14 +49,17 @@ public class InitializeController {
         Ingredient bakingPowder = makeIngredient("baking powder");
         Ingredient oilBroad = makeIngredient("extra virgin olive oil, vegetable oil or other fairly neutral flavored oil");
         Ingredient warmWater = makeIngredient("warm water");
+        Set<RecipeIngredient> tortillaIngredients = Set.of(
+                new RecipeIngredient(3, IngredientUnits.cup, allPurposeFlour),
+                new RecipeIngredient(1, IngredientUnits.tsp, kosherSalt),
+                new RecipeIngredient(1, IngredientUnits.tsp, bakingPowder),
+                new RecipeIngredient(1/3.0, IngredientUnits.cup, oilBroad),
+                new RecipeIngredient(1, IngredientUnits.cup, warmWater)
+        );
+        saveRecipeIngredients(tortillaIngredients);
 
         Recipe tortilla = makeRecipe("Flour Tortillas", 20.0, 40.0, "Homemade flour tortillas",
-                """
-                3 cups all-purpose flour
-                1 teaspoon kosher salt, I use Morton's
-                1 teaspoon baking powder
-                ⅓ cup extra virgin olive oil, vegetable oil or other fairly neutral flavored oil
-                1 cup warm water""",
+                tortillaIngredients,
                 """
                 Combine flour, salt and baking powder in a medium-size bowl. Using a sturdy silicone spatula or a sturdy wooden spoon, mix dry ingredients until well combined.
                 " +
@@ -60,15 +70,22 @@ public class InitializeController {
                 ingeborg
         );
 
+        Ingredient darkChocolate = makeIngredient("dark vegan chocolate");
+        Ingredient heavyCream = makeIngredient("vegan heavy cream");
+        Ingredient vanillaIceCream = makeIngredient("vegan vanilla ice cream (Hertog)");
+        Set<RecipeIngredient> iceCreamIngredients = Set.of(
+                new RecipeIngredient(200, IngredientUnits.gram, darkChocolate),
+                new RecipeIngredient(200, IngredientUnits.mL, heavyCream),
+                new RecipeIngredient(0.9, IngredientUnits.liter, vanillaIceCream)
+        );
+        saveRecipeIngredients(iceCreamIngredients);
+
         Recipe iceCream = makeRecipe(
                 "Vegan vanilla dessert",
                 20.,
                 10.,
                 "Vegan ice cream with chocolate saus",
-                """
-                        200 g dark vegan chocolate
-                        200 ml vegan heavy cream
-                        1 tub vegan vanilla ice cream (Hertog)""",
+                iceCreamIngredients,
                 """
                         Chop the chocolate and bring vegan heavy cream to a boil.
                         Take off heat, add the chocolate and stir until all chocolate is molten.
@@ -93,12 +110,16 @@ public class InitializeController {
         return ingredient;
     }
 
+    private void saveRecipeIngredients(Set<RecipeIngredient> ingredients) {
+        recipeIngredientRepository.saveAll(ingredients);
+    }
+
 
     private Recipe makeRecipe(String title,
                               Double prepTime,
                               Double cookTime,
                               String shortDescription,
-                              String ingredients,
+                              Set<RecipeIngredient> ingredients,
                               String instructions,
                               String image,
                               StewArtUser user) {

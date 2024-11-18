@@ -3,6 +3,9 @@ package nl.miwnn.se14.StewArt.stewart.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+
+import java.util.Set;
 
 /**
  * @author Luc Weerts
