@@ -10,6 +10,12 @@
 <div class="container">
     <h1>My recipes</h1>
 
+    <button type="button"
+            class="btn btn-outline-success btn-lg px-4 fw-bold position-absolute end-0 m-2"
+            data-bs-toggle="modal" data-bs-target="#newRecipe">
+        <i class="bi bi-plus-square"></i> Add recipe
+    </button>
+
     <div>
         <form th:action="@{/recipe/my_recipes_search}" method="post" th:object="${searchForm}">
             <div th:replace="~{fragments/recipe :: searchBar}"></div>
@@ -19,6 +25,8 @@
     <div th:replace="~{fragments/recipe :: recipeCardsNew(${allRecipes})}"></div>
 </div>
 
+
+<div th:replace="~{fragments/recipeAddModal :: recipeFormModal(${formRecipe}, ${#fields})}"></div>
 <div th:replace="~{fragments/general :: footer}"></div>
 <div th:replace="~{fragments/general :: bottomScripts}"></div>
 </body>

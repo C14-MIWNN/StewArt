@@ -42,16 +42,17 @@
     </ul>
 
     <button type="button"
-            class="btn btn-outline-success btn-lg px-4 fw-bold"
+            class="btn btn-outline-success btn-lg px-4 fw-bold position-absolute top-0 end-0 m-2"
             data-bs-toggle="modal" data-bs-target="#newRecipe">
         <i class="bi bi-plus-square"></i> Add recipe
     </button>
+    <div th:replace="~{fragments/recipeAddModal :: recipeFormModal(${formRecipe}, ${#fields})}"></div>
 </div>
 
 <div th:replace="~{fragments/general :: footer}"></div>
 <div th:replace="~{fragments/general :: bottomScripts}"></div>
 
-<div th:replace="~{fragments/recipeAddModal :: recipeFormModal(${formRecipe}, ${#fields})}"></div>
+
 
 </body>
 </html>

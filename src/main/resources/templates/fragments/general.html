@@ -16,8 +16,8 @@
         <li class="nav-item">
             <a class="nav-link" th:href="@{/recipe/overview}">All recipes</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/recipe/save}">Add new recipe</a>
+        <li class="nav-item"> <!--TODO navbar link naar my recipes met modal open-->
+            <a class="nav-link" th:href="@{/recipe/my_recipes}" data-bs-toggle="modal" data-bs-target="#newRecipe">Add new recipe with modal</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" th:href="@{/recipe/my_recipes}">My recipes</a>
@@ -45,5 +45,6 @@
     <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </div>
+
 </body>
 </html>

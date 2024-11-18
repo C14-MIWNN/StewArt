@@ -33,6 +33,7 @@ public class RecipeController {
     private void setupRecipeOverview(Model datamodel, List<Recipe> recipeList) {
         datamodel.addAttribute("allRecipes", recipeList);
         datamodel.addAttribute("searchForm", new Recipe());
+        datamodel.addAttribute("formRecipe", new Recipe());
         datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
     }
 
