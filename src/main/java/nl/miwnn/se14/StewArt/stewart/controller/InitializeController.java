@@ -1,7 +1,9 @@
 package nl.miwnn.se14.StewArt.stewart.controller;
 
+import nl.miwnn.se14.StewArt.stewart.model.Ingredient;
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
+import nl.miwnn.se14.StewArt.stewart.repositories.IngredientRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,10 +18,12 @@ import org.springframework.stereotype.Controller;
 public class InitializeController {
     private final StewArtUserService stewArtUserService;
     private final RecipeRepository recipeRepository;
+    private final IngredientRepository ingredientRepository;
 
-    public InitializeController(StewArtUserService stewArtUserService, RecipeRepository recipeRepository) {
+    public InitializeController(StewArtUserService stewArtUserService, RecipeRepository recipeRepository, IngredientRepository ingredientRepository) {
         this.stewArtUserService = stewArtUserService;
         this.recipeRepository = recipeRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @EventListener
@@ -33,16 +37,18 @@ public class InitializeController {
         StewArtUser luc = makeStewArtUser("Luc", "DevPassword123");
         StewArtUser ingeborg = makeStewArtUser("Ingeborg", "Makkelijk");
 
+        Ingredient allPurposeFlour = makeIngredient("all-purpose flour");
+        Ingredient kosherSalt = makeIngredient("kosher salt, I use Morton's");
+        Ingredient bakingPowder = makeIngredient("baking powder");
+        Ingredient oilBroad = makeIngredient("extra virgin olive oil, vegetable oil or other fairly neutral flavored oil");
+        Ingredient warmWater = makeIngredient("warm water");
+
         Recipe tortilla = makeRecipe("Flour Tortillas", 20.0, 40.0, "Homemade flour tortillas",
                 """
                 3 cups all-purpose flour
-                
                 1 teaspoon kosher salt, I use Morton's
-                
                 1 teaspoon baking powder
-                
                 ⅓ cup extra virgin olive oil, vegetable oil or other fairly neutral flavored oil
-                
                 1 cup warm water""",
                 """
                 Combine flour, salt and baking powder in a medium-size bowl. Using a sturdy silicone spatula or a sturdy wooden spoon, mix dry ingredients until well combined.
@@ -78,6 +84,13 @@ public class InitializeController {
         user.setPassword(password);
         stewArtUserService.save(user);
         return user;
+    }
+
+    private Ingredient makeIngredient(String name) {
+        Ingredient ingredient = new Ingredient();
+        ingredient.setIngredientName(name);
+        ingredientRepository.save(ingredient);
+        return ingredient;
     }
 
 

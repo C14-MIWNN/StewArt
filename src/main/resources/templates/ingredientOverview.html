@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: baseHeader(~{:: title})}">
+    <title>StewArt ingredient overview</title>
+</head>
+<body>
+
+<div th:replace="~{fragments/general :: navbar}"></div>
+
+<div class="container">
+    <h1>Overview of all ingredients</h1>
+
+    <ul>
+        <li th:each="ingredient: ${allIngredients}" th:text="${ingredient.ingredientName}"></li>
+    </ul>
+
+</div>
+
+<div th:replace="~{fragments/general :: footer}"></div>
+<div th:replace="~{fragments/general :: bottomScripts}"></div>
+</body>
+</html>

@@ -12,6 +12,7 @@
 <body>
 
 <div th:fragment="navbar">
+<!--    todo make navbar much more fancy with bootstrap navbar stuff-->
     <ul class="nav justify-content-center">
         <li class="nav-item">
             <a class="nav-link" th:href="@{/recipe/overview}">All recipes</a>
@@ -21,6 +22,9 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" th:href="@{/recipe/my_recipes}">My recipes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/ingredient/overview}">All ingredients</a>
         </li>
 <!--    todo user/overview should be visible only to admin users    -->
         <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
