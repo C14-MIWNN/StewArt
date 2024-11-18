@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -107,11 +108,6 @@ public class RecipeController {
 
     @PostMapping("/recipe/save")
     private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipeToBeSaved, BindingResult result) {
-        if(result.hasErrors()) {
-            System.err.println(result.getAllErrors());
-
-            return "redirect:/recipe/overview";
-        }
 
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<StewArtUser> userOptional = stewArtUserRepository.findByUsername(currentUsername);
@@ -123,7 +119,7 @@ public class RecipeController {
         recipeToBeSaved.setRecipeAuthor(user);
         recipeRepository.save(recipeToBeSaved);
 
-        return "redirect:/recipe/overview";
+        return "redirect:/recipe/my_recipes";
     }
 
     @GetMapping("/recipe/delete/{recipeId}")

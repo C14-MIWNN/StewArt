@@ -43,7 +43,7 @@ public class InitializeController {
         Ingredient oilBroad = makeIngredient("extra virgin olive oil, vegetable oil or other fairly neutral flavored oil");
         Ingredient warmWater = makeIngredient("warm water");
 
-        Recipe tortilla = makeRecipe("Flour Tortillas", 20.0, 40.0, "Homemade flour tortillas",
+        Recipe tortilla = makeRecipe("Flour Tortillas", 20, 40, "Homemade flour tortillas",
                 """
                 3 cups all-purpose flour
                 1 teaspoon kosher salt, I use Morton's
@@ -62,8 +62,8 @@ public class InitializeController {
 
         Recipe iceCream = makeRecipe(
                 "Vegan vanilla dessert",
-                20.,
-                10.,
+                20,
+                10,
                 "Vegan ice cream with chocolate saus",
                 """
                         200 g dark vegan chocolate
@@ -95,8 +95,8 @@ public class InitializeController {
 
 
     private Recipe makeRecipe(String title,
-                              Double prepTime,
-                              Double cookTime,
+                              int prepTime,
+                              int cookTime,
                               String shortDescription,
                               String ingredients,
                               String instructions,
