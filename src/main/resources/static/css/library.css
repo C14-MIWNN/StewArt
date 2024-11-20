@@ -8,7 +8,7 @@
 }
 
 body {
-    background-color: blanchedalmond;
+    background-color: #DCD0C0;
     font-family: Georgia, serif;
 }
 
@@ -26,7 +26,7 @@ footer {
 }
 
 header {
-    background: #55d6aa;
+    background: #F4F4F4;
     width: 100%;
 }
 
@@ -50,27 +50,27 @@ nav ul {
 nav li {
     display: inline-block;
     margin-left: 3rem;
-    padding-top: 1rem;
+    padding-top: 0.5rem;
 
     position: relative;
 }
 
 nav a {
-    color: black;
+    color: #C0B283;
     text-decoration: none;
     text-transform: uppercase;
     font-size: 1rem;
 }
 
 nav a:hover {
-    color: darkblue;
+    color: #AF473C;
 }
 
 nav a::before {
     content: '';
     display: block;
     height: 5px;
-    background-color: darkblue;
+    background-color: #AF473C;
 
     position: absolute;
     top: 0;
@@ -83,3 +83,26 @@ nav a:hover::before {
     width: 100%;
 }
 
+.bg-custom-card {
+    background-color: #ECE6E6;
+    color: #373737;
+}
+
+.btn-custom {
+    background-color: #373737;
+    color: #F4F4F4;
+}
+
+.btn-custom:hover {
+    background-color: #C0B283;
+}
+
+.btn-custom-delete {
+    background-color: #AF473C;
+    color: #F4F4F4;
+}
+
+.btn-custom-delete:hover {
+    background-color: #945D60;
+    color: black;
+}
