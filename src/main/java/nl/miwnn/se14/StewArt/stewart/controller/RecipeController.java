@@ -1,11 +1,14 @@
 package nl.miwnn.se14.StewArt.stewart.controller;
 
+import nl.miwnn.se14.StewArt.stewart.dto.RecipeDTO;
+import nl.miwnn.se14.StewArt.stewart.enums.IngredientUnits;
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
 import nl.miwnn.se14.StewArt.stewart.repositories.IngredientRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.StewArtUserRepository;
 import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
+import nl.miwnn.se14.StewArt.stewart.service.mapper.RecipeMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -36,7 +39,7 @@ public class RecipeController {
     private void setupRecipeOverview(Model datamodel, List<Recipe> recipeList) {
         datamodel.addAttribute("allRecipes", recipeList);
         datamodel.addAttribute("searchForm", new Recipe());
-        datamodel.addAttribute("formRecipe", new Recipe());
+        datamodel.addAttribute("formRecipe", new RecipeDTO(true, ingredientRepository));
         datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
     }
 
@@ -76,7 +79,7 @@ public class RecipeController {
                         "Recipe search for user %s returned no list", currentUsername))
         );
 
-        datamodel.addAttribute("allIngredients", ingredientRepository.findAll());
+        datamodel.addAttribute("allUnits", IngredientUnits.values());
         setupRecipeOverview(datamodel, myRecipes);
         return "myRecipes";
     }
@@ -105,13 +108,13 @@ public class RecipeController {
     // todo is this deprecated?
     @GetMapping("/recipe/save")
     private String showRecipeForm(Model datamodel) {
-        datamodel.addAttribute("formRecipe", new Recipe());
+        datamodel.addAttribute("formRecipe", new RecipeDTO(true, ingredientRepository));
 
         return "recipeForm";
     }
 
     @PostMapping("/recipe/save")
-    private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipeToBeSaved, BindingResult result) {
+    private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") RecipeDTO recipeDtoToBeSaved, BindingResult result) {
         if(result.hasErrors()) {
             System.err.println(result.getAllErrors());
 
@@ -124,6 +127,8 @@ public class RecipeController {
                 () -> new UsernameNotFoundException(
                         String.format("Username was not found in the database", currentUsername))
         );
+
+        Recipe recipeToBeSaved = RecipeMapper.fromDTO(recipeDtoToBeSaved);
 
         recipeToBeSaved.setRecipeAuthor(user);
         recipeRepository.save(recipeToBeSaved);

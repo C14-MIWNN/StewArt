@@ -1,11 +1,9 @@
 package nl.miwnn.se14.StewArt.stewart.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-
-import java.util.Set;
 
 /**
  * @author Luc Weerts
@@ -17,6 +15,7 @@ public class Ingredient {
     @Id @GeneratedValue
     private Long IngredientId;
 
+    @Column(unique = true)
     private String ingredientName;
 
     // todo ingredient can have tags that automatically show up as recipe tags, like 'nut' for nut allergy.
