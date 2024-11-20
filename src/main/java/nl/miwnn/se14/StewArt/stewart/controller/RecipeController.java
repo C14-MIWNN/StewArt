@@ -38,7 +38,7 @@ public class RecipeController {
         datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
     }
 
-    @GetMapping({"/recipe/overview", "/"})
+    @GetMapping("/recipe/overview")
     private String showRecipeOverview(Model datamodel) {
 
         setupRecipeOverview(datamodel, recipeRepository.findAll());
@@ -97,6 +97,13 @@ public class RecipeController {
 
         datamodel.addAttribute("allRecipes", myRecipesOptional.get());
         return "myRecipes";
+    }
+
+    @GetMapping("/recipe/add_recipe")
+    private String showRecipeModal(Model datamodel) {
+        datamodel.addAttribute("formModalHidden", false);
+
+        return "redirect:/recipe/my_recipes";
     }
 
     @GetMapping("/recipe/save")

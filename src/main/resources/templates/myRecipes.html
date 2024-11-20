@@ -8,13 +8,19 @@
 <div th:replace="~{fragments/general :: navbar}"></div>
 
 <div class="container">
-    <h1>My recipes</h1>
 
-    <button type="button"
-            class="btn btn-custom btn-lg px-4 fw-bold position-absolute end-0 m-2"
-            data-bs-toggle="modal" data-bs-target="#newRecipe">
-        <i class="bi bi-plus-square"></i> Add recipe
-    </button>
+    <div class="row">
+        <div class="col-10">
+            <h1>My recipes</h1>
+        </div>
+        <div class="col-2">
+            <button type="button"
+                    class="btn btn-custom btn-lg px-4 fw-bold"
+                    data-bs-toggle="modal" data-bs-target="#newRecipe">
+                <i class="bi bi-plus-square"></i> Add recipe
+            </button>
+        </div>
+    </div>
 
     <div>
         <form th:action="@{/recipe/my_recipes_search}" method="post" th:object="${searchForm}">
