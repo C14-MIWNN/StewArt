@@ -62,7 +62,7 @@ public class InitializeController {
                 "Vegan vanilla dessert",
                 20,
                 10,
-                "Vegan ice cream with chocolate saus",
+                "Vegan ice cream with chocolate sauce",
                 """
                         200 g dark vegan chocolate
                         200 ml vegan heavy cream

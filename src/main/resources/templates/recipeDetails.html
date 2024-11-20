@@ -15,6 +15,13 @@
         <div class="col-8 mt-0">
             <h1 class="display-4 fw-bold lh-1 text-body-emphasis text-center" th:text="*{title}"></h1>
             <p class="lead" th:text="*{shortDescription}"></p>
+            <p class="card-text">
+                <i class="bi bi-clock"> Preparation time </i><small class="text-body-secondary" th:text="${recipe.prepTime}"></small>
+                <i class="bi bi-clock"> Cooking time </i><small class="text-body-secondary" th:text="${recipe.cookTime}"></small>
+                <small class="float-end">Added by <small class="text-body-secondary" th:text="${recipe.recipeAuthor.username}"></small></small>
+            </p>
+            <p class="card-text" th:text="${recipe.ingredients}"></p>
+            <p class="card-text" th:text="${recipe.instructions}"></p>
             <p class="text-center">
                 <button type="button"
                         class="btn btn-custom btn-lg px-4 fw-bold"
@@ -25,7 +32,6 @@
                     class="btn btn-custom-delete btn-lg px-4"
                 th:href="@{/recipe/delete/{recipeId}(recipeId = *{recipeId})}">
                     <i class="bi bi-trash3"></i> Delete
-
                 </a>
             </p>
         </div>
