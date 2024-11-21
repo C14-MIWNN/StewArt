@@ -1,5 +1,6 @@
 package nl.miwnn.se14.StewArt.stewart.controller;
 
+
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
@@ -10,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -36,6 +36,15 @@ public class RecipeController {
         datamodel.addAttribute("searchForm", new Recipe());
         datamodel.addAttribute("formRecipe", new Recipe());
         datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
+    }
+
+    private String setupRecipeModalOverview(Model datamodel, Recipe formRecipe, boolean formModalHidden) {
+        datamodel.addAttribute("allRecipes", recipeRepository.findAll());
+        datamodel.addAttribute("formRecipe", formRecipe);
+        datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
+        datamodel.addAttribute("formModalHidden", formModalHidden);
+
+        return "recipeOverview";
     }
 
     @GetMapping("/recipe/overview")
@@ -99,13 +108,6 @@ public class RecipeController {
         return "myRecipes";
     }
 
-    @GetMapping("/recipe/add_recipe")
-    private String showRecipeModal(Model datamodel) {
-        datamodel.addAttribute("formModalHidden", false);
-
-        return "redirect:/recipe/my_recipes";
-    }
-
     @GetMapping("/recipe/save")
     private String showRecipeForm(Model datamodel) {
         datamodel.addAttribute("formRecipe", new Recipe());
@@ -114,7 +116,7 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe/save")
-    private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipeToBeSaved, BindingResult result) {
+    private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipeToBeSaved, BindingResult result, Model datamodel) {
 
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<StewArtUser> userOptional = stewArtUserRepository.findByUsername(currentUsername);
