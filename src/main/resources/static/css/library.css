@@ -113,6 +113,10 @@ nav a:hover::before {
     color: black;
 }
 
+input[type="checkbox"] {
+    accent-color: #AF473C;
+}
+
 /*.card {*/
 /*    width: 30rem;*/
 /*    height: 30rem;*/
