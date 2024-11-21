@@ -50,15 +50,6 @@ public class RecipeController {
         datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
     }
 
-    private String setupRecipeModalOverview(Model datamodel, Recipe formRecipe, boolean formModalHidden) {
-        datamodel.addAttribute("allRecipes", recipeRepository.findAll());
-        datamodel.addAttribute("formRecipe", formRecipe);
-        datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
-        datamodel.addAttribute("formModalHidden", formModalHidden);
-
-        return "recipeOverview";
-    }
-
     @GetMapping("/recipe/overview")
     private String showRecipeOverview(Model datamodel) {
 
@@ -130,9 +121,14 @@ public class RecipeController {
 
     @GetMapping("/recipe/add_recipe")
     private String showRecipeModal(Model datamodel) {
+        List<Recipe> myRecipes = getMyRecipes();
+
+        datamodel.addAttribute("allUnits", IngredientUnits.values());
+        setupRecipeOverview(datamodel, myRecipes, true);
         datamodel.addAttribute("formModalHidden", false);
 
-        return "redirect:/recipe/my_recipes";
+        return "myRecipes";
+//        return "redirect:/recipe/my_recipes";
     }
 
     @PostMapping("/recipe/save")
