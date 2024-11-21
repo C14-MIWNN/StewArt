@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: baseHeader(~{:: title})}">
+    <title>Homepage</title>
+</head>
+<body>
+
+<div th:replace="~{fragments/general :: navbar}"></div>
+
+<div class="container">
+
+
+<div class="row">
+    <div class="col-10">
+        <h1>StewArt Homepage</h1>
+    </div>
+    <div class="col-2">
+    <button type="button"
+            class="btn btn-custom btn-lg px-4 fw-bold align-content-end"
+            data-bs-toggle="modal" data-bs-target="#newForm">
+        <i class="bi bi-plus-square"></i> Register
+    </button>
+    </div>
+</div>
+
+    <div>
+        <form th:action="@{/search}" method="post" th:object="${searchForm}">
+            <div th:replace="~{fragments/recipe :: searchBar}"></div>
+        </form>
+    </div>
+</div>
+
+
+<div th:replace="~{fragments/general :: footer}"></div>
+<div th:replace="~{fragments/general :: bottomScripts}"></div>
+<div th:replace="~{fragments/stewArtUser :: userFormModal(${formUser}, ${#fields})}"></div>
+</html>

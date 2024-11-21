@@ -46,7 +46,7 @@ public class RecipeController {
         datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
     }
 
-    @GetMapping({"/recipe/overview", "/"})
+    @GetMapping("/recipe/overview")
     private String showRecipeOverview(Model datamodel) {
 
         setupRecipeOverview(datamodel, recipeRepository.findAll());
@@ -108,6 +108,13 @@ public class RecipeController {
         return "myRecipes";
     }
 
+    @GetMapping("/recipe/add_recipe")
+    private String showRecipeModal(Model datamodel) {
+        datamodel.addAttribute("formModalHidden", false);
+
+        return "redirect:/recipe/my_recipes";
+    }
+
     // todo is this deprecated?
     @GetMapping("/recipe/save")
     private String showRecipeForm(Model datamodel) {
@@ -118,6 +125,7 @@ public class RecipeController {
 
     @PostMapping("/recipe/save")
     private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") RecipeDTO recipeDtoToBeSaved, BindingResult result) {
+        // todo show errors to user in the modal
         if(result.hasErrors()) {
             System.err.println(result.getAllErrors());
 
@@ -137,7 +145,7 @@ public class RecipeController {
         recipeToBeSaved.setRecipeAuthor(user);
         recipeRepository.save(recipeToBeSaved);
 
-        return "redirect:/recipe/overview";
+        return "redirect:/recipe/my_recipes";
     }
 
     @GetMapping("/recipe/delete/{recipeId}")

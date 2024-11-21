@@ -46,7 +46,9 @@ public class StewArtUserController {
 
         if (result.hasErrors()) {
             datamodel.addAttribute("allUsers", stewArtUserService.getAllUsers());
+            datamodel.addAttribute("formUser", userDtoToBeSaved);
             datamodel.addAttribute("formModalHidden", false);
+            System.out.println("we got here");
             return "userOverview";
         }
 

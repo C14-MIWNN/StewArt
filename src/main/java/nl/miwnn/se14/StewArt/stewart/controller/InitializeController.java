@@ -58,13 +58,12 @@ public class InitializeController {
         );
         saveRecipeIngredients(tortillaIngredients);
 
-        Recipe tortilla = makeRecipe("Flour Tortillas", 20.0, 40.0, "Homemade flour tortillas",
+
+        Recipe tortilla = makeRecipe("Flour Tortillas", 20, 40, "Homemade flour tortillas",
                 tortillaIngredients,
                 """
                 Combine flour, salt and baking powder in a medium-size bowl. Using a sturdy silicone spatula or a sturdy wooden spoon, mix dry ingredients until well combined.
-                " +
                 Make a well in the center of the dry ingredients and add the oil and water. Stir well from the bottom up, until all dry ingredients are incorporated and the dough begins to come together and form a shaggy ball.
-                " +
                 Turn dough out onto a lightly floured work surface and knead for 1-2 minutes until the dough is nice and smooth. Proceed with step number 3 below for the remainder of the recipe.""",
                 "https://cdn.pixabay.com/photo/2021/09/06/18/05/tortilla-6602186_960_720.jpg",
                 ingeborg
@@ -82,8 +81,8 @@ public class InitializeController {
 
         Recipe iceCream = makeRecipe(
                 "Vegan vanilla dessert",
-                20.,
-                10.,
+                20,
+                10,
                 "Vegan ice cream with chocolate saus",
                 iceCreamIngredients,
                 """
@@ -116,8 +115,8 @@ public class InitializeController {
 
 
     private Recipe makeRecipe(String title,
-                              Double prepTime,
-                              Double cookTime,
+                              int prepTime,
+                              int cookTime,
                               String shortDescription,
                               Set<RecipeIngredient> ingredients,
                               String instructions,

@@ -15,8 +15,8 @@ public class RecipeDTO {
     @NotBlank
     private String title;
     private String shortDescription;
-    private double prepTime;
-    private double cookTime;
+    private int prepTime;
+    private int cookTime;
     private String instructions;
     private String imageUrl;
 
@@ -51,19 +51,19 @@ public class RecipeDTO {
         this.shortDescription = shortDescription;
     }
 
-    public double getPrepTime() {
+    public int getPrepTime() {
         return prepTime;
     }
 
-    public void setPrepTime(double prepTime) {
+    public void setPrepTime(int prepTime) {
         this.prepTime = prepTime;
     }
 
-    public double getCookTime() {
+    public int getCookTime() {
         return cookTime;
     }
 
-    public void setCookTime(double cookTime) {
+    public void setCookTime(int cookTime) {
         this.cookTime = cookTime;
     }
 

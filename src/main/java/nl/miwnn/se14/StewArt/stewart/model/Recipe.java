@@ -1,6 +1,7 @@
 package nl.miwnn.se14.StewArt.stewart.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Set;
 
@@ -14,12 +15,14 @@ public class Recipe {
     @Id @GeneratedValue
     private Long recipeId;
 
+    @NotEmpty
     private String title;
 
     @Column(columnDefinition = "TEXT")
     private String shortDescription;
-    private Double prepTime;
-    private Double cookTime;
+
+    private int prepTime;
+    private int cookTime;
 
     @Column(columnDefinition = "TEXT")
     private String instructions;
@@ -59,19 +62,19 @@ public class Recipe {
         this.shortDescription = shortDescription;
     }
 
-    public Double getPrepTime() {
+    public int getPrepTime() {
         return prepTime;
     }
 
-    public void setPrepTime(Double prepTime) {
+    public void setPrepTime(int prepTime) {
         this.prepTime = prepTime;
     }
 
-    public Double getCookTime() {
+    public int getCookTime() {
         return cookTime;
     }
 
-    public void setCookTime(Double cookTime) {
+    public void setCookTime(int cookTime) {
         this.cookTime = cookTime;
     }
 

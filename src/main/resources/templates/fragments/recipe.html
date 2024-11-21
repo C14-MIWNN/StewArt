@@ -2,39 +2,49 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <body>
 
-<div th:fragment="recipeCards(recipes)" class="row row-cols-1 row-cols-md-6 g-4">
-    <div th:each="recipe : ${recipes}" th:insert="~{:: recipeCards(${recipe})}"></div>
-</div>
-
-<div th:fragment="recipeCardsNew(recipes)" class="row row-cols-1 row-cols-md-6 g-4">
+<div th:fragment="recipeCardsNew(recipes)" class="row row-cols-1 row-cols-md-4 g-4">
     <div th:each="recipe : ${recipes}" th:insert="~{:: recipeCard(${recipe})}"></div>
 </div>
 
-<div th:fragment="recipeCard(recipe)" class="col">
-    <div class="card h-100">
+<div th:fragment="recipeCard(recipe)" class="col rounded-3 border shadow-lg bg-custom-card" style="width: 18rem; hight: 18rem">
+    <div class="card">
         <a th:href="@{/recipe/detail/{recipeId}(recipeId = ${recipe.recipeId})}">
-            <img height="300px" th:src="${recipe.imageUrl}" class="card-img-top object-fit-cover" th:alt="|Cover for ${recipe.title}|">
+            <img  th:src="${recipe.imageUrl}" class="card-img-top" th:alt="|Cover for ${recipe.title}|">
         </a>
     </div>
-    <div class="card-header">
-        <a th:href="@{/recipe/detail/{recipeId}(recipeId = ${recipe.recipeId})}" th:text="${recipe.title}"></a>
+    <div class="card-title">
+        <h5>
+            <a th:href="@{/recipe/detail/{recipeId}(recipeId = ${recipe.recipeId})}" th:text="${recipe.title}"></a>
+        </h5>
     </div>
     <div class="card-body" style="">
         <p class="card-text" th:text="${recipe.shortDescription}"></p>
+    </div>
+    <div class="card-footer">
+        <p class="card-text">
+            <i><small>
+            <i class="bi bi-clock"> Prep time </i><small class="text-body-secondary" th:text="${recipe.prepTime}"></small> minutes
+            <i class="bi bi-clock"> Cooking time </i><small class="text-body-secondary" th:text="${recipe.cookTime}"></small> minutes
+            </small></i>
+        </p>
+        <p class="card-text"><i><small>Added by
+            <small class="text-body-secondary" th:text="${recipe.recipeAuthor.username}"></small></small></i></p>
     </div>
 </div>
 
 <div th:fragment="searchBar">
     <div class="row g-3">
         <div class="col-2">
+            <h5>
             <label for="title" class="col-form-label">Search by title:</label>
+            </h5>
         </div>
         <div class="col-8">
-            <input type="text" id="title" class="form-control" aria-describedby="searchTitleHelpInline"
+            <input type="text" id="title" class="form-control bg-custom-card" aria-describedby="searchTitleHelpInline"
                    th:field="*{title}">
         </div>
         <div class="col-2">
-            <button type="submit" class="btn bi-search btn-primary mb-3"> Search</button>
+            <button type="submit" class="btn bi-search btn-custom mb-3"> Search</button>
         </div>
         <div class="col-12">
                 <span id="searchTitleHelpInline" class="form-text"

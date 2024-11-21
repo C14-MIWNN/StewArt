@@ -7,6 +7,11 @@
     width: 100px;
 }
 
+body {
+    background-color: #DCD0C0;
+    font-family: Georgia, serif;
+}
+
 footer {
     position: fixed;
     left: 0;
@@ -20,3 +25,96 @@ ul.no-bullets {
     padding: 0; /* Remove padding */
     margin: 0; /* Remove margins */
 }
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+header {
+    background: #F4F4F4;
+    width: 100%;
+}
+
+header::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.logo {
+    float: left;
+    padding: 10px 0;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 3rem;
+    padding-top: 0.5rem;
+
+    position: relative;
+}
+
+nav a {
+    color: #C0B283;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+nav a:hover {
+    color: #AF473C;
+}
+
+nav a::before {
+    content: '';
+    display: block;
+    height: 5px;
+    background-color: #AF473C;
+
+    position: absolute;
+    top: 0;
+    width: 0%;
+
+    transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+    width: 100%;
+}
+
+.bg-custom-card {
+    background-color: #ECE6E6;
+    color: #373737;
+}
+
+.btn-custom {
+    background-color: #373737;
+    color: #F4F4F4;
+}
+
+.btn-custom:hover {
+    background-color: #C0B283;
+}
+
+.btn-custom-delete {
+    background-color: #AF473C;
+    color: #F4F4F4;
+}
+
+.btn-custom-delete:hover {
+    background-color: #945D60;
+    color: black;
+}
+
+/*.card {*/
+/*    width: 30rem;*/
+/*    height: 30rem;*/
+/*}*/
+
