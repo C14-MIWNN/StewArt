@@ -104,7 +104,7 @@ public class RecipeController {
             return "myRecipes";
         }
 
-        datamodel.addAttribute("allRecipes", myRecipesOptional.get());
+        setupRecipeOverview(datamodel, myRecipesOptional.get());
         return "myRecipes";
     }
 
@@ -158,7 +158,7 @@ public class RecipeController {
     private String setupRecipeDetail(Model datamodel, Recipe recipeToShow, Recipe formRecipe, boolean formModalHidden) {
         datamodel.addAttribute("recipe", recipeToShow);
         datamodel.addAttribute("formRecipe", formRecipe);
-        //TO DO add username of author
+        //TODO add username of author
         datamodel.addAttribute("formModalHidden", formModalHidden);
 
         return "recipeDetails";
