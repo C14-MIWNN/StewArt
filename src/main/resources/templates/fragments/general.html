@@ -35,7 +35,7 @@
                         <li>
                             <a class="navbar-link" th:href="@{/ingredient/overview}"><i class="bi bi-list-ul"></i> All ingredients</a>
                         </li>
-                        <li sec:authorize="hasRole('ROLE_USER')">
+                        <li sec:authorize="hasRole('ROLE_ADMIN')">
                             <a class="navbar-link" th:href="@{/user/overview}">All users</a>
                         </li>
                     </ul>
@@ -43,7 +43,7 @@
                         <li sec:authorize="isAnonymous()">
                             <a class="navbar-link" th:href="@{/login}" ><i class="bi bi-person-fill"></i> Log in</a>
                         </li>
-                        <li sec:authorize="hasRole('ROLE_USER')">
+                        <li sec:authorize="hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_USER')">
                             <a class="navbar-link" th:href="@{/logout}"><i class="bi bi-person-x-fill"></i> Logout <span sec:authentication="name"></span></a>
                         </li>
                     </ul>

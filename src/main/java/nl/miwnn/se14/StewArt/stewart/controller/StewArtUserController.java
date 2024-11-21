@@ -50,9 +50,10 @@ public class StewArtUserController {
             datamodel.addAttribute("formUser", userDtoToBeSaved);
             datamodel.addAttribute("formModalHidden", false);
             datamodel.addAttribute("searchForm", new Recipe());
-            System.out.println("we got here");
             return "homepage";
         }
+
+        userDtoToBeSaved.setRole("USER");
 
         stewArtUserService.save(userDtoToBeSaved);
         return "redirect:/";

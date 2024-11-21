@@ -41,8 +41,8 @@ public class InitializeController {
     }
 
     private void initializeDB() {
-        StewArtUser luc = makeStewArtUser("Luc", "DevPassword123");
-        StewArtUser ingeborg = makeStewArtUser("Ingeborg", "Makkelijk");
+        StewArtUser luc = makeStewArtUser("Luc", "DevPassword123", "ADMIN");
+        StewArtUser ingeborg = makeStewArtUser("Ingeborg", "Makkelijk", "ADMIN");
 
         Ingredient allPurposeFlour = makeIngredient("all-purpose flour");
         Ingredient kosherSalt = makeIngredient("kosher salt, I use Morton's");
@@ -94,10 +94,11 @@ public class InitializeController {
     }
 
 
-    private StewArtUser makeStewArtUser(String username, String password) {
+    private StewArtUser makeStewArtUser(String username, String password, String role) {
         StewArtUser user = new StewArtUser();
         user.setUsername(username);
         user.setPassword(password);
+        user.setRole(role);
         stewArtUserService.save(user);
         return user;
     }

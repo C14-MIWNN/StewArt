@@ -15,6 +15,8 @@ public class StewArtUserDTO {
     private String password;
     private String passwordConfirm;
 
+    private String role;
+
     public @NotBlank String getUsername() {
         return username;
     }
@@ -37,5 +39,13 @@ public class StewArtUserDTO {
 
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

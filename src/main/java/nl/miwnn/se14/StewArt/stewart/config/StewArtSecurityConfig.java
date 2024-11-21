@@ -25,6 +25,7 @@ public class StewArtSecurityConfig {
                         .requestMatchers("/recipe/overview").permitAll()
                         .requestMatchers("/recipe/detail/**").permitAll()
                         .requestMatchers("/ingredient/overview").permitAll()
+                        .requestMatchers("/user/save").permitAll()
                         .requestMatchers("/webjars/**", "/css/**").permitAll()
                         .anyRequest().authenticated()
                 )
