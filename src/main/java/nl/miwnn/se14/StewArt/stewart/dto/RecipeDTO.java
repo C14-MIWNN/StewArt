@@ -1,6 +1,6 @@
 package nl.miwnn.se14.StewArt.stewart.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import nl.miwnn.se14.StewArt.stewart.model.Ingredient;
 import nl.miwnn.se14.StewArt.stewart.model.RecipeIngredient;
 import nl.miwnn.se14.StewArt.stewart.repositories.IngredientRepository;
@@ -12,7 +12,7 @@ import java.util.*;
  * Capture the information needed for the create-a-new-recipe form
  */
 public class RecipeDTO {
-    @NotBlank
+    @NotEmpty
     private String title;
     private String shortDescription;
     private int prepTime;
@@ -35,11 +35,11 @@ public class RecipeDTO {
     public RecipeDTO() {
     }
 
-    public @NotBlank String getTitle() {
+    public @NotEmpty String getTitle() {
         return title;
     }
 
-    public void setTitle(@NotBlank String title) {
+    public void setTitle(@NotEmpty String title) {
         this.title = title;
     }
 

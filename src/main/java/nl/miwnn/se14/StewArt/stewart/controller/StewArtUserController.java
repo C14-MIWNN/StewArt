@@ -2,6 +2,7 @@ package nl.miwnn.se14.StewArt.stewart.controller;
 
 import jakarta.validation.Valid;
 import nl.miwnn.se14.StewArt.stewart.dto.StewArtUserDTO;
+import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,11 +49,12 @@ public class StewArtUserController {
             datamodel.addAttribute("allUsers", stewArtUserService.getAllUsers());
             datamodel.addAttribute("formUser", userDtoToBeSaved);
             datamodel.addAttribute("formModalHidden", false);
+            datamodel.addAttribute("searchForm", new Recipe());
             System.out.println("we got here");
-            return "userOverview";
+            return "homepage";
         }
 
         stewArtUserService.save(userDtoToBeSaved);
-        return "redirect:/user/overview";
+        return "redirect:/";
     }
 }

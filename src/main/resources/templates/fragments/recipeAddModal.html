@@ -79,7 +79,7 @@
         <ul class="no-bullets" id="ingredientList">
           <li class="row" th:each="ingredient, stat : *{allIngredients}" style="display: none">
             <input type="hidden" th:field="*{allIngredients[__${stat.index}__].ingredient}"/>
-            <input class="col-2" type="number" th:field="*{allIngredients[__${stat.index}__].amount}">
+            <input class="col-2" type="number" step="any" th:field="*{allIngredients[__${stat.index}__].amount}">
             <select id="unitDropdown" class="selectpicker col-2" title="Unit.." data-width="15%" th:field="*{allIngredients[__${stat.index}__].unit}">
               <option th:each="unit : ${allUnits}" th:value="${unit}" th:text="${unit}"></option>
             </select>

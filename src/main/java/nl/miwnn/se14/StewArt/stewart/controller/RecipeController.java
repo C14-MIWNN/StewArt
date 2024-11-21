@@ -1,5 +1,6 @@
 package nl.miwnn.se14.StewArt.stewart.controller;
 
+import jakarta.validation.Valid;
 import nl.miwnn.se14.StewArt.stewart.dto.RecipeDTO;
 import nl.miwnn.se14.StewArt.stewart.enums.IngredientUnits;
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
@@ -39,17 +40,19 @@ public class RecipeController {
         this.ingredientRepository = ingredientRepository;
     }
 
-    private void setupRecipeOverview(Model datamodel, List<Recipe> recipeList) {
+    private void setupRecipeOverview(Model datamodel, List<Recipe> recipeList, boolean newFormRecipe) {
         datamodel.addAttribute("allRecipes", recipeList);
         datamodel.addAttribute("searchForm", new Recipe());
-        datamodel.addAttribute("formRecipe", new RecipeDTO(true, ingredientRepository));
+        if (newFormRecipe) {
+            datamodel.addAttribute("formRecipe", new RecipeDTO(true, ingredientRepository));
+        }
         datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
     }
 
     @GetMapping("/recipe/overview")
     private String showRecipeOverview(Model datamodel) {
 
-        setupRecipeOverview(datamodel, recipeRepository.findAll());
+        setupRecipeOverview(datamodel, recipeRepository.findAll(), true);
         return "recipeOverview";
     }
 
@@ -74,6 +77,15 @@ public class RecipeController {
 
     @GetMapping("/recipe/my_recipes")
     private String showMyRecipes(Model datamodel) {
+        List<Recipe> myRecipes = getMyRecipes();
+
+        datamodel.addAttribute("allUnits", IngredientUnits.values());
+        setupRecipeOverview(datamodel, myRecipes, true);
+        datamodel.addAttribute("formModalHidden", true);
+        return "myRecipes";
+    }
+
+    private List<Recipe> getMyRecipes() {
         String currentUsername = StewArtUserService.getCurrentUsername();
 
         Optional<List<Recipe>> myRecipesOptional = recipeRepository.findByRecipeAuthor_Username(currentUsername);
@@ -81,10 +93,7 @@ public class RecipeController {
                 () -> new IllegalArgumentException(String.format(
                         "Recipe search for user %s returned no list", currentUsername))
         );
-
-        datamodel.addAttribute("allUnits", IngredientUnits.values());
-        setupRecipeOverview(datamodel, myRecipes);
-        return "myRecipes";
+        return myRecipes;
     }
 
     @PostMapping("/recipe/my_recipes_search")
@@ -104,7 +113,7 @@ public class RecipeController {
             return "myRecipes";
         }
 
-        setupRecipeOverview(datamodel, myRecipesOptional.get());
+        setupRecipeOverview(datamodel, myRecipesOptional.get(), true);
         return "myRecipes";
     }
 
@@ -115,21 +124,26 @@ public class RecipeController {
         return "redirect:/recipe/my_recipes";
     }
 
-    // todo is this deprecated?
-    @GetMapping("/recipe/save")
-    private String showRecipeForm(Model datamodel) {
-        datamodel.addAttribute("formRecipe", new RecipeDTO(true, ingredientRepository));
-
-        return "recipeForm";
-    }
+//    // todo is this deprecated?
+//    @GetMapping("/recipe/save")
+//    private String showRecipeForm(Model datamodel) {
+//        datamodel.addAttribute("formRecipe", new RecipeDTO(true, ingredientRepository));
+//
+//        return "recipeForm";
+//    }
 
     @PostMapping("/recipe/save")
-    private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") RecipeDTO recipeDtoToBeSaved, BindingResult result) {
-        // todo show errors to user in the modal
-        if(result.hasErrors()) {
-            System.err.println(result.getAllErrors());
+    private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") @Valid RecipeDTO recipeDtoToBeSaved, BindingResult result,
+                                      Model datamodel) {
 
-            return "redirect:/recipe/overview";
+        // todo show errors to user in the modal
+
+        if (result.hasErrors()) {
+            List<Recipe> myRecipes = getMyRecipes();
+            datamodel.addAttribute("allUnits", IngredientUnits.values());
+            setupRecipeOverview(datamodel, myRecipes, false);
+            datamodel.addAttribute("formModalHidden", false);
+            return "myRecipes";
         }
 
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
