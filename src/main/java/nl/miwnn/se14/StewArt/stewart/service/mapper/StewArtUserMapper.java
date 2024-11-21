@@ -13,6 +13,7 @@ public class StewArtUserMapper {
         StewArtUser user = new StewArtUser();
         user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());
+        user.setRole(dto.getRole());
         return user;
     }
 }

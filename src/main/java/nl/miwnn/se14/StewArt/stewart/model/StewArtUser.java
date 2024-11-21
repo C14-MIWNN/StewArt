@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,8 @@ import java.util.Set;
 @Entity
 public class StewArtUser implements UserDetails {
 
+    private String ROLE_PREFIX = "ROLE_";
+
     @Id
     @GeneratedValue
     private Long userId;
@@ -23,6 +26,14 @@ public class StewArtUser implements UserDetails {
     @Column(unique = true)
     private String username;
     private String password;
+
+    private String role;
+
+//    public StewArtUser(String username, String password, String role) {
+//        this.username = username;
+//        this.password = password;
+//        this.role = role;
+//    }
 
     @ManyToMany(mappedBy = "likedByUserSet", fetch = FetchType.EAGER, cascade = CascadeType.ALL) //deleting user deletes all recipes
     private Set<Recipe> likedRecipes;
@@ -32,7 +43,12 @@ public class StewArtUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+
+        list.add(new SimpleGrantedAuthority(ROLE_PREFIX + role));
+//        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
+        return list;
     }
 
     @Override
@@ -95,5 +111,21 @@ public class StewArtUser implements UserDetails {
 
     public void setMyRecipes(Set<Recipe> myRecipes) {
         this.myRecipes = myRecipes;
+    }
+
+    public String getROLE_PREFIX() {
+        return ROLE_PREFIX;
+    }
+
+    public void setROLE_PREFIX(String ROLE_PREFIX) {
+        this.ROLE_PREFIX = ROLE_PREFIX;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

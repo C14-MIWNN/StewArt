@@ -49,7 +49,7 @@ public class RecipeController {
         if (!datamodel.containsAttribute("formRecipe")) {
             datamodel.addAttribute("formRecipe", new RecipeDTO(true, ingredientRepository));
         }
-//        datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
+
         datamodel.addAttribute("formModalHidden", formModalHidden);
         datamodel.addAttribute("allUnits", IngredientUnits.values());
     }
@@ -126,7 +126,6 @@ public class RecipeController {
     private String showRecipeModal(Model datamodel) {
         List<Recipe> myRecipes = getMyRecipes();
         setupRecipeOverview(datamodel, myRecipes, false);
-
         return "myRecipes";
     }
 
