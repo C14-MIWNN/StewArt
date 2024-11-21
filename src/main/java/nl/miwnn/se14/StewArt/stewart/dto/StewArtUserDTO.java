@@ -11,7 +11,7 @@ public class StewArtUserDTO {
     @NotBlank
     private String username;
 
-    @Size(min = 6)
+    @Size(min = 6, max = 128)
     private String password;
     private String passwordConfirm;
 
@@ -23,11 +23,11 @@ public class StewArtUserDTO {
         this.username = username;
     }
 
-    public @Size(min = 6) String getPassword() {
+    public @Size(min = 6, max = 128) String getPassword() {
         return password;
     }
 
-    public void setPassword(@Size(min = 6) String password) {
+    public void setPassword(@Size(min = 6, max = 128) String password) {
         this.password = password;
     }
 

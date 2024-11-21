@@ -1,11 +1,8 @@
 package nl.miwnn.se14.StewArt.stewart.controller;
 
-import jakarta.validation.Valid;
 import nl.miwnn.se14.StewArt.stewart.dto.StewArtUserDTO;
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
-import nl.miwnn.se14.StewArt.stewart.repositories.StewArtUserRepository;
-import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,25 +21,29 @@ import java.util.Optional;
 public class HomepageController {
 
     private final RecipeRepository recipeRepository;
-    private final StewArtUserRepository stewArtUserRepository;
-    private final StewArtUserService stewArtUserService;
 
-    public HomepageController(RecipeRepository recipeRepository, StewArtUserRepository stewArtUserRepository, StewArtUserService stewArtUserService) {
+    public HomepageController(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
-        this.stewArtUserRepository = stewArtUserRepository;
-        this.stewArtUserService = stewArtUserService;
     }
+
+    private String setupHomepage(Model datamodel) {
+        datamodel.addAttribute("formUser", new StewArtUserDTO());
+        datamodel.addAttribute("formModalHidden", true);
+        if (!datamodel.containsAttribute("searchForm")) {
+            datamodel.addAttribute("searchForm", new Recipe());
+        }
+        return "homepage";
+
+    }
+
 
     @GetMapping("/")
     private String showHomepage(Model datamodel) {
-        datamodel.addAttribute("allUsers", stewArtUserService.getAllUsers());
-        datamodel.addAttribute("formUser", new StewArtUserDTO());
-        datamodel.addAttribute("formModalHidden", true);
-
-        datamodel.addAttribute("searchForm", new Recipe());
+        setupHomepage(datamodel);
 
         return "homepage";
     }
+
 
     @PostMapping("/search")
     private String showRecipesByTitleSearch(@ModelAttribute("searchForm") Recipe recipe, BindingResult result, Model datamodel) {
@@ -54,7 +55,7 @@ public class HomepageController {
         }
 
         if (result.hasErrors()) {
-            return "homepage";
+            return setupHomepage(datamodel);
         }
 
         datamodel.addAttribute("allRecipes", searchResultList.get());

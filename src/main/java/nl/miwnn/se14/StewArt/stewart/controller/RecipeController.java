@@ -12,7 +12,6 @@ import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.StewArtUserRepository;
 import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
 import nl.miwnn.se14.StewArt.stewart.service.mapper.RecipeMapper;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,22 +40,18 @@ public class RecipeController {
         this.ingredientRepository = ingredientRepository;
     }
 
-    private void setupRecipeOverview(Model datamodel, List<Recipe> recipeList, boolean newFormRecipe) {
+    private void setupRecipeOverview(
+            Model datamodel, List<Recipe> recipeList, boolean formModalHidden) {
         datamodel.addAttribute("allRecipes", recipeList);
-        datamodel.addAttribute("searchForm", new Recipe());
-        if (newFormRecipe) {
+        if (!datamodel.containsAttribute("searchForm")) {
+            datamodel.addAttribute("searchForm", new Recipe());
+        }
+        if (!datamodel.containsAttribute("formRecipe")) {
             datamodel.addAttribute("formRecipe", new RecipeDTO(true, ingredientRepository));
         }
-        datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
-    }
-
-    private String setupRecipeModalOverview(Model datamodel, Recipe formRecipe, boolean formModalHidden) {
-        datamodel.addAttribute("allRecipes", recipeRepository.findAll());
-        datamodel.addAttribute("formRecipe", formRecipe);
-        datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
+//        datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
         datamodel.addAttribute("formModalHidden", formModalHidden);
-
-        return "recipeOverview";
+        datamodel.addAttribute("allUnits", IngredientUnits.values());
     }
 
     @GetMapping("/recipe/overview")
@@ -89,9 +84,7 @@ public class RecipeController {
     private String showMyRecipes(Model datamodel) {
         List<Recipe> myRecipes = getMyRecipes();
 
-        datamodel.addAttribute("allUnits", IngredientUnits.values());
         setupRecipeOverview(datamodel, myRecipes, true);
-        datamodel.addAttribute("formModalHidden", true);
         return "myRecipes";
     }
 
@@ -120,6 +113,7 @@ public class RecipeController {
         }
 
         if (result.hasErrors()) {
+            setupRecipeOverview(datamodel, myRecipesOptional.get(), true);
             return "myRecipes";
         }
 
@@ -130,39 +124,41 @@ public class RecipeController {
 
     @GetMapping("/recipe/add_recipe")
     private String showRecipeModal(Model datamodel) {
-        datamodel.addAttribute("formModalHidden", false);
+        List<Recipe> myRecipes = getMyRecipes();
+        setupRecipeOverview(datamodel, myRecipes, false);
 
-        return "redirect:/recipe/my_recipes";
+        return "myRecipes";
     }
 
     @PostMapping("/recipe/save")
     private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") @Valid RecipeDTO recipeDtoToBeSaved, BindingResult result,
                                       Model datamodel) {
 
-        // todo show errors to user in the modal
-
         if (result.hasErrors()) {
             List<Recipe> myRecipes = getMyRecipes();
-            datamodel.addAttribute("allUnits", IngredientUnits.values());
             setupRecipeOverview(datamodel, myRecipes, false);
-            datamodel.addAttribute("formModalHidden", false);
             return "myRecipes";
         }
 
-        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        Recipe recipeToBeSaved = RecipeMapper.fromDTO(recipeDtoToBeSaved);
+
+        StewArtUser user = getStewArtUserByUsername();
+        recipeToBeSaved.setRecipeAuthor(user);
+
+        recipeIngredientRepository.saveAll(recipeToBeSaved.getIngredients());
+        recipeRepository.save(recipeToBeSaved);
+
+        return "redirect:/recipe/my_recipes";
+    }
+
+    private StewArtUser getStewArtUserByUsername() {
+        String currentUsername = StewArtUserService.getCurrentUsername();
         Optional<StewArtUser> userOptional = stewArtUserRepository.findByUsername(currentUsername);
         StewArtUser user = userOptional.orElseThrow(
                 () -> new UsernameNotFoundException(
                         String.format("Username was not found in the database", currentUsername))
         );
-
-        Recipe recipeToBeSaved = RecipeMapper.fromDTO(recipeDtoToBeSaved);
-        recipeIngredientRepository.saveAll(recipeToBeSaved.getIngredients());
-
-        recipeToBeSaved.setRecipeAuthor(user);
-        recipeRepository.save(recipeToBeSaved);
-
-        return "redirect:/recipe/my_recipes";
+        return user;
     }
 
     @GetMapping("/recipe/delete/{recipeId}")
@@ -175,7 +171,6 @@ public class RecipeController {
     private String setupRecipeDetail(Model datamodel, Recipe recipeToShow, Recipe formRecipe, boolean formModalHidden) {
         datamodel.addAttribute("recipe", recipeToShow);
         datamodel.addAttribute("formRecipe", formRecipe);
-        //TODO add username of author
         datamodel.addAttribute("formModalHidden", formModalHidden);
 
         return "recipeDetails";
