@@ -1,9 +1,7 @@
 package nl.miwnn.se14.StewArt.stewart.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.Set;
 
@@ -23,19 +21,16 @@ public class Recipe {
     @Column(columnDefinition = "TEXT")
     private String shortDescription;
 
-
     private int prepTime;
-
-
     private int cookTime;
-
-    @NotEmpty
-    private String ingredients;
 
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
     private String imageUrl;
+
+    @OneToMany
+    private Set<RecipeIngredient> ingredients;
 
     @ManyToMany
     private Set<StewArtUser> likedByUserSet;
@@ -83,11 +78,11 @@ public class Recipe {
         this.cookTime = cookTime;
     }
 
-    public String getIngredients() {
+    public Set<RecipeIngredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(String ingredients) {
+    public void setIngredients(Set<RecipeIngredient> ingredients) {
         this.ingredients = ingredients;
     }
 

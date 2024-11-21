@@ -2,68 +2,98 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <body>
 
-<div th:fragment="newRecipeForm(formRecipe, #fields)">
+<div th:fragment="newRecipeForm(formRecipe, allUnits, #fields)">
   <form class="row g-3" th:action="@{/recipe/save}" method="post" th:object="${formRecipe}">
     <div class="row g-3 align-items-center">
-      <div class="col-5">
+      <div class="col-3">
         <label for="title" class="col-form-label">Title</label>
       </div>
-      <div class="col-7">
+      <div class="col-9">
         <input type="text" id="title" class="form-control" aria-describedby="titleHelpInLine" th:field="*{title}">
       </div>
       <div class="col-12">
         <span id="titleHelpInLine" class="form-text" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
       </div>
     </div>
+
     <div class="row g-3 align-items-center">
-      <div class="col-5">
+      <div class="col-3">
         <label for="shortDescription" class="col-form-label">Short description of recipe</label>
       </div>
-      <div class="col-7">
+      <div class="col-9">
         <textarea id="shortDescription" class="form-control" aria-describedby="shortDescriptionHelpInLine" th:field="*{shortDescription}"></textarea>
       </div>
       <div class="col-12">
         <span id="shortDescriptionHelpInLine" class="form-text" th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}"></span>
       </div>
     </div>
+
     <div class="row g-3 align-items-center">
-      <div class="col-5">
+      <div class="col-3">
         <label for="prepTime" class="col-form-label">Preparation time</label>
       </div>
-      <div class="col-7">
+      <div class="col-9">
         <input type="text" id="prepTime" class="form-control" aria-describedby="prepTimeHelpInLine" th:field="*{prepTime}">
       </div>
       <div class="col-12">
         <span id="prepTimeHelpInLine" class="form-text" th:if="${#fields.hasErrors('prepTime')}" th:errors="*{prepTime}"></span>
       </div>
     </div>
+
     <div class="row g-3 align-items-center">
-      <div class="col-5">
+      <div class="col-3">
         <label for="cookTime" class="col-form-label">Cooking time</label>
       </div>
-      <div class="col-7">
+      <div class="col-9">
         <input type="text" id="cookTime" class="form-control" aria-describedby="cookTimeHelpInLine" th:field="*{cookTime}">
       </div>
       <div class="col-12">
         <span id="cookTimeHelpInLine" class="form-text" th:if="${#fields.hasErrors('cookTime')}" th:errors="*{cookTime}"></span>
       </div>
     </div>
+
     <div class="row g-3 align-items-center">
-      <div class="col-5">
-        <label for="ingredients" class="col-form-label">Ingredients</label>
+      <div class="col-3">
+        <label for="ingredientDropdown" class="col-form-label">Select ingredients</label>
       </div>
-      <div class="col-7">
-        <textarea id="ingredients" class="form-control" aria-describedby="ingredientsHelpInLine" th:field="*{ingredients}"></textarea>
+      <div class="col-9">
+        <select id="ingredientDropdown" class="selectpicker" multiple title="Select ingredients.."
+                data-live-search="true" data-selected-text-format="count"
+                aria-describedby="ingredientDropdownHelpInline" onchange="ingredientSearch()">
+          <option th:each="ingredient : *{allIngredients}"
+                  th:value="${ingredient.ingredientName}"
+                  th:text="${ingredient.ingredientName}">
+          </option>
+        </select>
       </div>
       <div class="col-12">
-        <span id="ingredientsHelpInLine" class="form-text" th:if="${#fields.hasErrors('ingredients')}" th:errors="*{ingredients}"></span>
+        <span id="ingredientDropdownHelpInline" class="form-text" th:if="${#fields.hasErrors('allIngredients')}" th:errors="*{allIngredients}"></span>
       </div>
     </div>
+
     <div class="row g-3 align-items-center">
-      <div class="col-5">
+      <div class="col-3">
+        <label for="ingredientList" class="col-form-label">Enter quantities</label>
+      </div>
+      <div class="col-9">
+        <ul class="no-bullets" id="ingredientList">
+          <li class="row" th:each="ingredient, stat : *{allIngredients}" style="display: none">
+            <input type="hidden" th:field="*{allIngredients[__${stat.index}__].ingredient}"/>
+            <input class="col-2" type="number" step="any" th:field="*{allIngredients[__${stat.index}__].amount}">
+            <select id="unitDropdown" class="selectpicker col-2" title="Unit.." data-width="15%" th:field="*{allIngredients[__${stat.index}__].unit}">
+              <option th:each="unit : ${allUnits}" th:value="${unit}" th:text="${unit}"></option>
+            </select>
+            <span class="col" th:text="${ingredient.ingredientName}"></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+      <div class="col-3">
         <label for="imageUrl" class="col-form-label">Image of prepared recipe</label>
       </div>
-      <div class="col-7">
+      <div class="col-9">
         <input type="url" id="imageUrl" class="form-control" aria-describedby="imageUrlHelpInline" th:field="*{imageUrl}">
       </div>
       <div class="col-12">
@@ -78,21 +108,44 @@
   </form>
 </div>
 
-<div th:fragment="recipeFormModal(formRecipe, #fields)" class="modal fade" id="newRecipe" tabindex="-1"
+<div th:fragment="recipeFormModal(formRecipe, allUnits, #fields)" class="modal fade" id="newRecipe" tabindex="-1"
      aria-labelledby="newRecipeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <h1 class="modal-title text-center" id="editRecipeModalLabel">Add recipe</h1>
       <div class="modal-body">
         <div class="container-fluid">
-          <div th:replace="~{:: newRecipeForm(${formRecipe}, ${#fields})}"></div>
+          <div th:replace="~{:: newRecipeForm(${formRecipe}, ${allUnits}, ${#fields})}"></div>
         </div>
       </div>
     </div>
   </div>
 
   <script th:unless="${formModalHidden}">
-    new bootstrap.Modal(document.getElementById('newForm'), {}).toggle()
+    new bootstrap.Modal(document.getElementById('newRecipe'), {}).toggle()
+  </script>
+  <script>
+    function ingredientSearch() {
+      var input, filter, list, listItems, text, i;
+      input = document.getElementById("ingredientDropdown").selectedOptions;
+      filter = [];
+      for (i = 0; i < input.length; i++) {
+        filter.push(input[i].value);
+      }
+      list = document.getElementById("ingredientList");
+      listItems = list.getElementsByTagName("li");
+
+      // loop through list items, hide the ones who don't match the search input
+      for (i = 0; i < listItems.length; i++) {
+
+        text = listItems[i].getElementsByTagName("span")[0];
+        if (filter.includes(text.innerHTML)) {
+          listItems[i].style.display = "";
+        } else {
+          listItems[i].style.display = "none";
+        }
+      }
+    }
   </script>
 </div>
 

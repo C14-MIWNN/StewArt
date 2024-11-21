@@ -5,7 +5,7 @@ import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
 
 /**
  * @author Luc Weerts
- * Converts between Model classes and DTOs
+ * Converts between StweArtUser Model classes and DTOs
  */
 public class StewArtUserMapper {
 

@@ -1,11 +1,17 @@
 package nl.miwnn.se14.StewArt.stewart.controller;
 
 
+import jakarta.validation.Valid;
+import nl.miwnn.se14.StewArt.stewart.dto.RecipeDTO;
+import nl.miwnn.se14.StewArt.stewart.enums.IngredientUnits;
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
+import nl.miwnn.se14.StewArt.stewart.repositories.IngredientRepository;
+import nl.miwnn.se14.StewArt.stewart.repositories.RecipeIngredientRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.StewArtUserRepository;
 import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
+import nl.miwnn.se14.StewArt.stewart.service.mapper.RecipeMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -24,17 +30,23 @@ import java.util.List;
 public class RecipeController {
 
     private final RecipeRepository recipeRepository;
+    private final RecipeIngredientRepository recipeIngredientRepository;
     private final StewArtUserRepository stewArtUserRepository;
+    private final IngredientRepository ingredientRepository;
 
-    public RecipeController(RecipeRepository recipeRepository, StewArtUserRepository stewArtUserRepository) {
+    public RecipeController(RecipeRepository recipeRepository, RecipeIngredientRepository recipeIngredientRepository, StewArtUserRepository stewArtUserRepository, IngredientRepository ingredientRepository) {
         this.recipeRepository = recipeRepository;
+        this.recipeIngredientRepository = recipeIngredientRepository;
         this.stewArtUserRepository = stewArtUserRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
-    private void setupRecipeOverview(Model datamodel, List<Recipe> recipeList) {
+    private void setupRecipeOverview(Model datamodel, List<Recipe> recipeList, boolean newFormRecipe) {
         datamodel.addAttribute("allRecipes", recipeList);
         datamodel.addAttribute("searchForm", new Recipe());
-        datamodel.addAttribute("formRecipe", new Recipe());
+        if (newFormRecipe) {
+            datamodel.addAttribute("formRecipe", new RecipeDTO(true, ingredientRepository));
+        }
         datamodel.addAttribute("allStewArtUsers", stewArtUserRepository.findAll());
     }
 
@@ -50,7 +62,7 @@ public class RecipeController {
     @GetMapping("/recipe/overview")
     private String showRecipeOverview(Model datamodel) {
 
-        setupRecipeOverview(datamodel, recipeRepository.findAll());
+        setupRecipeOverview(datamodel, recipeRepository.findAll(), true);
         return "recipeOverview";
     }
 
@@ -75,6 +87,15 @@ public class RecipeController {
 
     @GetMapping("/recipe/my_recipes")
     private String showMyRecipes(Model datamodel) {
+        List<Recipe> myRecipes = getMyRecipes();
+
+        datamodel.addAttribute("allUnits", IngredientUnits.values());
+        setupRecipeOverview(datamodel, myRecipes, true);
+        datamodel.addAttribute("formModalHidden", true);
+        return "myRecipes";
+    }
+
+    private List<Recipe> getMyRecipes() {
         String currentUsername = StewArtUserService.getCurrentUsername();
 
         Optional<List<Recipe>> myRecipesOptional = recipeRepository.findByRecipeAuthor_Username(currentUsername);
@@ -82,9 +103,7 @@ public class RecipeController {
                 () -> new IllegalArgumentException(String.format(
                         "Recipe search for user %s returned no list", currentUsername))
         );
-
-        setupRecipeOverview(datamodel, myRecipes);
-        return "myRecipes";
+        return myRecipes;
     }
 
     @PostMapping("/recipe/my_recipes_search")
@@ -104,19 +123,31 @@ public class RecipeController {
             return "myRecipes";
         }
 
-        datamodel.addAttribute("allRecipes", myRecipesOptional.get());
+        setupRecipeOverview(datamodel, myRecipesOptional.get(), true);
         return "myRecipes";
     }
 
-    @GetMapping("/recipe/save")
-    private String showRecipeForm(Model datamodel) {
-        datamodel.addAttribute("formRecipe", new Recipe());
 
-        return "recipeForm";
+    @GetMapping("/recipe/add_recipe")
+    private String showRecipeModal(Model datamodel) {
+        datamodel.addAttribute("formModalHidden", false);
+
+        return "redirect:/recipe/my_recipes";
     }
 
     @PostMapping("/recipe/save")
-    private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") Recipe recipeToBeSaved, BindingResult result, Model datamodel) {
+    private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") @Valid RecipeDTO recipeDtoToBeSaved, BindingResult result,
+                                      Model datamodel) {
+
+        // todo show errors to user in the modal
+
+        if (result.hasErrors()) {
+            List<Recipe> myRecipes = getMyRecipes();
+            datamodel.addAttribute("allUnits", IngredientUnits.values());
+            setupRecipeOverview(datamodel, myRecipes, false);
+            datamodel.addAttribute("formModalHidden", false);
+            return "myRecipes";
+        }
 
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<StewArtUser> userOptional = stewArtUserRepository.findByUsername(currentUsername);
@@ -124,6 +155,9 @@ public class RecipeController {
                 () -> new UsernameNotFoundException(
                         String.format("Username was not found in the database", currentUsername))
         );
+
+        Recipe recipeToBeSaved = RecipeMapper.fromDTO(recipeDtoToBeSaved);
+        recipeIngredientRepository.saveAll(recipeToBeSaved.getIngredients());
 
         recipeToBeSaved.setRecipeAuthor(user);
         recipeRepository.save(recipeToBeSaved);
@@ -141,7 +175,7 @@ public class RecipeController {
     private String setupRecipeDetail(Model datamodel, Recipe recipeToShow, Recipe formRecipe, boolean formModalHidden) {
         datamodel.addAttribute("recipe", recipeToShow);
         datamodel.addAttribute("formRecipe", formRecipe);
-        //TO DO add username of author
+        //TODO add username of author
         datamodel.addAttribute("formModalHidden", formModalHidden);
 
         return "recipeDetails";

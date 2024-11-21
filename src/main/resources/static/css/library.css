@@ -20,6 +20,12 @@ footer {
     text-align: center;
 }
 
+ul.no-bullets {
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margins */
+}
+
 .container {
     width: 80%;
     margin: 0 auto;
@@ -111,3 +117,4 @@ nav a:hover::before {
 /*    width: 30rem;*/
 /*    height: 30rem;*/
 /*}*/
+
