@@ -52,30 +52,11 @@
       </div>
     </div>
 
-<!--    <div class="row g-3 align-items-center">-->
-<!--      <div class="col-3">-->
-<!--        <label for="ingredients" class="col-form-label">Ingredients</label>-->
-<!--      </div>-->
-<!--      <div class="col-9">-->
-<!--        <textarea id="ingredients" class="form-control" aria-describedby="ingredientsHelpInLine" th:field="*{ingredients}"></textarea>-->
-<!--      </div>-->
-<!--      <div class="col-12">-->
-<!--        <span id="ingredientsHelpInLine" class="form-text" th:if="${#fields.hasErrors('ingredients')}" th:errors="*{ingredients}"></span>-->
-<!--      </div>-->
-<!--    </div>-->
-
     <div class="row g-3 align-items-center">
       <div class="col-3">
         <label for="ingredientDropdown" class="col-form-label">Select ingredients</label>
       </div>
       <div class="col-9">
-<!--        <input type="text" id="search-input" onkeyup="ingredientSearch()" placeholder="Search.."-->
-<!--               title="Type in an ingredient"/>-->
-<!--        <ul id="ingredient-list">-->
-<!--          <li th:each="ingredient : ${allIngredients}">-->
-<!--            <p th:text="${ingredient.ingredientName}"></p>-->
-<!--          </li>-->
-<!--        </ul>-->
         <select id="ingredientDropdown" class="selectpicker" multiple title="Select ingredients.."
                 data-live-search="true" data-selected-text-format="count"
                 aria-describedby="ingredientDropdownHelpInline" onchange="ingredientSearch()">
@@ -96,9 +77,10 @@
       </div>
       <div class="col-9">
         <ul class="no-bullets" id="ingredientList">
-          <li class="row" th:each="ingredient : *{allIngredients}" style="display: none">
-            <input class="col-2" type="number" th:value="${ingredient.amount}" th:name="${ingredient.amount}">
-            <select id="unitDropdown" class="selectpicker col-2" title="Unit.." data-width="15%" th:value="${ingredient.unit}" th:name="${ingredient.unit}">
+          <li class="row" th:each="ingredient, stat : *{allIngredients}" style="display: none">
+            <input type="hidden" th:field="*{allIngredients[__${stat.index}__].ingredient}"/>
+            <input class="col-2" type="number" th:field="*{allIngredients[__${stat.index}__].amount}">
+            <select id="unitDropdown" class="selectpicker col-2" title="Unit.." data-width="15%" th:field="*{allIngredients[__${stat.index}__].unit}">
               <option th:each="unit : ${allUnits}" th:value="${unit}" th:text="${unit}"></option>
             </select>
             <span class="col" th:text="${ingredient.ingredientName}"></span>

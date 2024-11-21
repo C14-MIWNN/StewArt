@@ -5,6 +5,7 @@ import nl.miwnn.se14.StewArt.stewart.enums.IngredientUnits;
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
 import nl.miwnn.se14.StewArt.stewart.repositories.IngredientRepository;
+import nl.miwnn.se14.StewArt.stewart.repositories.RecipeIngredientRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.StewArtUserRepository;
 import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
@@ -27,11 +28,13 @@ import java.util.List;
 public class RecipeController {
 
     private final RecipeRepository recipeRepository;
+    private final RecipeIngredientRepository recipeIngredientRepository;
     private final StewArtUserRepository stewArtUserRepository;
     private final IngredientRepository ingredientRepository;
 
-    public RecipeController(RecipeRepository recipeRepository, StewArtUserRepository stewArtUserRepository, IngredientRepository ingredientRepository) {
+    public RecipeController(RecipeRepository recipeRepository, RecipeIngredientRepository recipeIngredientRepository, StewArtUserRepository stewArtUserRepository, IngredientRepository ingredientRepository) {
         this.recipeRepository = recipeRepository;
+        this.recipeIngredientRepository = recipeIngredientRepository;
         this.stewArtUserRepository = stewArtUserRepository;
         this.ingredientRepository = ingredientRepository;
     }
@@ -129,6 +132,7 @@ public class RecipeController {
         );
 
         Recipe recipeToBeSaved = RecipeMapper.fromDTO(recipeDtoToBeSaved);
+        recipeIngredientRepository.saveAll(recipeToBeSaved.getIngredients());
 
         recipeToBeSaved.setRecipeAuthor(user);
         recipeRepository.save(recipeToBeSaved);

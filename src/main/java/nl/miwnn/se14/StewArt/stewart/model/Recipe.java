@@ -26,7 +26,7 @@ public class Recipe {
 
     private String imageUrl;
 
-    @ManyToMany
+    @OneToMany
     private Set<RecipeIngredient> ingredients;
 
     @ManyToMany
