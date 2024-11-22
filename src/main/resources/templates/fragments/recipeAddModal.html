@@ -54,6 +54,18 @@
 
     <div class="row g-3 align-items-center">
       <div class="col-3">
+        <label for="instructions" class="col-form-label">Cooking steps</label>
+      </div>
+      <div class="col-9">
+        <textarea id="instructions" class="form-control" aria-describedby="instructionsHelpInLine" th:field="*{instructions}"></textarea>
+      </div>
+      <div class="col-12">
+        <span id="instructionsHelpInLine" class="form-text" th:if="${#fields.hasErrors('instructions')}" th:errors="*{instructions}"></span>
+      </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+      <div class="col-3">
         <label for="ingredientDropdown" class="col-form-label">Select ingredients</label>
       </div>
       <div class="col-9">

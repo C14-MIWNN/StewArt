@@ -14,7 +14,7 @@
         </div>
         <div class="col-8 mt-0">
             <h1 class="display-4 fw-bold lh-1 text-body-emphasis text-center" th:text="*{title}"></h1>
-            <p class="lead" th:text="*{shortDescription}"></p>
+            <pre class="lead" style="text-wrap: wrap;" th:text="*{shortDescription}"></pre>
             <p class="card-text">
                 <i class="bi bi-clock"> Preparation time </i><small class="text-body-secondary" th:text="${recipe.prepTime}"></small>
                 <i class="bi bi-clock"> Cooking time </i><small class="text-body-secondary" th:text="${recipe.cookTime}"></small>
@@ -26,7 +26,7 @@
                     <span th:text="${ingredient.ingredientName}"></span>
                 </li>
             </ul>
-            <p class="card-text" th:text="${recipe.instructions}"></p>
+            <pre class="card-text" style="text-wrap: wrap;" th:text="${recipe.instructions}"></pre>
             <p class="text-center">
                 <button type="button"
                         class="btn btn-custom btn-lg px-4 fw-bold"
