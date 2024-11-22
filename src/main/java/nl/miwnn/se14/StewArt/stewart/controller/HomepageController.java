@@ -33,9 +33,7 @@ public class HomepageController {
             datamodel.addAttribute("searchForm", new Recipe());
         }
         return "homepage";
-
     }
-
 
     @GetMapping("/")
     private String showHomepage(Model datamodel) {

@@ -134,6 +134,7 @@ public class RecipeController {
                                       Model datamodel) {
 
         if (result.hasErrors()) {
+            result.rejectValue("title", "empty", "Please add a title to your recipe");
             List<Recipe> myRecipes = getMyRecipes();
             setupRecipeOverview(datamodel, myRecipes, false);
             return "myRecipes";
