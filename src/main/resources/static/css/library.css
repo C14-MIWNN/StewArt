@@ -20,6 +20,11 @@ footer {
     text-align: center;
 }
 
+a {
+    color: #373737;
+    text-decoration: none;
+}
+
 ul.no-bullets {
     list-style-type: none; /* Remove bullets */
     padding: 0; /* Remove padding */
@@ -32,7 +37,7 @@ ul.no-bullets {
 }
 
 header {
-    background: #F4F4F4;
+    background: #373737;
     width: 100%;
 }
 
@@ -94,6 +99,10 @@ nav a:hover::before {
     color: #373737;
 }
 
+.bg-searchbar {
+    background-color: #F4F4F4;
+}
+
 .btn-custom {
     background-color: #373737;
     color: #F4F4F4;
@@ -110,7 +119,7 @@ nav a:hover::before {
 
 .btn-custom-delete:hover {
     background-color: #945D60;
-    color: black;
+    color: #F4F4F4;
 }
 
 input[type="checkbox"] {

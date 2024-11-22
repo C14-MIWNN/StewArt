@@ -16,13 +16,12 @@
             <h1 class="display-4 fw-bold lh-1 text-body-emphasis text-center" th:text="*{title}"></h1>
             <pre class="lead" style="text-wrap: wrap;" th:text="*{shortDescription}"></pre>
             <p class="card-text">
-                <i class="bi bi-clock"> Preparation time </i><small class="text-body-secondary" th:text="${recipe.prepTime}"></small>
-                <i class="bi bi-clock"> Cooking time </i><small class="text-body-secondary" th:text="${recipe.cookTime}"></small>
+                <i class="bi bi-clock"> Preparation time <small class="text-body-secondary" th:text="${recipe.prepTime}"></small> minutes</i>
+                <i class="bi bi-clock"> Cooking time <small class="text-body-secondary" th:text="${recipe.cookTime}"></small> minutes</i>
                 <small class="float-end">Added by <small class="text-body-secondary" th:text="${recipe.recipeAuthor.username}"></small></small>
             </p>
-            <ul class="no-bullets">
+            <ul>
                 <li th:each="ingredient : ${recipe.ingredients}">
-                    <input type="checkbox">
                     <span th:text="${ingredient.ingredientName}"></span>
                 </li>
             </ul>
@@ -34,7 +33,7 @@
                     <i class="bi bi-pencil-square"></i> Edit
                 </button>
                 <a role="button"
-                    class="btn btn-custom-delete btn-lg px-4"
+                    class="btn btn-custom-delete btn-lg px-4 fw-bold"
                 th:href="@{/recipe/delete/{recipeId}(recipeId = *{recipeId})}">
                     <i class="bi bi-trash3"></i> Delete
                 </a>

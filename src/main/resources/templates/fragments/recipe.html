@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <body>
 
-<div th:fragment="recipeCardsNew(recipes)" class="row row-cols-1 row-cols-md-4 g-4">
+<div th:fragment="recipeCardsNew(recipes)" class="row row-cols-1 row-cols-md-4 g-4" style="width: 100rem; height: 100rem">
     <div th:each="recipe : ${recipes}" th:insert="~{:: recipeCard(${recipe})}"></div>
 </div>
 
-<div th:fragment="recipeCard(recipe)" class="col rounded-3 border shadow-lg bg-custom-card" style="width: 18rem; hight: 18rem">
+<div th:fragment="recipeCard(recipe)" class="col rounded-3 border shadow-lg bg-custom-card">
     <div class="card">
         <a th:href="@{/recipe/detail/{recipeId}(recipeId = ${recipe.recipeId})}">
             <img  th:src="${recipe.imageUrl}" class="card-img-top" th:alt="|Cover for ${recipe.title}|">
@@ -40,7 +40,7 @@
             </h5>
         </div>
         <div class="col-8">
-            <input type="text" id="title" class="form-control bg-custom-card" aria-describedby="searchTitleHelpInline"
+            <input type="text" id="title" class="form-control bg-searchbar" aria-describedby="searchTitleHelpInline"
                    th:field="*{title}">
         </div>
         <div class="col-2">

@@ -30,7 +30,7 @@
 
     <div class="row g-3 align-items-center">
       <div class="col-3">
-        <label for="prepTime" class="col-form-label">Preparation time</label>
+        <label for="prepTime" class="col-form-label">Preparation time (minutes)</label>
       </div>
       <div class="col-9">
         <input type="text" id="prepTime" class="form-control" aria-describedby="prepTimeHelpInLine" th:field="*{prepTime}">
@@ -42,7 +42,7 @@
 
     <div class="row g-3 align-items-center">
       <div class="col-3">
-        <label for="cookTime" class="col-form-label">Cooking time</label>
+        <label for="cookTime" class="col-form-label">Cooking time (minutes)</label>
       </div>
       <div class="col-9">
         <input type="text" id="cookTime" class="form-control" aria-describedby="cookTimeHelpInLine" th:field="*{cookTime}">
@@ -114,8 +114,8 @@
       </div>
     </div>
 
-    <button type="submit" class="btn bi-plus-square btn-custom mb-3"> Save recipe</button>
-    <button type="button" class="btn btn-custom-delete bi-file-excel" data-bs-dismiss="modal" aria-label="Close"> Close</button>
+    <button type="submit" class="btn btn-custom mb-3"> Save recipe</button>
+    <button type="button" class="btn btn-custom-delete" data-bs-dismiss="modal" aria-label="Close"> Close</button>
 
   </form>
 </div>
