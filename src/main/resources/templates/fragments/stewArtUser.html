@@ -4,7 +4,7 @@
 
 <div th:fragment="newUserForm(formUser, #fields)">
     <form class="row g-3" th:action="@{/user/save}" method="post" th:object="${formUser}">
-        <div class="row g3 align-items-center">
+        <div class="row g-3 align-items-center">
             <div class="col-5">
                 <label for="username" class="col-form-label">Username</label>
             </div>
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary mb-3"> Save user</button>
+        <button type="submit" class="btn btn-custom mb-3"> Save account</button>
 
     </form>
 </div>
@@ -51,7 +51,7 @@
      aria-labelledby="newFormModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <h1 class="modal-title text-center" id="editFormModalLabel">Add new StewArt user</h1>
+            <h1 class="modal-title text-center" id="editFormModalLabel">Make an account</h1>
             <div class="modal-body">
                 <div class="container-fluid">
                     <div th:replace="~{:: newUserForm(${formUser}, ${#fields})}"></div>
