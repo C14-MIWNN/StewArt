@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/general :: baseHeader(~{:: title})}">
     <title th:text="|Details for recipe: ${recipe.title}|"></title>
 </head>
-<body>
+<body onload="ingredientSearch()">
 
 <div th:replace="~{fragments/general :: navbar}"></div>
 

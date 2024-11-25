@@ -71,12 +71,16 @@
       <div class="col-9">
         <select id="ingredientDropdown" class="selectpicker" multiple title="Select ingredients.."
                 data-live-search="true" data-selected-text-format="count"
-                aria-describedby="ingredientDropdownHelpInline" onchange="ingredientSearch()">
-          <option th:each="ingredient : *{allIngredients}"
+                aria-describedby="ingredientDropdownHelpInline"
+                onchange="ingredientSearch()">
+          <option th:each="ingredient, stat : *{allIngredients}"
                   th:value="${ingredient.ingredientName}"
-                  th:text="${ingredient.ingredientName}">
+                  th:text="${ingredient.ingredientName}"
+                  th:selected="*{allIngredients[__${stat.index}__].amount} != null">  <!--    &gt; == >       -->
           </option>
+
         </select>
+
       </div>
       <div class="col-12">
         <span id="ingredientDropdownHelpInline" class="form-text" th:if="${#fields.hasErrors('allIngredients')}" th:errors="*{allIngredients}"></span>
