@@ -22,7 +22,7 @@
         <label for="shortDescription" class="col-form-label">Short description of recipe</label>
       </div>
       <div class="col-9">
-        <textarea id="shortDescription" class="form-control" aria-describedby="shortDescriptionHelpInLine" th:field="*{shortDescription}"></textarea>
+        <textarea id="shortDescription" class="form-control" rows="3" aria-describedby="shortDescriptionHelpInLine" th:field="*{shortDescription}"></textarea>
       </div>
       <div class="col-12">
         <span id="shortDescriptionHelpInLine" class="form-text" th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}"></span>
@@ -58,7 +58,7 @@
         <label for="instructions" class="col-form-label">Cooking steps</label>
       </div>
       <div class="col-9">
-        <textarea id="instructions" class="form-control" aria-describedby="instructionsHelpInLine" th:field="*{instructions}"></textarea>
+        <textarea id="instructions" class="form-control" rows="5" aria-describedby="instructionsHelpInLine" th:field="*{instructions}"></textarea>
       </div>
       <div class="col-12">
         <span id="instructionsHelpInLine" class="form-text" th:if="${#fields.hasErrors('instructions')}" th:errors="*{instructions}"></span>
