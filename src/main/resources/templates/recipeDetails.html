@@ -29,7 +29,7 @@
             <p class="text-center">
                 <button type="button"
                         class="btn btn-custom btn-lg px-4 fw-bold"
-                        data-bs-toggle="modal" data-bs-target="#editForm">
+                        data-bs-toggle="modal" data-bs-target="#newRecipe">
                     <i class="bi bi-pencil-square"></i> Edit
                 </button>
                 <a role="button"
@@ -44,6 +44,6 @@
 
 <div th:replace="~{fragments/general :: footer}"></div>
 <div th:replace="~{fragments/general :: bottomScripts}"></div>
-
+<div th:replace="~{fragments/recipeAddModal :: recipeFormModal(${formRecipe}, ${allUnits}, ${#fields}, 'Edit recipe')}"></div>
 </body>
 </html>

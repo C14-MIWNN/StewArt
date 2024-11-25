@@ -120,11 +120,11 @@
   </form>
 </div>
 
-<div th:fragment="recipeFormModal(formRecipe, allUnits, #fields)" class="modal fade" id="newRecipe" tabindex="-1"
+<div th:fragment="recipeFormModal(formRecipe, allUnits, #fields, title)" class="modal fade" id="newRecipe" tabindex="-1"
      aria-labelledby="newRecipeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      <h1 class="modal-title text-center" id="editRecipeModalLabel">Add recipe</h1>
+      <h1 class="modal-title text-center" id="editRecipeModalLabel" th:text="${title}"></h1>
       <div class="modal-body">
         <div class="container-fluid">
           <div th:replace="~{:: newRecipeForm(${formRecipe}, ${allUnits}, ${#fields})}"></div>

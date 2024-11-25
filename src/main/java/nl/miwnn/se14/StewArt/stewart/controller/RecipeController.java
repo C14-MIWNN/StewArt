@@ -168,10 +168,11 @@ public class RecipeController {
         return "redirect:/recipe/overview";
     }
 
-    private String setupRecipeDetail(Model datamodel, Recipe recipeToShow, Recipe formRecipe, boolean formModalHidden) {
+    private String setupRecipeDetail(Model datamodel, Recipe recipeToShow, RecipeDTO formRecipe, boolean formModalHidden) {
         datamodel.addAttribute("recipe", recipeToShow);
         datamodel.addAttribute("formRecipe", formRecipe);
         datamodel.addAttribute("formModalHidden", formModalHidden);
+        datamodel.addAttribute("allUnits", IngredientUnits.values());
 
         return "recipeDetails";
     }
@@ -184,6 +185,10 @@ public class RecipeController {
             return "redirect:/recipe/overview";
         }
 
-        return setupRecipeDetail(datamodel, recipeOptional.get(), recipeOptional.get(), true);
+        return setupRecipeDetail(
+                datamodel,
+                recipeOptional.get(),
+                RecipeMapper.fromRecipeAddAllIngredients(recipeOptional.get(), ingredientRepository),
+                true);
     }
 }

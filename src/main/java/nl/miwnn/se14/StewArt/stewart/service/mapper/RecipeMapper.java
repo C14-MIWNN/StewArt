@@ -3,6 +3,7 @@ package nl.miwnn.se14.StewArt.stewart.service.mapper;
 import nl.miwnn.se14.StewArt.stewart.dto.RecipeDTO;
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
 import nl.miwnn.se14.StewArt.stewart.model.RecipeIngredient;
+import nl.miwnn.se14.StewArt.stewart.repositories.IngredientRepository;
 
 import java.util.*;
 
@@ -34,5 +35,29 @@ public class RecipeMapper {
             }
         }
         return extract;
+    }
+
+    public static RecipeDTO fromRecipeAddAllIngredients(Recipe recipe, IngredientRepository ingredientRepository) {
+        RecipeDTO recipeDTO = new RecipeDTO(true, ingredientRepository);
+
+        recipeDTO.setTitle(recipe.getTitle());
+        recipeDTO.setShortDescription(recipe.getShortDescription());
+        recipeDTO.setPrepTime(recipe.getPrepTime());
+        recipeDTO.setCookTime(recipe.getCookTime());
+        recipeDTO.setInstructions(recipe.getInstructions());
+        recipeDTO.setImageUrl(recipe.getImageUrl());
+
+        addRecipeIngredients(recipe, recipeDTO);
+
+        return recipeDTO;
+    }
+
+    private static void addRecipeIngredients(Recipe recipe, RecipeDTO recipeDTO) {
+        ArrayList<String> presentIngredients = new ArrayList<>();
+        for (RecipeIngredient ingredient : recipe.getIngredients()) {
+            presentIngredients.add(ingredient.getIngredientName());
+        }
+        recipeDTO.getAllIngredients().removeIf((n) -> presentIngredients.contains(n.getIngredientName()));
+        recipeDTO.getAllIngredients().addAll(recipe.getIngredients());
     }
 }
