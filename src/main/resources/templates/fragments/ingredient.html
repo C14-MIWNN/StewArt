@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<body>
+
+<div th:fragment="newIngredientForm(formIngredient, #fields)">
+  <form class="row g-3" th:action="@{/ingredient/save}" method="post" th:object="${formIngredient}">
+    <div class="row g-3 align-items-center">
+      <div class="col-5">
+        <label for="ingredientName" class="col-form-label">Ingredient</label>
+      </div>
+      <div class="col-7">
+        <input type="text" id="ingredientName" class="form-control" aria-describedby="ingredientNameHelpInLine" th:field="*{ingredientName}">
+      </div>
+      <div class="col-12">
+        <span id="ingredientNameHelpInLine" class="form-text" th:if="${#fields.hasErrors('ingredientName')}" th:errors="*{ingredientName}"></span>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-custom mb-3"> Save ingredient</button>
+    <button type="button" class="btn btn-custom-delete" data-bs-dismiss="modal" aria-label="Close"> Close</button>
+
+  </form>
+</div>
+
+<div th:fragment="ingredientFormModal(formIngredient, #fields)" class="modal fade" id="newIngredient" tabindex="-1"
+      aria-labelledby="newIngredientModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <h1 class="modal-title text-center" id="editIngredientModalLabel">Add ingredient</h1>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div th:replace="~{:: newIngredientForm(${formIngredient}, ${#fields})}"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script th:unless="${formModalHidden}">
+    new bootstrap.Modal(document.getElementById('newIngredient'), {}).toggle()
+  </script>
+</div>
+
+</body>
+</html>

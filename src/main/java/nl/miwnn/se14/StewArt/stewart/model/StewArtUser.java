@@ -29,12 +29,6 @@ public class StewArtUser implements UserDetails {
 
     private String role;
 
-//    public StewArtUser(String username, String password, String role) {
-//        this.username = username;
-//        this.password = password;
-//        this.role = role;
-//    }
-
     @ManyToMany(mappedBy = "likedByUserSet", fetch = FetchType.EAGER, cascade = CascadeType.ALL) //deleting user deletes all recipes
     private Set<Recipe> likedRecipes;
 
@@ -46,7 +40,6 @@ public class StewArtUser implements UserDetails {
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 
         list.add(new SimpleGrantedAuthority(ROLE_PREFIX + role));
-//        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
 
         return list;
     }

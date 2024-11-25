@@ -8,7 +8,17 @@
 <div th:replace="~{fragments/general :: navbar}"></div>
 
 <div class="container">
-    <h1>Overview of all ingredients</h1>
+    <div class="row">
+        <div class="col-10">
+            <h1>Overview of all ingredients</h1>
+        </div>
+        <div class="col-2">
+            <button type="button"
+                    class="btn btn-custom btn-lg px-4 fw-bold"
+                    data-bs-toggle="modal" data-bs-target="#newIngredient"> Add ingredient
+            </button>
+        </div>
+    </div>
 
     <ul>
         <li th:each="ingredient: ${allIngredients}" th:text="${ingredient.ingredientName}"></li>
@@ -18,5 +28,6 @@
 
 <div th:replace="~{fragments/general :: footer}"></div>
 <div th:replace="~{fragments/general :: bottomScripts}"></div>
+<div th:replace="~{fragments/ingredient :: ingredientFormModal(${formIngredient}, ${#fields})}"></div>
 </body>
 </html>
