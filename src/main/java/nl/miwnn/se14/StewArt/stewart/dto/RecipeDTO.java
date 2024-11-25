@@ -12,6 +12,7 @@ import java.util.*;
  * Capture the information needed for the create-a-new-recipe form
  */
 public class RecipeDTO {
+    private Long recipeId;
     @NotEmpty
     private String title;
     private String shortDescription;
@@ -33,6 +34,14 @@ public class RecipeDTO {
     }
 
     public RecipeDTO() {
+    }
+
+    public Long getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(Long recipeId) {
+        this.recipeId = recipeId;
     }
 
     public @NotEmpty String getTitle() {

@@ -13,7 +13,7 @@ import jakarta.persistence.Id;
 public class Ingredient {
 
     @Id @GeneratedValue
-    private Long IngredientId;
+    private Long ingredientId;
 
     @Column(unique = true)
     private String ingredientName;
@@ -22,11 +22,11 @@ public class Ingredient {
 
 
     public Long getIngredientId() {
-        return IngredientId;
+        return ingredientId;
     }
 
     public void setIngredientId(Long ingredientId) {
-        IngredientId = ingredientId;
+        this.ingredientId = ingredientId;
     }
 
     public String getIngredientName() {

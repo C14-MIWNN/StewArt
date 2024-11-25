@@ -16,6 +16,7 @@ public class RecipeMapper {
     public static Recipe fromDTO(RecipeDTO dto) {
         Recipe recipe = new Recipe();
 
+        recipe.setRecipeId(dto.getRecipeId());
         recipe.setTitle(dto.getTitle());
         recipe.setShortDescription(dto.getShortDescription());
         recipe.setPrepTime(dto.getPrepTime());
@@ -40,6 +41,7 @@ public class RecipeMapper {
     public static RecipeDTO fromRecipeAddAllIngredients(Recipe recipe, IngredientRepository ingredientRepository) {
         RecipeDTO recipeDTO = new RecipeDTO(true, ingredientRepository);
 
+        recipeDTO.setRecipeId(recipe.getRecipeId());
         recipeDTO.setTitle(recipe.getTitle());
         recipeDTO.setShortDescription(recipe.getShortDescription());
         recipeDTO.setPrepTime(recipe.getPrepTime());

@@ -4,6 +4,7 @@
 
 <div th:fragment="newRecipeForm(formRecipe, allUnits, #fields)">
   <form class="row g-3" th:action="@{/recipe/save}" method="post" th:object="${formRecipe}">
+    <input type="hidden" th:field="${formRecipe.recipeId}">
     <div class="row g-3 align-items-center">
       <div class="col-3">
         <label for="title" class="col-form-label">Title</label>
@@ -95,6 +96,7 @@
         <ul class="no-bullets" id="ingredientList">
           <li class="row" th:each="ingredient, stat : *{allIngredients}" style="display: none">
             <input type="hidden" th:field="*{allIngredients[__${stat.index}__].ingredient}"/>
+            <input type="hidden" th:field="*{allIngredients[__${stat.index}__].recipeIngredientId}"/>
             <input class="col-2" type="number" step="any" th:field="*{allIngredients[__${stat.index}__].amount}">
             <select id="unitDropdown" class="selectpicker col-2" title="Unit.." data-width="15%" th:field="*{allIngredients[__${stat.index}__].unit}">
               <option th:each="unit : ${allUnits}" th:value="${unit}" th:text="${unit}"></option>
