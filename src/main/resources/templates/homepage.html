@@ -8,18 +8,11 @@
 <div th:replace="~{fragments/general :: navbar}"></div>
 
 <div class="container">
-<div class="row">
-    <div class="col-10">
-        <h1>StewArt Homepage</h1>
+    <div class="row">
+        <div class="col-10">
+            <h1>StewArt Homepage</h1>
+        </div>
     </div>
-    <div class="col-2">
-    <button type="button"
-            class="btn btn-custom btn-lg px-4 fw-bold align-content-end"
-            data-bs-toggle="modal" data-bs-target="#newForm"> Register
-    </button>
-    </div>
-</div>
-
     <div>
         <form th:action="@{/search}" method="post" th:object="${searchForm}">
             <div th:replace="~{fragments/recipe :: searchBar}"></div>

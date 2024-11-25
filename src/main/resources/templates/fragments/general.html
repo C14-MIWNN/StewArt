@@ -40,6 +40,9 @@
                     </ul>
                     <ul class="nav navbar-nav ms-auto pe-4" >
                         <li sec:authorize="isAnonymous()">
+                            <a class="navbar-link" th:href="@{/register}"><i class="bi bi-person-square"></i> Create an account</a>
+                        </li>
+                        <li sec:authorize="isAnonymous()">
                             <a class="navbar-link" th:href="@{/login}" ><i class="bi bi-person-fill"></i> Log in</a>
                         </li>
                         <li sec:authorize="hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_USER')">

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.sql.DatabaseMetaData;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +29,9 @@ public class HomepageController {
 
     private String setupHomepage(Model datamodel) {
         datamodel.addAttribute("formUser", new StewArtUserDTO());
-        datamodel.addAttribute("formModalHidden", true);
+        if (!datamodel.containsAttribute("formModalHidden")) {
+            datamodel.addAttribute("formModalHidden", true);
+        }
         if (!datamodel.containsAttribute("searchForm")) {
             datamodel.addAttribute("searchForm", new Recipe());
         }
@@ -37,9 +40,13 @@ public class HomepageController {
 
     @GetMapping("/")
     private String showHomepage(Model datamodel) {
-        setupHomepage(datamodel);
+        return setupHomepage(datamodel);
+    }
 
-        return "homepage";
+    @GetMapping("/register")
+    private String showRegisterModal(Model datamodel) {
+        datamodel.addAttribute("formModalHidden", false);
+        return setupHomepage(datamodel);
     }
 
 
