@@ -1,5 +1,6 @@
 package nl.miwnn.se14.StewArt.stewart.controller;
 
+import nl.miwnn.se14.StewArt.stewart.dto.RecipeDTO;
 import nl.miwnn.se14.StewArt.stewart.enums.IngredientUnits;
 import nl.miwnn.se14.StewArt.stewart.model.Ingredient;
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
@@ -9,10 +10,12 @@ import nl.miwnn.se14.StewArt.stewart.repositories.IngredientRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeIngredientRepository;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
+import nl.miwnn.se14.StewArt.stewart.service.mapper.RecipeMapper;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -49,17 +52,17 @@ public class InitializeController {
         Ingredient bakingPowder = makeIngredient("baking powder");
         Ingredient oilBroad = makeIngredient("extra virgin olive oil, vegetable oil or other fairly neutral flavored oil");
         Ingredient warmWater = makeIngredient("warm water");
-        Set<RecipeIngredient> tortillaIngredients = Set.of(
+        Set<RecipeIngredient> tortillaIngredientSet = Set.of(
                 new RecipeIngredient(3, IngredientUnits.cup, allPurposeFlour),
                 new RecipeIngredient(1, IngredientUnits.tsp, kosherSalt),
                 new RecipeIngredient(1, IngredientUnits.tsp, bakingPowder),
                 new RecipeIngredient(1/3.0, IngredientUnits.cup, oilBroad),
                 new RecipeIngredient(1, IngredientUnits.cup, warmWater)
         );
-        saveRecipeIngredients(tortillaIngredients);
+        ArrayList<RecipeIngredient> tortillaIngredients = new ArrayList<>(tortillaIngredientSet);
 
 
-        Recipe tortilla = makeRecipe("Flour Tortillas", 20, 40, "Homemade flour tortillas",
+        Recipe tortilla = makeRecipe("Flour Tortillas", 20, 40, 4, "Homemade flour tortillas",
                 tortillaIngredients,
                 """
                 Combine flour, salt and baking powder in a medium-size bowl. Using a sturdy silicone spatula or a sturdy wooden spoon, mix dry ingredients until well combined.
@@ -72,17 +75,20 @@ public class InitializeController {
         Ingredient darkChocolate = makeIngredient("dark vegan chocolate");
         Ingredient heavyCream = makeIngredient("vegan heavy cream");
         Ingredient vanillaIceCream = makeIngredient("vegan vanilla ice cream (Hertog)");
-        Set<RecipeIngredient> iceCreamIngredients = Set.of(
+        Set<RecipeIngredient> iceCreamIngredientSet = Set.of(
                 new RecipeIngredient(200, IngredientUnits.gram, darkChocolate),
                 new RecipeIngredient(200, IngredientUnits.mL, heavyCream),
                 new RecipeIngredient(0.9, IngredientUnits.liter, vanillaIceCream)
         );
-        saveRecipeIngredients(iceCreamIngredients);
+
+
+        ArrayList<RecipeIngredient> iceCreamIngredients = new ArrayList<>(iceCreamIngredientSet);
 
         Recipe iceCream = makeRecipe(
                 "Vegan vanilla dessert",
                 20,
                 10,
+                6,
                 "Vegan ice cream with chocolate saus",
                 iceCreamIngredients,
                 """
@@ -118,21 +124,27 @@ public class InitializeController {
     private Recipe makeRecipe(String title,
                               int prepTime,
                               int cookTime,
+                              int servings,
                               String shortDescription,
-                              Set<RecipeIngredient> ingredients,
+                              ArrayList<RecipeIngredient> ingredients,
                               String instructions,
                               String image,
                               StewArtUser user) {
-        Recipe recipe = new Recipe();
-        recipe.setTitle(title);
-        recipe.setPrepTime(prepTime);
-        recipe.setCookTime(cookTime);
-        recipe.setShortDescription(shortDescription);
-        recipe.setIngredients(ingredients);
-        recipe.setInstructions(instructions);
-        recipe.setImageUrl(image);
-        recipe.setRecipeAuthor(user);
+        RecipeDTO recipeDto = new RecipeDTO();
+        recipeDto.setTitle(title);
+        recipeDto.setPrepTime(prepTime);
+        recipeDto.setCookTime(cookTime);
+        recipeDto.setServings(servings);
+        recipeDto.setShortDescription(shortDescription);
+        recipeDto.setAllIngredients(ingredients);
+        recipeDto.setInstructions(instructions);
+        recipeDto.setImageUrl(image);
 
+        Recipe recipe = RecipeMapper.fromDTO(recipeDto);
+        saveRecipeIngredients(recipe.getIngredients());
+
+
+        recipe.setRecipeAuthor(user);
         recipeRepository.save(recipe);
         return recipe;
 

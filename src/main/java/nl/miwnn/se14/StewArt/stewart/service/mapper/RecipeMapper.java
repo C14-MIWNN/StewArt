@@ -21,9 +21,12 @@ public class RecipeMapper {
         recipe.setShortDescription(dto.getShortDescription());
         recipe.setPrepTime(dto.getPrepTime());
         recipe.setCookTime(dto.getCookTime());
+        recipe.setServings(dto.getServings());
         recipe.setInstructions(dto.getInstructions());
         recipe.setImageUrl(dto.getImageUrl());
         recipe.setIngredients(extractRecipeIngredients(dto.getAllIngredients()));
+
+        normalizeIngredients(recipe);
         return recipe;
     }
 
@@ -38,6 +41,20 @@ public class RecipeMapper {
         return extract;
     }
 
+    private static void normalizeIngredients(Recipe recipe) {
+        for (RecipeIngredient ingredient : recipe.getIngredients()) {
+            ingredient.setAmount(ingredient.getAmount() / recipe.getServings());
+        }
+    }
+
+    private static void multiplyIngredients(RecipeDTO recipeDTO) {
+        for (RecipeIngredient ingredient : recipeDTO.getAllIngredients()) {
+            if (ingredient.getAmount() != null) {
+                ingredient.setAmount(ingredient.getAmount() * recipeDTO.getServings());
+            }
+        }
+    }
+
     public static RecipeDTO fromRecipeAddAllIngredients(Recipe recipe, IngredientRepository ingredientRepository) {
         RecipeDTO recipeDTO = new RecipeDTO(true, ingredientRepository);
 
@@ -46,6 +63,7 @@ public class RecipeMapper {
         recipeDTO.setShortDescription(recipe.getShortDescription());
         recipeDTO.setPrepTime(recipe.getPrepTime());
         recipeDTO.setCookTime(recipe.getCookTime());
+        recipeDTO.setServings(recipe.getServings());
         recipeDTO.setInstructions(recipe.getInstructions());
         recipeDTO.setImageUrl(recipe.getImageUrl());
 

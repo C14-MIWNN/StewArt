@@ -23,6 +23,7 @@ public class Recipe {
 
     private int prepTime;
     private int cookTime;
+    private int servings;
 
     @Column(columnDefinition = "TEXT")
     private String instructions;
@@ -37,6 +38,14 @@ public class Recipe {
 
     @ManyToOne
     private StewArtUser recipeAuthor;
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
 
     public Long getRecipeId() {
         return recipeId;

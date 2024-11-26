@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/general :: baseHeader(~{:: title})}">
     <title th:text="|Details for recipe: ${recipe.title}|"></title>
 </head>
-<body onload="ingredientSearch()">
+<body onload="ingredientSearch(), calculateIngredientAmount()">
 
 <div th:replace="~{fragments/general :: navbar}"></div>
 
@@ -20,9 +20,14 @@
                 <i class="bi bi-clock"> Cooking time <small class="text-body-secondary" th:text="${recipe.cookTime}"></small> minutes</i>
                 <small class="float-end">Added by <small class="text-body-secondary" th:text="${recipe.recipeAuthor.username}"></small></small>
             </p>
-            <ul>
-                <li th:each="ingredient : ${recipe.ingredients}">
-                    <span th:text="${ingredient.ingredientName}"></span>
+            <div class="row mb-3">
+                <span class="bi bi-person col-2 mt-1">  Servings: </span>
+                <input id="servingsInput" class="bg-searchbar col-1 rounded-2" type="number" onchange="calculateIngredientAmount()" th:field="${recipe.servings}">
+            </div>
+            <ul id="ingredientList">
+                <li th:each="ingredient, stat : ${recipe.ingredients}">
+                    <span id="ingredientAmountShown" th:text="${ingredient.amount}"></span> <span th:text="${ingredient.unit}"></span>   <span th:text="${ingredient.ingredientName}"></span>
+                    <input id="ingredientAmountNormalized" type="hidden" th:field="*{ingredients[__${stat.index}__].amount}">
                 </li>
             </ul>
             <pre class="card-text" style="text-wrap: wrap;" th:text="${recipe.instructions}"></pre>
@@ -41,6 +46,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    function calculateIngredientAmount() {
+        var ingredientList, servings, amountNorm, amountShown, amountToBeShown, i;
+        ingredientList = document.getElementById("ingredientList").getElementsByTagName("li");
+        servings = document.getElementById("servingsInput").valueAsNumber;
+
+        for (i = 0; i < ingredientList.length; i++) {
+            amountNorm = ingredientList[i].getElementsByTagName("input")[0].value;
+            amountShown = ingredientList[i].getElementsByTagName("span")[0];
+            amountToBeShown = Math.round(amountNorm * servings * 100) / 100;
+            amountShown.innerHTML = amountToBeShown.toString();
+        }
+    }
+</script>
 
 <div th:replace="~{fragments/general :: footer}"></div>
 <div th:replace="~{fragments/general :: bottomScripts}"></div>

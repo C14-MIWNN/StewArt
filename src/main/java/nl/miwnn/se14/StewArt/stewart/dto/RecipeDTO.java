@@ -18,6 +18,7 @@ public class RecipeDTO {
     private String shortDescription;
     private int prepTime;
     private int cookTime;
+    private int servings;
     private String instructions;
     private String imageUrl;
 
@@ -34,6 +35,14 @@ public class RecipeDTO {
     }
 
     public RecipeDTO() {
+    }
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
     }
 
     public Long getRecipeId() {
