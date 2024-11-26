@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.support.BindingAwareModelMap;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -239,7 +238,7 @@ public class HomepageControllerTests {
         homepageController.setupHomepage(datamodel);
 
         // Assert
-        assertTrue(compareRecipe(
+        assertTrue(RecipeControllerTests.compareRecipe(
                 new Recipe(), (Recipe) datamodel.getAttribute("searchForm")));
     }
 
@@ -261,42 +260,7 @@ public class HomepageControllerTests {
         homepageController.setupHomepage(datamodel);
 
         // Assert
-        assertTrue(compareRecipe(
+        assertTrue(RecipeControllerTests.compareRecipe(
                 new Recipe(), (Recipe) datamodel.getAttribute("searchForm")));
-    }
-
-
-    public static boolean compareRecipe(Recipe expected, Recipe actual) {
-        if (expected == actual) {
-            return true;
-        }
-        boolean id, title, shortDescription, prep, cook, instructions, image, ingredients, liked, author;
-
-        if (expected.getRecipeAuthor() != null && actual.getRecipeAuthor() != null) {
-            author = Objects.equals(expected.getRecipeAuthor().getUsername(), actual.getRecipeAuthor().getUsername());
-        } else {
-            author = expected.getRecipeAuthor() == null && actual.getRecipeAuthor() == null;
-        }
-
-        id = Objects.equals(expected.getRecipeId(), actual.getRecipeId());
-        title = Objects.equals(expected.getTitle(), actual.getTitle());
-        shortDescription = Objects.equals(expected.getShortDescription(), actual.getShortDescription());
-        prep = Objects.equals(expected.getPrepTime(), actual.getPrepTime());
-        cook = Objects.equals(expected.getCookTime(), actual.getCookTime());
-        instructions = Objects.equals(expected.getInstructions(), actual.getInstructions());
-        image = Objects.equals(expected.getImageUrl(), actual.getImageUrl());
-        ingredients = Objects.equals(expected.getIngredients(), actual.getIngredients());
-        liked = Objects.equals(expected.getLikedByUserSet(), actual.getLikedByUserSet());
-
-        return id
-                && title
-                && shortDescription
-                && prep
-                && cook
-                && instructions
-                && image
-                && ingredients
-                && liked
-                && author;
     }
 }
