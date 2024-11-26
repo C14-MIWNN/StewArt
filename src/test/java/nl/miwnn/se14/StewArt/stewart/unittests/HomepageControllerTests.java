@@ -251,6 +251,7 @@ public class HomepageControllerTests {
         searchForm.setShortDescription("Just a description");
         searchForm.setPrepTime(20);
         searchForm.setCookTime(30);
+        searchForm.setServings(6);
         searchForm.setInstructions("Just do it!");
         searchForm.setIngredients(Set.of(new RecipeIngredient(new Ingredient()), new RecipeIngredient(60, IngredientUnits.mL, new Ingredient())));
         searchForm.setLikedByUserSet(Set.of(new StewArtUser()));

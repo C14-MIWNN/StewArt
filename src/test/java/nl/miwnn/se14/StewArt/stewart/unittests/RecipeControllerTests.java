@@ -725,6 +725,7 @@ public class RecipeControllerTests {
         searchForm.setShortDescription("testdescription for recipetest");
         searchForm.setPrepTime(20);
         searchForm.setCookTime(30);
+        searchForm.setServings(4);
         searchForm.setInstructions("Just Stew it!");
         searchForm.setIngredients(Set.of(new RecipeIngredient(new Ingredient()), new RecipeIngredient(60, IngredientUnits.mL, new Ingredient())));
         searchForm.setLikedByUserSet(Set.of(new StewArtUser()));
@@ -742,7 +743,7 @@ public class RecipeControllerTests {
         if (expected == actual) {
             return true;
         }
-        boolean id, title, shortDescription, prep, cook, instructions, image, ingredients, liked, author;
+        boolean id, title, shortDescription, prep, cook, servings, instructions, image, ingredients, liked, author;
 
         if (expected.getRecipeAuthor() != null && actual.getRecipeAuthor() != null) {
             author = Objects.equals(expected.getRecipeAuthor().getUsername(), actual.getRecipeAuthor().getUsername());
@@ -755,6 +756,7 @@ public class RecipeControllerTests {
         shortDescription = Objects.equals(expected.getShortDescription(), actual.getShortDescription());
         prep = Objects.equals(expected.getPrepTime(), actual.getPrepTime());
         cook = Objects.equals(expected.getCookTime(), actual.getCookTime());
+        servings = Objects.equals(expected.getServings(), actual.getServings());
         instructions = Objects.equals(expected.getInstructions(), actual.getInstructions());
         image = Objects.equals(expected.getImageUrl(), actual.getImageUrl());
         ingredients = Objects.equals(expected.getIngredients(), actual.getIngredients());
@@ -765,6 +767,7 @@ public class RecipeControllerTests {
                 && shortDescription
                 && prep
                 && cook
+                && servings
                 && instructions
                 && image
                 && ingredients
@@ -778,13 +781,14 @@ public class RecipeControllerTests {
             return true;
         }
 
-        boolean id, title, shortDescription, prep, cook, instructions, image, allIngredients;
+        boolean id, title, shortDescription, prep, cook, servings, instructions, image, allIngredients;
 
     id = Objects.equals(expected.getRecipeId(), actual.getRecipeId());
     title = Objects.equals(expected.getTitle(), actual.getTitle());
     shortDescription = Objects.equals(expected.getShortDescription(), actual.getShortDescription());
     prep = Objects.equals(expected.getPrepTime(), actual.getPrepTime());
     cook = Objects.equals(expected.getCookTime(), actual.getCookTime());
+    servings = Objects.equals(expected.getServings(), actual.getServings());
     instructions = Objects.equals(expected.getInstructions(), actual.getInstructions());
     image = Objects.equals(expected.getImageUrl(), actual.getImageUrl());
     allIngredients = Objects.equals(expected.getAllIngredients(), actual.getAllIngredients());
@@ -794,6 +798,7 @@ public class RecipeControllerTests {
                 && shortDescription
                 && prep
                 && cook
+                && servings
                 && instructions
                 && image
                 && allIngredients;
