@@ -40,7 +40,7 @@ public class RecipeController {
         this.ingredientRepository = ingredientRepository;
     }
 
-    private void setupRecipeOverview(
+    public void setupRecipeOverview(
             Model datamodel, List<Recipe> recipeList, boolean formModalHidden) {
         datamodel.addAttribute("allRecipes", recipeList);
         if (!datamodel.containsAttribute("searchForm")) {
