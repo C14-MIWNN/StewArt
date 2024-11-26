@@ -1,34 +1,34 @@
 package nl.miwnn.se14.StewArt.stewart.unittests;
 
 import nl.miwnn.se14.StewArt.stewart.controller.HomepageController;
+import nl.miwnn.se14.StewArt.stewart.enums.IngredientUnits;
+import nl.miwnn.se14.StewArt.stewart.model.Ingredient;
 import nl.miwnn.se14.StewArt.stewart.model.Recipe;
+import nl.miwnn.se14.StewArt.stewart.model.RecipeIngredient;
+import nl.miwnn.se14.StewArt.stewart.model.StewArtUser;
 import nl.miwnn.se14.StewArt.stewart.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.support.BindingAwareModelMap;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Luc Weerts
  * Tests HomepageController
  */
-//@SpringBootTest
-@Controller
 public class HomepageControllerTests {
     private RecipeRepository recipeRepository;
     private HomepageController homepageController;
@@ -228,6 +228,75 @@ public class HomepageControllerTests {
 
         // Assert
         assertEquals(true, datamodel.getAttribute("formModalHidden"),
-                "FormModalHidden is not true by default");
+                "FormModalHidden should be true by default");
+    }
+
+    @Test
+    void validateSearchFormDefault() {
+        // Arrange
+
+        // Act
+        homepageController.setupHomepage(datamodel);
+
+        // Assert
+        assertTrue(compareRecipe(
+                new Recipe(), (Recipe) datamodel.getAttribute("searchForm")));
+    }
+
+    @Test
+    void validateSearchFormExisting() {
+        // Arrange
+        Recipe searchForm = new Recipe();
+        searchForm.setRecipeId((long) 12);
+        searchForm.setTitle("test recipe");
+        searchForm.setShortDescription("Just a description");
+        searchForm.setPrepTime(20);
+        searchForm.setCookTime(30);
+        searchForm.setInstructions("Just do it!");
+        searchForm.setIngredients(Set.of(new RecipeIngredient(new Ingredient()), new RecipeIngredient(60, IngredientUnits.mL, new Ingredient())));
+        searchForm.setLikedByUserSet(Set.of(new StewArtUser()));
+        searchForm.setRecipeAuthor(new StewArtUser());
+
+        // Act
+        homepageController.setupHomepage(datamodel);
+
+        // Assert
+        assertTrue(compareRecipe(
+                new Recipe(), (Recipe) datamodel.getAttribute("searchForm")));
+    }
+
+
+    public static boolean compareRecipe(Recipe expected, Recipe actual) {
+        if (expected == actual) {
+            return true;
+        }
+        boolean id, title, shortDescription, prep, cook, instructions, image, ingredients, liked, author;
+
+        if (expected.getRecipeAuthor() != null && actual.getRecipeAuthor() != null) {
+            author = Objects.equals(expected.getRecipeAuthor().getUsername(), actual.getRecipeAuthor().getUsername());
+        } else {
+            author = expected.getRecipeAuthor() == null && actual.getRecipeAuthor() == null;
+        }
+
+        id = Objects.equals(expected.getRecipeId(), actual.getRecipeId());
+        title = Objects.equals(expected.getTitle(), actual.getTitle());
+        shortDescription = Objects.equals(expected.getShortDescription(), actual.getShortDescription());
+        prep = Objects.equals(expected.getPrepTime(), actual.getPrepTime());
+        cook = Objects.equals(expected.getCookTime(), actual.getCookTime());
+        instructions = Objects.equals(expected.getInstructions(), actual.getInstructions());
+        image = Objects.equals(expected.getImageUrl(), actual.getImageUrl());
+        ingredients = Objects.equals(expected.getIngredients(), actual.getIngredients());
+        liked = Objects.equals(expected.getLikedByUserSet(), actual.getLikedByUserSet());
+
+        return id
+                && title
+                && shortDescription
+                && prep
+                && cook
+                && instructions
+                && image
+                && ingredients
+                && liked
+                && author;
     }
 }
