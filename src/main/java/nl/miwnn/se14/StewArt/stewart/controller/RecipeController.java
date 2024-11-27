@@ -27,6 +27,7 @@ import java.util.List;
 @Controller
 public class RecipeController {
 
+    private static final String ANONYMOUS_USER = "anonymousUser";
     private final RecipeRepository recipeRepository;
     private final RecipeIngredientRepository recipeIngredientRepository;
     private final StewArtUserRepository stewArtUserRepository;
@@ -132,7 +133,7 @@ public class RecipeController {
 
         String currentUsername = StewArtUserService.getCurrentUsername();
         datamodel.addAttribute("currentUsername", currentUsername);
-        if (currentUsername.equals("anonymousUser")) {
+        if (currentUsername.equals(ANONYMOUS_USER)) {
             datamodel.addAttribute("role", "none");
         } else {
             datamodel.addAttribute("role", getCurrentStewArtUser().getRole());
@@ -199,7 +200,7 @@ public class RecipeController {
         Optional<StewArtUser> userOptional = stewArtUserRepository.findByUsername(currentUsername);
         StewArtUser user = userOptional.orElseThrow(
                 () -> new UsernameNotFoundException(
-                        String.format("Username was not found in the database", currentUsername))
+                        String.format("Username %s was not found in the database", currentUsername))
         );
         return user;
     }
