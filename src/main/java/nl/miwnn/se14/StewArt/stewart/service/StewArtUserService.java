@@ -35,12 +35,13 @@ public class StewArtUserService implements UserDetailsService {
                 ));
     }
 
-    public List<StewArtUser> getAllUsers() {
-        return stewArtUserRepository.findAll();
-    }
-
     public static String getCurrentUsername() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+
+    public List<StewArtUser> getAllUsers() {
+        return stewArtUserRepository.findAll();
     }
 
     public void save(StewArtUserDTO userDTO) {
