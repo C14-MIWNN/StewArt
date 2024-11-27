@@ -81,7 +81,7 @@ nav a:hover {
 nav a::before {
     content: '';
     display: block;
-    height: 5px;
+    height: 0.3rem;
     background-color: #AF473C;
 
     position: absolute;

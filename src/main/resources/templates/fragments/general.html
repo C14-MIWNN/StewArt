@@ -12,15 +12,16 @@
 
 <body>
 
-<!-- TODO add navbar link to registration modal -->
 <div th:fragment="navbar">
     <header>
         <h1 class="logo"></h1>
         <nav class="navbar sticky-top navbar-expand-lg">
                 <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav me-auto">
+                    <ul class="nav navbar-nav me-auto align-items-center">
                         <li>
-                            <a class="navbar-link" th:href="@{/}">StewArt (add logo)</a>
+                            <a class="navbar-brand" th:href="@{/}" style="margin-right: 0">
+                                <img src="/logos/StewArt_Logo_textcolor_background.png" style="border-radius: 50%" alt="Logo" height="50em">
+                            </a>
                         </li>
                         <li>
                             <a class="navbar-link" th:href="@{/recipe/overview}"><i class="bi bi-card-list"></i> All recipes</a>
@@ -38,7 +39,7 @@
                             <a class="navbar-link" th:href="@{/user/overview}">All users</a>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav ms-auto pe-4" >
+                    <ul class="nav navbar-nav ms-auto pe-4">
                         <li sec:authorize="isAnonymous()">
                             <a class="navbar-link" th:href="@{/register}"><i class="bi bi-person-square"></i> Create an account</a>
                         </li>
@@ -52,6 +53,15 @@
                 </div>
         </nav>
     </header>
+</div>
+
+
+<div th:fragment="logo">
+    <div class="bs-sidebar sticky-sm-top">
+    <a class="navbar-brand" th:href="@{/}">
+        <img src="/logos/StewArt_Logo.png" alt="Logo" width="250px">
+    </a>
+    </div>
 </div>
 
 <div th:fragment="footer">
