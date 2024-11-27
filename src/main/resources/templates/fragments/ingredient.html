@@ -9,10 +9,12 @@
         <label for="ingredientName" class="col-form-label">Ingredient</label>
       </div>
       <div class="col-7">
-        <input type="text" id="ingredientName" class="form-control" aria-describedby="ingredientNameHelpInLine" th:field="*{ingredientName}">
+        <input type="text" id="ingredientName" class="form-control" aria-describedby="ingredientNameHelpInLine"
+               th:field="*{ingredientName}">
       </div>
       <div class="col-12">
-        <span id="ingredientNameHelpInLine" class="form-text" th:if="${#fields.hasErrors('ingredientName')}" th:errors="*{ingredientName}"></span>
+        <span id="ingredientNameHelpInLine" class="form-text" th:if="${#fields.hasErrors('ingredientName')}"
+              th:errors="*{ingredientName}"></span>
       </div>
     </div>
 
@@ -20,9 +22,6 @@
       <button type="submit" class="btn btn-custom"> Save ingredient</button>
       <button type="button" class="btn btn-custom-delete" data-bs-dismiss="modal" aria-label="Close"> Close</button>
     </div>
-
-
-
   </form>
 </div>
 

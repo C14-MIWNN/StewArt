@@ -18,9 +18,6 @@ public class Ingredient {
     @Column(unique = true)
     private String ingredientName;
 
-    // todo ingredient can have tags that automatically show up as recipe tags, like 'nut' for nut allergy.
-
-
     public Long getIngredientId() {
         return ingredientId;
     }

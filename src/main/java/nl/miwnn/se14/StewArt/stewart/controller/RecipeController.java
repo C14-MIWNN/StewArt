@@ -1,6 +1,5 @@
 package nl.miwnn.se14.StewArt.stewart.controller;
 
-
 import jakarta.validation.Valid;
 import nl.miwnn.se14.StewArt.stewart.dto.RecipeDTO;
 import nl.miwnn.se14.StewArt.stewart.enums.IngredientUnits;
@@ -18,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.PrintWriter;
 import java.util.Optional;
 import java.util.List;
 
@@ -34,7 +32,10 @@ public class RecipeController {
     private final StewArtUserRepository stewArtUserRepository;
     private final IngredientRepository ingredientRepository;
 
-    public RecipeController(RecipeRepository recipeRepository, RecipeIngredientRepository recipeIngredientRepository, StewArtUserRepository stewArtUserRepository, IngredientRepository ingredientRepository) {
+    public RecipeController(RecipeRepository recipeRepository,
+                            RecipeIngredientRepository recipeIngredientRepository,
+                            StewArtUserRepository stewArtUserRepository,
+                            IngredientRepository ingredientRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeIngredientRepository = recipeIngredientRepository;
         this.stewArtUserRepository = stewArtUserRepository;
@@ -131,8 +132,8 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe/save")
-    private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") @Valid RecipeDTO recipeDtoToBeSaved, BindingResult result,
-                                      Model datamodel) {
+    private String saveOrUpdateRecipe(@ModelAttribute("formRecipe") @Valid RecipeDTO recipeDtoToBeSaved,
+                                      BindingResult result, Model datamodel) {
 
         if (result.hasErrors()) {
             result.rejectValue("title", "empty", "Please add a title to your recipe");
@@ -169,7 +170,8 @@ public class RecipeController {
         return "redirect:/recipe/overview";
     }
 
-    private String setupRecipeDetail(Model datamodel, Recipe recipeToShow, RecipeDTO formRecipe, boolean formModalHidden) {
+    private String setupRecipeDetail(Model datamodel, Recipe recipeToShow,
+                                     RecipeDTO formRecipe, boolean formModalHidden) {
         datamodel.addAttribute("recipe", recipeToShow);
         datamodel.addAttribute("formRecipe", formRecipe);
         datamodel.addAttribute("formModalHidden", formModalHidden);

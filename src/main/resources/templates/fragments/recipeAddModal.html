@@ -22,10 +22,12 @@
         <label for="shortDescription" class="col-form-label">Short description of recipe</label>
       </div>
       <div class="col-9">
-        <textarea id="shortDescription" class="form-control" rows="3" aria-describedby="shortDescriptionHelpInLine" th:field="*{shortDescription}"></textarea>
+        <textarea id="shortDescription" class="form-control" rows="3" aria-describedby="shortDescriptionHelpInLine"
+                  th:field="*{shortDescription}"></textarea>
       </div>
       <div class="col-12">
-        <span id="shortDescriptionHelpInLine" class="form-text" th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}"></span>
+        <span id="shortDescriptionHelpInLine" class="form-text" th:if="${#fields.hasErrors('shortDescription')}"
+              th:errors="*{shortDescription}"></span>
       </div>
     </div>
 
@@ -34,10 +36,12 @@
         <label for="prepTime" class="col-form-label">Preparation time (minutes)</label>
       </div>
       <div class="col-9">
-        <input type="text" id="prepTime" class="form-control" aria-describedby="prepTimeHelpInLine" th:field="*{prepTime}">
+        <input type="text" id="prepTime" class="form-control" aria-describedby="prepTimeHelpInLine"
+               th:field="*{prepTime}">
       </div>
       <div class="col-12">
-        <span id="prepTimeHelpInLine" class="form-text" th:if="${#fields.hasErrors('prepTime')}" th:errors="*{prepTime}"></span>
+        <span id="prepTimeHelpInLine" class="form-text" th:if="${#fields.hasErrors('prepTime')}"
+              th:errors="*{prepTime}"></span>
       </div>
     </div>
 
@@ -46,10 +50,12 @@
         <label for="cookTime" class="col-form-label">Cooking time (minutes)</label>
       </div>
       <div class="col-9">
-        <input type="text" id="cookTime" class="form-control" aria-describedby="cookTimeHelpInLine" th:field="*{cookTime}">
+        <input type="text" id="cookTime" class="form-control" aria-describedby="cookTimeHelpInLine"
+               th:field="*{cookTime}">
       </div>
       <div class="col-12">
-        <span id="cookTimeHelpInLine" class="form-text" th:if="${#fields.hasErrors('cookTime')}" th:errors="*{cookTime}"></span>
+        <span id="cookTimeHelpInLine" class="form-text" th:if="${#fields.hasErrors('cookTime')}"
+              th:errors="*{cookTime}"></span>
       </div>
     </div>
 
@@ -58,10 +64,12 @@
         <label for="instructions" class="col-form-label">Cooking steps</label>
       </div>
       <div class="col-9">
-        <textarea id="instructions" class="form-control" rows="5" aria-describedby="instructionsHelpInLine" th:field="*{instructions}"></textarea>
+        <textarea id="instructions" class="form-control" rows="5" aria-describedby="instructionsHelpInLine"
+                  th:field="*{instructions}"></textarea>
       </div>
       <div class="col-12">
-        <span id="instructionsHelpInLine" class="form-text" th:if="${#fields.hasErrors('instructions')}" th:errors="*{instructions}"></span>
+        <span id="instructionsHelpInLine" class="form-text" th:if="${#fields.hasErrors('instructions')}"
+              th:errors="*{instructions}"></span>
       </div>
     </div>
 
@@ -70,10 +78,12 @@
         <label for="servings" class="col-form-label">Servings</label>
       </div>
       <div class="col-9">
-        <input type="text" id="servings" class="form-control" aria-describedby="servingsHelpInLine" th:field="*{servings}">
+        <input type="text" id="servings" class="form-control" aria-describedby="servingsHelpInLine"
+               th:field="*{servings}">
       </div>
       <div class="col-12">
-        <span id="servingsHelpInLine" class="form-text" th:if="${#fields.hasErrors('servings')}" th:errors="*{servings}"></span>
+        <span id="servingsHelpInLine" class="form-text" th:if="${#fields.hasErrors('servings')}"
+              th:errors="*{servings}"></span>
       </div>
     </div>
 
@@ -94,7 +104,8 @@
         </select>
       </div>
       <div class="col-12">
-        <span id="ingredientDropdownHelpInline" class="form-text" th:if="${#fields.hasErrors('allIngredients')}" th:errors="*{allIngredients}"></span>
+        <span id="ingredientDropdownHelpInline" class="form-text" th:if="${#fields.hasErrors('allIngredients')}"
+              th:errors="*{allIngredients}"></span>
       </div>
     </div>
 
@@ -107,10 +118,12 @@
             <input type="hidden" th:field="*{allIngredients[__${stat.index}__].ingredient}"/>
             <input type="hidden" th:field="*{allIngredients[__${stat.index}__].recipeIngredientId}"/>
             <div class="col-2">
-              <input class="col-2 form-control" type="number" step="any" th:field="*{allIngredients[__${stat.index}__].amount}">
+              <input class="col-2 form-control" type="number" step="any"
+                     th:field="*{allIngredients[__${stat.index}__].amount}">
             </div>
             <div class="col-2">
-              <select id="unitDropdown" class="selectpicker col-2" title="Unit.." data-width="100%" th:field="*{allIngredients[__${stat.index}__].unit}">
+              <select id="unitDropdown" class="selectpicker col-2" title="Unit.." data-width="100%"
+                      th:field="*{allIngredients[__${stat.index}__].unit}">
                 <option th:each="unit : ${allUnits}" th:value="${unit}" th:text="${unit}"></option>
               </select>
             </div>
@@ -126,10 +139,12 @@
         <label for="imageUrl" class="col-form-label">Image of prepared recipe (URL)</label>
       </div>
       <div class="col-9">
-        <input type="url" id="imageUrl" class="form-control" aria-describedby="imageUrlHelpInline" th:field="*{imageUrl}">
+        <input type="url" id="imageUrl" class="form-control" aria-describedby="imageUrlHelpInline"
+               th:field="*{imageUrl}">
       </div>
       <div class="col-12">
-                    <span id="imageUrlHelpInline" class="form-text" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">
+                    <span id="imageUrlHelpInline" class="form-text" th:if="${#fields.hasErrors('imageUrl')}"
+                          th:errors="*{imageUrl}">
                     </span>
       </div>
     </div>

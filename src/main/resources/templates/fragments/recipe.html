@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <body>
 
-<div th:fragment="recipeCardsNew(recipes)" class="row row-cols-1 row-cols-md-4 g-4" style="width: 100rem; height: 100rem">
+<div th:fragment="recipeCardsNew(recipes)" class="row row-cols-1 row-cols-md-4 g-4">
     <div th:each="recipe : ${recipes}" th:insert="~{:: recipeCard(${recipe})}"></div>
 </div>
 
@@ -23,8 +23,10 @@
     <div class="card-footer">
         <p class="card-text">
             <i><small>
-            <i class="bi bi-clock"> Prep time </i><small class="text-body-secondary" th:text="${recipe.prepTime}"></small> minutes
-            <i class="bi bi-clock"> Cooking time </i><small class="text-body-secondary" th:text="${recipe.cookTime}"></small> minutes
+            <i class="bi bi-clock"> Prep time </i>
+                <small class="text-body-secondary" th:text="${recipe.prepTime}"></small> minutes
+            <i class="bi bi-clock"> Cooking time </i>
+                <small class="text-body-secondary" th:text="${recipe.cookTime}"></small> minutes
             </small></i>
         </p>
         <p class="card-text"><i><small>Added by
@@ -53,8 +55,5 @@
         </div>
     </div>
 </div>
-
-
-
 </body>
 </html>

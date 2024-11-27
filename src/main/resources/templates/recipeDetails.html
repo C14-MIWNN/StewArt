@@ -17,18 +17,25 @@
             <h1 class="display-4 fw-bold lh-1 text-body-emphasis text-center" th:text="*{title}"></h1>
             <pre class="lead" style="text-wrap: wrap;" th:text="*{shortDescription}"></pre>
             <p class="card-text">
-                <i class="bi bi-clock"> Preparation time <small class="text-body-secondary" th:text="${recipe.prepTime}"></small> minutes</i>
-                <i class="bi bi-clock"> Cooking time <small class="text-body-secondary" th:text="${recipe.cookTime}"></small> minutes</i>
-                <small class="float-end">Added by <small class="text-body-secondary" th:text="${recipe.recipeAuthor.username}"></small></small>
+                <i class="bi bi-clock"> Preparation time
+                    <small class="text-body-secondary" th:text="${recipe.prepTime}"></small> minutes</i>
+                <i class="bi bi-clock"> Cooking time
+                    <small class="text-body-secondary" th:text="${recipe.cookTime}"></small> minutes</i>
+                <small class="float-end">Added by
+                    <small class="text-body-secondary" th:text="${recipe.recipeAuthor.username}"></small></small>
             </p>
             <div class="row mb-3">
                 <span class="bi bi-person col-2 mt-1">  Servings: </span>
-                <input id="servingsInput" class="bg-searchbar col-1 rounded-2" type="number" onchange="calculateIngredientAmount()" th:field="${recipe.servings}">
+                <input id="servingsInput" class="bg-searchbar col-1 rounded-2" type="number"
+                       onchange="calculateIngredientAmount()" th:field="${recipe.servings}">
             </div>
             <ul id="ingredientList">
                 <li th:each="ingredient, stat : ${recipe.ingredients}">
-                    <span id="ingredientAmountShown" th:text="${ingredient.amount}"></span> <span th:text="${ingredient.unit}"></span>   <span th:text="${ingredient.ingredientName}"></span>
-                    <input id="ingredientAmountNormalized" type="hidden" th:field="*{ingredients[__${stat.index}__].amount}">
+                    <span id="ingredientAmountShown" th:text="${ingredient.amount}"></span>
+                    <span th:text="${ingredient.unit}"></span>
+                    <span th:text="${ingredient.ingredientName}"></span>
+                    <input id="ingredientAmountNormalized" type="hidden"
+                           th:field="*{ingredients[__${stat.index}__].amount}">
                 </li>
             </ul>
             <pre class="card-text" style="text-wrap: wrap;" th:text="${recipe.instructions}"></pre>

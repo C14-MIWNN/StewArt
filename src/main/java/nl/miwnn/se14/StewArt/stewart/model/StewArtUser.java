@@ -29,7 +29,7 @@ public class StewArtUser implements UserDetails {
 
     private String role;
 
-    @ManyToMany(mappedBy = "likedByUserSet", fetch = FetchType.EAGER, cascade = CascadeType.ALL) //deleting user deletes all recipes
+    @ManyToMany(mappedBy = "likedByUserSet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Recipe> likedRecipes;
 
     @OneToMany(mappedBy = "recipeAuthor")

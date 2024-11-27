@@ -23,7 +23,6 @@
     <ul>
         <li th:each="ingredient: ${allIngredients}" th:text="${ingredient.ingredientName}"></li>
     </ul>
-
 </div>
 
 <div th:replace="~{fragments/general :: footer}"></div>

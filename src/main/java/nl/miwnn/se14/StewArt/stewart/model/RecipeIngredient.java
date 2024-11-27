@@ -3,8 +3,6 @@ package nl.miwnn.se14.StewArt.stewart.model;
 import jakarta.persistence.*;
 import nl.miwnn.se14.StewArt.stewart.enums.IngredientUnits;
 
-// todo implement comparable to sort ingredients in user defined order
-
 /**
  * @author Luc Weerts
  * Couples a type of ingredient to a specific recipe with corresponding amount and unit
