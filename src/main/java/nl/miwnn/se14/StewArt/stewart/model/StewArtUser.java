@@ -28,10 +28,10 @@ public class StewArtUser implements UserDetails {
     private String role;
     private String ROLE_PREFIX = "ROLE_";
 
-    @ManyToMany(mappedBy = "likedByUserSet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "likedByUserSet")
     private Set<Recipe> likedRecipes;
 
-    @OneToMany(mappedBy = "recipeAuthor")
+    @OneToMany(mappedBy = "recipeAuthor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Recipe> myRecipes;
 
     @Override
