@@ -26,17 +26,6 @@ public class HomepageController {
         this.recipeRepository = recipeRepository;
     }
 
-    public String setupHomepage(Model datamodel) {
-        datamodel.addAttribute("formUser", new StewArtUserDTO());
-        if (!datamodel.containsAttribute("formModalHidden")) {
-            datamodel.addAttribute("formModalHidden", true);
-        }
-        if (!datamodel.containsAttribute("searchForm")) {
-            datamodel.addAttribute("searchForm", new Recipe());
-        }
-        return "homepage";
-    }
-
     @GetMapping("/")
     private String showHomepage(Model datamodel) {
         return setupHomepage(datamodel);
@@ -48,14 +37,15 @@ public class HomepageController {
         return setupHomepage(datamodel);
     }
 
-
     @PostMapping("/search")
-    private String showRecipesByTitleSearch(@ModelAttribute("searchForm") Recipe recipe, BindingResult result, Model datamodel) {
+    private String showRecipesByTitleSearch(
+            @ModelAttribute("searchForm") Recipe recipe, BindingResult result, Model datamodel) {
 
         Optional<List<Recipe>> searchResultList = recipeRepository.findByTitleContaining(recipe.getTitle());
 
         if (searchResultList.isEmpty() || searchResultList.get().isEmpty()) {
-            result.rejectValue("title", "search.results.empty", "No recipes found with this search term");
+            result.rejectValue("title", "search.results.empty",
+                    "No recipes found with this search term");
         }
 
         if (result.hasErrors()) {
@@ -64,5 +54,16 @@ public class HomepageController {
 
         datamodel.addAttribute("allRecipes", searchResultList.get());
         return "recipeOverview";
+    }
+
+    public String setupHomepage(Model datamodel) {
+        datamodel.addAttribute("formUser", new StewArtUserDTO());
+        if (!datamodel.containsAttribute("formModalHidden")) {
+            datamodel.addAttribute("formModalHidden", true);
+        }
+        if (!datamodel.containsAttribute("searchForm")) {
+            datamodel.addAttribute("searchForm", new Recipe());
+        }
+        return "homepage";
     }
 }

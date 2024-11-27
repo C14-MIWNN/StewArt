@@ -29,7 +29,11 @@ public class InitializeController {
     private final IngredientRepository ingredientRepository;
     private final RecipeIngredientRepository recipeIngredientRepository;
 
-    public InitializeController(StewArtUserService stewArtUserService, RecipeRepository recipeRepository, IngredientRepository ingredientRepository, RecipeIngredientRepository recipeIngredientRepository) {
+    public InitializeController(
+            StewArtUserService stewArtUserService,
+            RecipeRepository recipeRepository,
+            IngredientRepository ingredientRepository,
+            RecipeIngredientRepository recipeIngredientRepository) {
         this.stewArtUserService = stewArtUserService;
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;

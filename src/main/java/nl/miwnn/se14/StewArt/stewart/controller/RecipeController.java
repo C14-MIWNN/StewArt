@@ -42,20 +42,6 @@ public class RecipeController {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public void setupRecipeOverview(
-            Model datamodel, List<Recipe> recipeList, boolean formModalHidden) {
-        datamodel.addAttribute("allRecipes", recipeList);
-        if (!datamodel.containsAttribute("searchForm")) {
-            datamodel.addAttribute("searchForm", new Recipe());
-        }
-        if (!datamodel.containsAttribute("formRecipe")) {
-            datamodel.addAttribute("formRecipe", new RecipeDTO(true, ingredientRepository));
-        }
-
-        datamodel.addAttribute("formModalHidden", formModalHidden);
-        datamodel.addAttribute("allUnits", IngredientUnits.values());
-    }
-
     @GetMapping("/recipe/overview")
     private String showRecipeOverview(Model datamodel) {
 
@@ -69,10 +55,7 @@ public class RecipeController {
 
         Optional<List<Recipe>> searchResultList = recipeRepository.findByTitleContaining(recipe.getTitle());
 
-        if (searchResultList.isEmpty() || searchResultList.get().isEmpty()) {
-            result.rejectValue("title", "search.results.empty",
-                    "No recipes found with your search term");
-        }
+        checkSearchResult(result, searchResultList);
 
         if (result.hasErrors()) {
             return "recipeOverview";
@@ -90,17 +73,6 @@ public class RecipeController {
         return "myRecipes";
     }
 
-    private List<Recipe> getMyRecipes() {
-        String currentUsername = StewArtUserService.getCurrentUsername();
-
-        Optional<List<Recipe>> myRecipesOptional = recipeRepository.findByRecipeAuthor_Username(currentUsername);
-        List<Recipe> myRecipes = myRecipesOptional.orElseThrow(
-                () -> new IllegalArgumentException(String.format(
-                        "Recipe search for user %s returned no list", currentUsername))
-        );
-        return myRecipes;
-    }
-
     @PostMapping("/recipe/my_recipes_search")
     private String showMyRecipesByTitleSearch(
             @ModelAttribute("searchForm") Recipe recipe, BindingResult result, Model datamodel) {
@@ -109,10 +81,7 @@ public class RecipeController {
         Optional<List<Recipe>> myRecipesOptional = recipeRepository.findByRecipeAuthor_UsernameAndTitleContaining(
                         currentUsername, recipe.getTitle());
 
-        if (myRecipesOptional.isEmpty() || myRecipesOptional.get().isEmpty()) {
-            result.rejectValue("title", "search.results.empty",
-                    "No recipes found with your search term");
-        }
+        checkSearchResult(result, myRecipesOptional);
 
         if (result.hasErrors()) {
             setupRecipeOverview(datamodel, myRecipesOptional.get(), true);
@@ -122,7 +91,6 @@ public class RecipeController {
         setupRecipeOverview(datamodel, myRecipesOptional.get(), true);
         return "myRecipes";
     }
-
 
     @GetMapping("/recipe/add_recipe")
     private String showRecipeModal(Model datamodel) {
@@ -153,33 +121,6 @@ public class RecipeController {
         return "redirect:/recipe/my_recipes";
     }
 
-    private StewArtUser getCurrentStewArtUser() {
-        String currentUsername = StewArtUserService.getCurrentUsername();
-        Optional<StewArtUser> userOptional = stewArtUserRepository.findByUsername(currentUsername);
-        StewArtUser user = userOptional.orElseThrow(
-                () -> new UsernameNotFoundException(
-                        String.format("Username was not found in the database", currentUsername))
-        );
-        return user;
-    }
-
-    @GetMapping("/recipe/delete/{recipeId}")
-    private String deleteRecipe(@PathVariable("recipeId") Long recipeId) {
-        recipeRepository.deleteById(recipeId);
-
-        return "redirect:/recipe/overview";
-    }
-
-    private String setupRecipeDetail(Model datamodel, Recipe recipeToShow,
-                                     RecipeDTO formRecipe, boolean formModalHidden) {
-        datamodel.addAttribute("recipe", recipeToShow);
-        datamodel.addAttribute("formRecipe", formRecipe);
-        datamodel.addAttribute("formModalHidden", formModalHidden);
-        datamodel.addAttribute("allUnits", IngredientUnits.values());
-
-        return "recipeDetails";
-    }
-
     @GetMapping("/recipe/detail/{recipeId}")
     private String showRecipeDetailPage(@PathVariable("recipeId") Long recipeId, Model datamodel) {
 
@@ -202,5 +143,64 @@ public class RecipeController {
                 recipeOptional.get(),
                 RecipeMapper.fromRecipeAddAllIngredients(recipeOptional.get(), ingredientRepository),
                 true);
+    }
+
+    @GetMapping("/recipe/delete/{recipeId}")
+    private String deleteRecipe(@PathVariable("recipeId") Long recipeId) {
+        recipeRepository.deleteById(recipeId);
+
+        return "redirect:/recipe/overview";
+    }
+
+    public void setupRecipeOverview(
+            Model datamodel, List<Recipe> recipeList, boolean formModalHidden) {
+        datamodel.addAttribute("allRecipes", recipeList);
+        if (!datamodel.containsAttribute("searchForm")) {
+            datamodel.addAttribute("searchForm", new Recipe());
+        }
+        if (!datamodel.containsAttribute("formRecipe")) {
+            datamodel.addAttribute("formRecipe", new RecipeDTO(true, ingredientRepository));
+        }
+
+        datamodel.addAttribute("formModalHidden", formModalHidden);
+        datamodel.addAttribute("allUnits", IngredientUnits.values());
+    }
+
+    private String setupRecipeDetail(Model datamodel, Recipe recipeToShow,
+                                     RecipeDTO formRecipe, boolean formModalHidden) {
+        datamodel.addAttribute("recipe", recipeToShow);
+        datamodel.addAttribute("formRecipe", formRecipe);
+        datamodel.addAttribute("formModalHidden", formModalHidden);
+        datamodel.addAttribute("allUnits", IngredientUnits.values());
+
+        return "recipeDetails";
+    }
+
+    private static void checkSearchResult(BindingResult result, Optional<List<Recipe>> searchResultList) {
+        if (searchResultList.isEmpty() || searchResultList.get().isEmpty()) {
+            result.rejectValue("title", "search.results.empty",
+                    "No recipes found with your search term");
+        }
+    }
+
+    private List<Recipe> getMyRecipes() {
+        String currentUsername = StewArtUserService.getCurrentUsername();
+
+        Optional<List<Recipe>> myRecipesOptional = recipeRepository.findByRecipeAuthor_Username(currentUsername);
+        List<Recipe> myRecipes = myRecipesOptional.orElseThrow(
+                () -> new IllegalArgumentException(String.format(
+                        "Recipe search for user %s returned no list", currentUsername))
+        );
+        return myRecipes;
+    }
+
+    private StewArtUser getCurrentStewArtUser() {
+        String currentUsername = StewArtUserService.getCurrentUsername();
+        Optional<StewArtUser> userOptional = stewArtUserRepository.findByUsername(currentUsername);
+        StewArtUser user = userOptional.orElseThrow(
+                () -> new UsernameNotFoundException(
+                        String.format("Username was not found in the database", currentUsername))
+        );
+        return user;
     }
 }
