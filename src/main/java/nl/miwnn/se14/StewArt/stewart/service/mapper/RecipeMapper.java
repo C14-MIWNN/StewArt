@@ -32,7 +32,7 @@ public class RecipeMapper {
 
     private static Set<RecipeIngredient> extractRecipeIngredients(ArrayList<RecipeIngredient> allIngredients) {
         Set<RecipeIngredient> extract = new HashSet<>();
-        // Drop ingredients with no amount
+        // RecipeDTO contains many ingredients that are not added to the recipe
         for (RecipeIngredient ingredient : allIngredients) {
             if (ingredient.getAmount() != null) {
                 extract.add(ingredient);
@@ -53,6 +53,10 @@ public class RecipeMapper {
                 ingredient.setAmount(ingredient.getAmount() * recipeDTO.getServings());
             }
         }
+//        ArrayList<RecipeIngredient> newArray = new ArrayList<>();
+//        for (int recipe = 0; recipe < recipeDTO.getAllIngredients().size(); recipe++) {
+//
+//        }
     }
 
     public static RecipeDTO fromRecipeAddAllIngredients(Recipe recipe, IngredientRepository ingredientRepository) {
@@ -69,6 +73,7 @@ public class RecipeMapper {
 
         addRecipeIngredients(recipe, recipeDTO);
 
+
         return recipeDTO;
     }
 
@@ -78,6 +83,11 @@ public class RecipeMapper {
             presentIngredients.add(ingredient.getIngredientName());
         }
         recipeDTO.getAllIngredients().removeIf((n) -> presentIngredients.contains(n.getIngredientName()));
-        recipeDTO.getAllIngredients().addAll(recipe.getIngredients());
+//        recipeDTO.getAllIngredients().addAll(recipe.getIngredients());
+        for (RecipeIngredient ingredient : recipe.getIngredients()) {
+            recipeDTO.getAllIngredients().add(
+                    new RecipeIngredient(ingredient.getAmount(), ingredient.getUnit(), ingredient.getIngredient()));
+        }
+        multiplyIngredients(recipeDTO);
     }
 }
