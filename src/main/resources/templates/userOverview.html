@@ -9,9 +9,17 @@
 
 <div class="container">
     <h1>Overview of StewArt users</h1>
-    <ul>
-        <li th:each="user: ${allUsers}" th:text="${user.username}"></li>
-    </ul>
+
+    <table>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr th:each="user: ${allUsers}">
+            <td th:text="${user.username}"></td>
+            <td><a th:href="@{/user/delete/{userId}(userId = ${user.userId})}">delete user</a></td>
+        </tr>
+    </table>
 </div>
 
 <div th:replace="~{fragments/general :: footer}"></div>

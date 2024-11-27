@@ -56,5 +56,8 @@ public class StewArtUserService implements UserDetailsService {
         return stewArtUserRepository.findAll();
     }
 
+    public void deleteById(Long userId) {
+        stewArtUserRepository.deleteById(userId);
+    }
 
 }

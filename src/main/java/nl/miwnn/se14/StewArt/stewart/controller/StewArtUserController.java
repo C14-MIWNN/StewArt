@@ -7,10 +7,7 @@ import nl.miwnn.se14.StewArt.stewart.service.StewArtUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Luc Weerts
@@ -57,5 +54,12 @@ public class StewArtUserController {
 
         stewArtUserService.save(userDtoToBeSaved);
         return "redirect:/";
+    }
+
+    @GetMapping("/delete/{userId}")
+    private String deleteUser(@PathVariable("userId") Long userId) {
+        stewArtUserService.deleteById(userId);
+
+        return "redirect:/user/overview";
     }
 }
