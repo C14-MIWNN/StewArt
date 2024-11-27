@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.PrintWriter;
 import java.util.Optional;
 import java.util.List;
 
@@ -142,7 +143,7 @@ public class RecipeController {
 
         Recipe recipeToBeSaved = RecipeMapper.fromDTO(recipeDtoToBeSaved);
 
-        StewArtUser user = getStewArtUserByUsername();
+        StewArtUser user = getCurrentStewArtUser();
         recipeToBeSaved.setRecipeAuthor(user);
 
         recipeIngredientRepository.saveAll(recipeToBeSaved.getIngredients());
@@ -151,7 +152,7 @@ public class RecipeController {
         return "redirect:/recipe/my_recipes";
     }
 
-    private StewArtUser getStewArtUserByUsername() {
+    private StewArtUser getCurrentStewArtUser() {
         String currentUsername = StewArtUserService.getCurrentUsername();
         Optional<StewArtUser> userOptional = stewArtUserRepository.findByUsername(currentUsername);
         StewArtUser user = userOptional.orElseThrow(
@@ -179,10 +180,19 @@ public class RecipeController {
 
     @GetMapping("/recipe/detail/{recipeId}")
     private String showRecipeDetailPage(@PathVariable("recipeId") Long recipeId, Model datamodel) {
+
         Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 
         if (recipeOptional.isEmpty()) {
             return "redirect:/recipe/overview";
+        }
+
+        String currentUsername = StewArtUserService.getCurrentUsername();
+        datamodel.addAttribute("currentUsername", currentUsername);
+        if (currentUsername.equals("anonymousUser")) {
+            datamodel.addAttribute("role", "none");
+        } else {
+            datamodel.addAttribute("role", getCurrentStewArtUser().getRole());
         }
 
         return setupRecipeDetail(

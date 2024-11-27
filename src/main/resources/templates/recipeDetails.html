@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
 <head th:replace="~{fragments/general :: baseHeader(~{:: title})}">
     <title th:text="|Details for recipe: ${recipe.title}|"></title>
 </head>
@@ -31,12 +32,14 @@
                 </li>
             </ul>
             <pre class="card-text" style="text-wrap: wrap;" th:text="${recipe.instructions}"></pre>
-            <p class="text-center">
+            <p th:if="${recipe.recipeAuthor.username == currentUsername || role == 'ADMIN'}"
+                    class="text-center">
                 <button type="button"
                         class="btn btn-custom btn-lg px-4 fw-bold"
-                        data-bs-toggle="modal" data-bs-target="#newRecipe">
+                        data-bs-toggle="modal" data-bs-target="#newRecipe" >
                     <i class="bi bi-pencil-square"></i> Edit
                 </button>
+
                 <a role="button"
                     class="btn btn-custom-delete btn-lg px-4 fw-bold"
                 th:href="@{/recipe/delete/{recipeId}(recipeId = *{recipeId})}">
