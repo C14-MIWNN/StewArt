@@ -22,13 +22,10 @@ public class StewArtSecurityConfig {
         httpSecurity
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/register").permitAll()
-                        .requestMatchers("/recipe/overview").permitAll()
-                        .requestMatchers("/recipe/search").permitAll()
-                        .requestMatchers("/recipe/detail/**").permitAll()
-                        .requestMatchers("/ingredient/overview").permitAll()
+                        .requestMatchers("/register", "/user/save").permitAll()
+                        .requestMatchers("/recipe/overview", "/recipe/search", "/recipe/detail/**").permitAll()
+                        .requestMatchers("/ingredient/overview", "/ingredient/save").permitAll()
                         .requestMatchers("/search").permitAll()
-                        .requestMatchers("/user/save").permitAll()
                         .requestMatchers("/logos/**").permitAll()
                         .requestMatchers("/webjars/**", "/css/**").permitAll()
                         .anyRequest().authenticated()
