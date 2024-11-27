@@ -27,10 +27,6 @@ public class StewArtUserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public static String getCurrentUsername() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return stewArtUserRepository.findByUsername(username)
@@ -39,8 +35,12 @@ public class StewArtUserService implements UserDetailsService {
                 ));
     }
 
-    public boolean usernameInUse(String username) {
-        return stewArtUserRepository.findByUsername(username).isPresent();
+    public List<StewArtUser> getAllUsers() {
+        return stewArtUserRepository.findAll();
+    }
+
+    public static String getCurrentUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     public void save(StewArtUserDTO userDTO) {
@@ -52,12 +52,11 @@ public class StewArtUserService implements UserDetailsService {
         stewArtUserRepository.save(user);
     }
 
-    public List<StewArtUser> getAllUsers() {
-        return stewArtUserRepository.findAll();
-    }
-
     public void deleteById(Long userId) {
         stewArtUserRepository.deleteById(userId);
     }
 
+    public boolean usernameInUse(String username) {
+        return stewArtUserRepository.findByUsername(username).isPresent();
+    }
 }

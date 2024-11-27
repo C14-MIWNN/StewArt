@@ -11,10 +11,6 @@
     <h1>Overview of StewArt users</h1>
 
     <table>
-        <tr>
-            <th></th>
-            <th></th>
-        </tr>
         <tr th:each="user: ${allUsers}">
             <td th:text="${user.username}"></td>
             <td><a th:href="@{/user/delete/{userId}(userId = ${user.userId})}">delete user</a></td>

@@ -53,10 +53,6 @@ public class RecipeMapper {
                 ingredient.setAmount(ingredient.getAmount() * recipeDTO.getServings());
             }
         }
-//        ArrayList<RecipeIngredient> newArray = new ArrayList<>();
-//        for (int recipe = 0; recipe < recipeDTO.getAllIngredients().size(); recipe++) {
-//
-//        }
     }
 
     public static RecipeDTO fromRecipeAddAllIngredients(Recipe recipe, IngredientRepository ingredientRepository) {
@@ -83,7 +79,6 @@ public class RecipeMapper {
             presentIngredients.add(ingredient.getIngredientName());
         }
         recipeDTO.getAllIngredients().removeIf((n) -> presentIngredients.contains(n.getIngredientName()));
-//        recipeDTO.getAllIngredients().addAll(recipe.getIngredients());
         for (RecipeIngredient ingredient : recipe.getIngredients()) {
             recipeDTO.getAllIngredients().add(
                     new RecipeIngredient(ingredient.getAmount(), ingredient.getUnit(), ingredient.getIngredient()));

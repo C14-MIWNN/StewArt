@@ -701,7 +701,8 @@ public class RecipeControllerTests {
 
         // Assert
         assertTrue(compareRecipe(
-                new Recipe(), (Recipe) datamodel.getAttribute("searchForm")));
+                new Recipe(), (Recipe) datamodel.getAttribute("searchForm")),
+                "No new searchForm was created");
     }
 
     @Test
@@ -713,7 +714,9 @@ public class RecipeControllerTests {
 
         // Assert
         assertTrue(compareRecipeDTO(
-                new RecipeDTO(true, ingredientRepository), (RecipeDTO) datamodel.getAttribute("formRecipe")));
+                new RecipeDTO(true, ingredientRepository),
+                (RecipeDTO) datamodel.getAttribute("formRecipe")),
+                "New formRecipe does not match expected format");
     }
 
     @Test
@@ -727,16 +730,21 @@ public class RecipeControllerTests {
         searchForm.setCookTime(30);
         searchForm.setServings(4);
         searchForm.setInstructions("Just Stew it!");
-        searchForm.setIngredients(Set.of(new RecipeIngredient(new Ingredient()), new RecipeIngredient(60, IngredientUnits.mL, new Ingredient())));
+        searchForm.setIngredients(Set.of(
+                new RecipeIngredient(new Ingredient()),
+                new RecipeIngredient(60, IngredientUnits.mL, new Ingredient())));
         searchForm.setLikedByUserSet(Set.of(new StewArtUser()));
         searchForm.setRecipeAuthor(new StewArtUser());
+
+        datamodel.addAttribute("searchForm", searchForm);
 
         // Act
         recipeController.setupRecipeOverview(datamodel, recipeRepository.findAll(), true);
 
         // Assert
         assertTrue(compareRecipe(
-                new Recipe(), (Recipe) datamodel.getAttribute("searchForm")));
+                searchForm, (Recipe) datamodel.getAttribute("searchForm")),
+                "SearchForm was overwritten in some way");
     }
 
     public static boolean compareRecipe(Recipe expected, Recipe actual) {

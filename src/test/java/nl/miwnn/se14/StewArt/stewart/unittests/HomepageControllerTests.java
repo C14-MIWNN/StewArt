@@ -239,7 +239,8 @@ public class HomepageControllerTests {
 
         // Assert
         assertTrue(RecipeControllerTests.compareRecipe(
-                new Recipe(), (Recipe) datamodel.getAttribute("searchForm")));
+                new Recipe(), (Recipe) datamodel.getAttribute("searchForm")),
+                "No new searchForm was created");
     }
 
     @Test
@@ -253,15 +254,20 @@ public class HomepageControllerTests {
         searchForm.setCookTime(30);
         searchForm.setServings(6);
         searchForm.setInstructions("Just do it!");
-        searchForm.setIngredients(Set.of(new RecipeIngredient(new Ingredient()), new RecipeIngredient(60, IngredientUnits.mL, new Ingredient())));
+        searchForm.setIngredients(Set.of(
+                new RecipeIngredient(new Ingredient()),
+                new RecipeIngredient(60, IngredientUnits.mL, new Ingredient())));
         searchForm.setLikedByUserSet(Set.of(new StewArtUser()));
         searchForm.setRecipeAuthor(new StewArtUser());
+
+        datamodel.addAttribute("searchForm", searchForm);
 
         // Act
         homepageController.setupHomepage(datamodel);
 
         // Assert
         assertTrue(RecipeControllerTests.compareRecipe(
-                new Recipe(), (Recipe) datamodel.getAttribute("searchForm")));
+                searchForm, (Recipe) datamodel.getAttribute("searchForm")),
+                "SearchForm was overwritten in some way");
     }
 }

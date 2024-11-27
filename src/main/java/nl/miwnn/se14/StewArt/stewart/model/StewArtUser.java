@@ -17,8 +17,6 @@ import java.util.Set;
 @Entity
 public class StewArtUser implements UserDetails {
 
-    private String ROLE_PREFIX = "ROLE_";
-
     @Id
     @GeneratedValue
     private Long userId;
@@ -28,6 +26,7 @@ public class StewArtUser implements UserDetails {
     private String password;
 
     private String role;
+    private String ROLE_PREFIX = "ROLE_";
 
     @ManyToMany(mappedBy = "likedByUserSet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Recipe> likedRecipes;
