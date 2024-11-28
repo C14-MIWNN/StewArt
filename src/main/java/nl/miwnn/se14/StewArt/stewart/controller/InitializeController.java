@@ -117,7 +117,7 @@ public class InitializeController {
                 new RecipeIngredient(2.5, IngredientUnits.tsp, bakingPowder),
                 new RecipeIngredient(1, IngredientUnits.tsp, vanillaExtract),
                 new RecipeIngredient(100, IngredientUnits.gram, butter),
-                new RecipeIngredient(0.33, IngredientUnits.cup, greekYoghurt),
+                new RecipeIngredient(0.33333333333, IngredientUnits.cup, greekYoghurt),
                 new RecipeIngredient(1, IngredientUnits.whole, orange)
                 );
         ArrayList<RecipeIngredient> orangeCakeIngredients = new ArrayList<>(orangeCakeIngredientSet);
