@@ -114,7 +114,7 @@ public class RecipeController {
         recipeIngredientRepository.saveAll(recipeToBeSaved.getIngredients());
         recipeRepository.save(recipeToBeSaved);
 
-        return "redirect:/recipe/my_recipes";
+        return "redirect:/recipe/detail/" + recipeToBeSaved.getRecipeId();
     }
 
     @GetMapping("/recipe/detail/{recipeId}")
