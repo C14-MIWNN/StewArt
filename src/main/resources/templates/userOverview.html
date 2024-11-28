@@ -7,15 +7,18 @@
 
 <div th:replace="~{fragments/general :: navbar}"></div>
 
-<div class="container">
-    <h1>Overview of StewArt users</h1>
+<div class="container my-5">
+    <div class="row p-5 pt-2 g-5 m-2 align-items-center rounded-3 border shadow-lg bg-custom-card">
 
-    <table>
-        <tr th:each="user: ${allUsers}">
-            <td th:text="${user.username}"></td>
-            <td><a th:href="@{/user/delete/{userId}(userId = ${user.userId})}">delete user</a></td>
-        </tr>
-    </table>
+        <h1>Overview of StewArt users</h1>
+
+        <table>
+            <tr th:each="user: ${allUsers}">
+                <td th:text="${user.username}"></td>
+                <td><a th:href="@{/user/delete/{userId}(userId = ${user.userId})}">delete user</a></td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <div th:replace="~{fragments/general :: footer}"></div>
