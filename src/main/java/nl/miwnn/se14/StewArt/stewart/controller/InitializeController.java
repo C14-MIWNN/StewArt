@@ -133,6 +133,11 @@ public class InitializeController {
                         Make the orange glaze. Melt the sugar in the orange juice and allow to simmer for a few minutes, just until the liquid has a syrupy consistency.
                         Spoon and brush over the top of the cake and allow to cool completely before cutting.""",
                 "https://cdn.pixabay.com/photo/2020/10/27/09/49/cake-5690186_1280.jpg", ingeborg);
+
+
+        Ingredient lentils = makeIngredient("lentils");
+        Ingredient onions = makeIngredient("onion");
+        Ingredient carrrots = makeIngredient("carrot");
     }
 
     private StewArtUser makeStewArtUser(String username, String password, String role) {
