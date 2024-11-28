@@ -32,6 +32,13 @@ public class RecipeIngredient {
         this.ingredient = ingredient;
     }
 
+    public RecipeIngredient(double amount, IngredientUnits unit, Ingredient ingredient, Long recipeIngredientId) {
+        this.amount = amount;
+        this.unit = unit;
+        this.ingredient = ingredient;
+        this.recipeIngredientId = recipeIngredientId;
+    }
+
     public String getIngredientName() {
         return ingredient.getIngredientName();
     }

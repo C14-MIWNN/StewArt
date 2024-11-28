@@ -79,9 +79,11 @@ public class RecipeMapper {
             presentIngredients.add(ingredient.getIngredientName());
         }
         recipeDTO.getAllIngredients().removeIf((n) -> presentIngredients.contains(n.getIngredientName()));
+
         for (RecipeIngredient ingredient : recipe.getIngredients()) {
             recipeDTO.getAllIngredients().add(
-                    new RecipeIngredient(ingredient.getAmount(), ingredient.getUnit(), ingredient.getIngredient()));
+                    new RecipeIngredient(ingredient.getAmount(), ingredient.getUnit(),
+                            ingredient.getIngredient(), ingredient.getRecipeIngredientId()));
         }
         multiplyIngredients(recipeDTO);
     }
