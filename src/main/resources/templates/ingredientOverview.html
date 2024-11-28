@@ -7,22 +7,23 @@
 
 <div th:replace="~{fragments/general :: navbar}"></div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-10">
+<div class="container my-5">
+    <div class="row p-5 pt-2 g-5 m-2 align-items-center rounded-3 border shadow-lg bg-custom-card">
+        <div class="col-9">
             <h1>Overview of all ingredients</h1>
         </div>
-        <div class="col-2">
+        <div class="col-3 justify-content-end">
             <button type="button"
                     class="btn btn-custom btn-lg fw-bold"
                     data-bs-toggle="modal" data-bs-target="#newIngredient"> Add ingredient
             </button>
         </div>
+        <ul>
+            <li th:each="ingredient: ${allIngredients}" th:text="${ingredient.ingredientName}"></li>
+        </ul>
     </div>
 
-    <ul>
-        <li th:each="ingredient: ${allIngredients}" th:text="${ingredient.ingredientName}"></li>
-    </ul>
+
 </div>
 
 <div th:replace="~{fragments/general :: footer}"></div>
