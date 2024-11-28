@@ -16,6 +16,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -101,8 +102,37 @@ public class InitializeController {
                         Pour over ice cream and serve.""",
                 "https://cdn.pixabay.com/photo/2024/06/02/17/02/ice-cream-8804688_1280.jpg",
                 luc);
-    }
 
+        Ingredient eggs = makeIngredient("eggs");
+        Ingredient sugar = makeIngredient("sugar");
+        Ingredient vanillaExtract = makeIngredient("vanilla extract");
+        Ingredient butter = makeIngredient("butter");
+        Ingredient greekYoghurt = makeIngredient("plain Greek yoghurt");
+        Ingredient orange = makeIngredient("orange");
+        Set<RecipeIngredient> orangeCakeIngredientSet = Set.of(
+                new RecipeIngredient(3, IngredientUnits.whole, eggs),
+                new RecipeIngredient(1, IngredientUnits.cup, sugar),
+                new RecipeIngredient(1.75, IngredientUnits.cup, allPurposeFlour),
+                new RecipeIngredient(2.5, IngredientUnits.tsp, bakingPowder),
+                new RecipeIngredient(1, IngredientUnits.tsp, vanillaExtract),
+                new RecipeIngredient(100, IngredientUnits.gram, butter),
+                new RecipeIngredient(0.33, IngredientUnits.cup, greekYoghurt),
+                new RecipeIngredient(1, IngredientUnits.whole, orange)
+                );
+        ArrayList<RecipeIngredient> orangeCakeIngredients = new ArrayList<>(orangeCakeIngredientSet);
+
+        Recipe orangeCake = makeRecipe("Sicilian Orange Cake", 30, 60, 8,
+                "Delicious and easy Sicilian Orange Cake", orangeCakeIngredients,
+                """
+                        Preheat oven to 175°C and prepare an 8" (20cm) spring form pan by spraying with oil (or butter) and line with baking paper.
+                        Place the sugar and eggs in a large bowl and beat with a mixer until light and fluffy.
+                        Sift the flour with the baking powder then add to the egg mix a little at a time along with the softened butter. Mix until completely blended, then stir in the yoghurt.
+                        In a food processor, process the whole orange until it is almost pureed. Add the orange to the cake mix along with the vanilla and stir until evenly combined.  Pour the batter into the prepared tin.
+                        Bake for 50-60 minutes (depending on your oven), but test with a skewer to make sure the orange cake is done before removing from the oven. Allow to cool for about 15 minutes, then remove the side of the spring form pan.
+                        Make the orange glaze. Melt the sugar in the orange juice and allow to simmer for a few minutes, just until the liquid has a syrupy consistency.
+                        Spoon and brush over the top of the cake and allow to cool completely before cutting.""",
+                "https://cdn.pixabay.com/photo/2020/10/27/09/49/cake-5690186_1280.jpg", ingeborg);
+    }
 
     private StewArtUser makeStewArtUser(String username, String password, String role) {
         StewArtUser user = new StewArtUser();
