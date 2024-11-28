@@ -31,7 +31,7 @@ public class StewArtUser implements UserDetails {
     @ManyToMany(mappedBy = "likedByUserSet")
     private Set<Recipe> likedRecipes;
 
-    @OneToMany(mappedBy = "recipeAuthor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipeAuthor", cascade = CascadeType.REMOVE)
     private Set<Recipe> myRecipes;
 
     @Override
