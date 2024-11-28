@@ -43,10 +43,7 @@ public class HomepageController {
 
         Optional<List<Recipe>> searchResultList = recipeRepository.findByTitleContaining(recipe.getTitle());
 
-        if (searchResultList.isEmpty() || searchResultList.get().isEmpty()) {
-            result.rejectValue("title", "search.results.empty",
-                    "No recipes found with this search term");
-        }
+        RecipeController.checkSearchResult(result, searchResultList);
 
         if (result.hasErrors()) {
             return setupHomepage(datamodel);

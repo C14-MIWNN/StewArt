@@ -28,7 +28,6 @@ public class RecipeDTO {
         if (fillAllIngredients) {
             allIngredients = new ArrayList<>();
             for (Ingredient ingredient : ingredientRepository.findAll()) {
-                String name = ingredient.getIngredientName();
                 allIngredients.add(new RecipeIngredient(ingredient));
             }
         }

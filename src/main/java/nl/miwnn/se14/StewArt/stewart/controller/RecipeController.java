@@ -84,11 +84,6 @@ public class RecipeController {
 
         checkSearchResult(result, myRecipesOptional);
 
-        if (result.hasErrors()) {
-            setupRecipeOverview(datamodel, myRecipesOptional.get(), true);
-            return "myRecipes";
-        }
-
         setupRecipeOverview(datamodel, myRecipesOptional.get(), true);
         return "myRecipes";
     }
@@ -177,7 +172,7 @@ public class RecipeController {
         return "recipeDetails";
     }
 
-    private static void checkSearchResult(BindingResult result, Optional<List<Recipe>> searchResultList) {
+    public static void checkSearchResult(BindingResult result, Optional<List<Recipe>> searchResultList) {
         if (searchResultList.isEmpty() || searchResultList.get().isEmpty()) {
             result.rejectValue("title", "search.results.empty",
                     "No recipes found with your search term");
@@ -197,6 +192,7 @@ public class RecipeController {
 
     private StewArtUser getCurrentStewArtUser() {
         String currentUsername = StewArtUserService.getCurrentUsername();
+
         Optional<StewArtUser> userOptional = stewArtUserRepository.findByUsername(currentUsername);
         StewArtUser user = userOptional.orElseThrow(
                 () -> new UsernameNotFoundException(
